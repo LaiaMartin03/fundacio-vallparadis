@@ -16,8 +16,8 @@ return new class extends Migration
 
             $table->date('open_date');
             $table->string('affected_professional');
-            $table->date('open_date');
-            $table->date('open_date');
+            $table->text('description');
+            $table->text('attached_docs');
 
             $table->timestamps();
         });
