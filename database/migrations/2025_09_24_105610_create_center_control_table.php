@@ -13,9 +13,15 @@ return new class extends Migration
     {
         Schema::create('center_control', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('center_id');
             $table->string('role');
             $table->enum('status',['active','inactive']);
             $table->timestamps();
+
+            //FK
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('center_id')->references('id')->on('center0')->onDelete('cascade');
         });
     }
 

@@ -16,8 +16,12 @@ return new class extends Migration
             $table->string('email');
             $table->string('username');
             $table->string('password');
+            $table->usignedBigInteger('info_id');
             $table->boolean('active');
             $table->timestamps();
+
+            //FK
+            $table->foreign('info_id')->references('id')->on('info')->onDelete('cascade');
         });
     }
 
