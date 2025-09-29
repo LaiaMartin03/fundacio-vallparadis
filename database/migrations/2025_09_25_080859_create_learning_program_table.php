@@ -26,6 +26,10 @@ return new class extends Migration
             $table->unsignedBigInteger('center_id');
 
             $table->timestamps('start_date');
+
+            //FK
+            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
+            $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
         });
     }
 

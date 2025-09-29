@@ -17,8 +17,11 @@ return new class extends Migration
             $table->float('total');
             $table->unsignedBigInteger('center_control_id');
             $table->unsignedBigInteger('evaluator_user_id');
-
             $table->timestamps();
+
+            //FK
+            $table->foreign('center_control_id')->references('id')->on('center_control')->onDelete('cascade');
+            $table->foreign('evaluator_user_id')->references('id')->on('evauluator_user')->onDelete('cascade');
         });
     }
 

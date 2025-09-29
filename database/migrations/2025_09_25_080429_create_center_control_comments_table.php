@@ -17,6 +17,10 @@ return new class extends Migration
             $table->unsignedBigInteger('center_control_id');
             $table->unsignedBigInteger('created_by_user_id');
             $table->timestamps();
+
+            //FK
+            $table->foreign('center_control_id')->references('id')->on('center_control')->onDelete('cascade');
+            $table->foreign('created_by_user_id')->references('id')->on('created_by_user')->onDelete('cascade');
         });
     }
 
