@@ -17,6 +17,8 @@ return new class extends Migration
             $table->date('date');
             $table->text('description');
             $table->text('attached_docs');
+            $table->unsignedBigInteger('pending_hr_id');
+            $table->unsignedBigInteger('professonal_user_id');
 
             $table->timestamps();
         });

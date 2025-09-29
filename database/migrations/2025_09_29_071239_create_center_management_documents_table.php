@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('center_management_documents', function (Blueprint $table) {
             $table->id();
+
             $table->string('type');
             $table->date('date');
             $table->text('description');
             $table->text('attached_docs');
+            $table->unsignedBigInteger('center_id');
+            $table->unsignedBigInteger('professional_user_id');
+            
             $table->timestamps();
         });
     }

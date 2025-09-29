@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('pending_hr_issues', function (Blueprint $table) {
             $table->id();
 
-            $table->date('open_date');
             $table->string('affected_professional');
             $table->text('description');
             $table->text('attached_docs');
+            $table->unsignedBigInteger('center_id');
+            $table->unsignedBigInteger('assigned_to');
 
-            $table->timestamps();
+            $table->timestamps('open_date');
         });
     }
 

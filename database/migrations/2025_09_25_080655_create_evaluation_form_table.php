@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('evaluation_form', function (Blueprint $table) {
             $table->id();
+
             $table->float('total');
+            $table->unsignedBigInteger('center_control_id');
+            $table->unsignedBigInteger('evaluator_user_id');
+
             $table->timestamps();
         });
     }

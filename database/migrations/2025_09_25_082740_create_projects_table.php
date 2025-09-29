@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->date('start_date');
             $table->string('responsible');
             $table->text('description');
             $table->text('observations');
             $table->text('attached_docs');
+            $table->unsignedBigInteger('center_id');
 
-            $table->timestamps();
+            $table->timestamps('start_date');
         });
     }
 

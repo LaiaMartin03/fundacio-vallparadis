@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('center_followups', function (Blueprint $table) {
             $table->id();
+
             $table->date('date');
             $table->text('description');
+            $table->unsignedBigInteger('center_id');
+            $table->unsignedBigInteger('professional_user_id');
             $table->text('attached_docs')->nullable();
-            $table->date('date');
+
+            $table->timestamps();
         });
     }
 

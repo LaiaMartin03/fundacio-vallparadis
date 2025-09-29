@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('formations', function (Blueprint $table) {
             $table->id();
+            
             $table->string('title');
             $table->string('institution');
             $table->text('description')->nullable();
-            $table->timestamps('start_date');
             $table->date('end_date')->nullable();
+
+            $table->timestamps('start_date');
         });
     }
 

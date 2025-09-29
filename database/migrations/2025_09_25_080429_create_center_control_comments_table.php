@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('center_control_comments', function (Blueprint $table) {
             $table->id();
             $table->text('comment');
-            $table->timestamps('date');
+            $table->unsignedBigInteger('center_control_id');
+            $table->unsignedBigInteger('created_by_user_id');
+            $table->timestamps();
         });
     }
 
