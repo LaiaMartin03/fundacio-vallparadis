@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('learning_program', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('forcem');
+            $table->float('hours');
+            $table->string('type');
+            $table->string('modality');
+            $table->text('info');
+            $table->string('assistent');
+            $table->date('start_date');
+            $table->date('finish_date');
+            $table->text('certification');
         });
     }
 
