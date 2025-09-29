@@ -21,6 +21,10 @@ return new class extends Migration
             $table->unsignedBigInteger('assigned_to');
 
             $table->timestamps('open_date');
+
+            //FK
+            $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
+            $table->foreign('assigned_to')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

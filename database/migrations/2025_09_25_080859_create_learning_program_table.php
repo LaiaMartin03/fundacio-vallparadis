@@ -28,8 +28,8 @@ return new class extends Migration
             $table->timestamps('start_date');
 
             //FK
-            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
             $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

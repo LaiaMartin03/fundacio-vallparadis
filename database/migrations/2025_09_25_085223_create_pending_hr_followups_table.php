@@ -21,6 +21,10 @@ return new class extends Migration
             $table->unsignedBigInteger('professonal_user_id');
 
             $table->timestamps();
+
+            //FK
+            $table->foreign('pending_hr_id')->references('id')->on('pending_hr_issues')->onDelete('cascade');
+            $table->foreign('professional_user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
