@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('position');
             $table->string('company');
             $table->text('description')->nullable();
-            $table->timestamp('start_date');
-            $table->timestamps('end_date')->nullable();
+            $table->timestamps();
+            $table->date('end_date')->nullable();
         });
     }
 

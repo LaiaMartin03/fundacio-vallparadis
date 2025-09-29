@@ -24,8 +24,7 @@ return new class extends Migration
             $table->text('certification');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('center_id');
-
-            $table->timestamps('start_date');
+            $table->timestamps();
 
             //FK
             $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');

@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('center_control_comments', function (Blueprint $table) {
             $table->id();
-            $table->text('comment');
             $table->unsignedBigInteger('center_control_id');
             $table->unsignedBigInteger('created_by_user_id');
+            $table->timestamp('date');
+            $table->text('comment');
             $table->timestamps();
 
-            //FK
+            // FK
             $table->foreign('center_control_id')->references('id')->on('center_control')->onDelete('cascade');
-            $table->foreign('created_by_user_id')->references('id')->on('created_by_user')->onDelete('cascade');
+            $table->foreign('created_by_user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

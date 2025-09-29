@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('attached_docs');
             $table->unsignedBigInteger('center_id');
 
-            $table->timestamps('start_date');
+            $table->timestamps();
 
             //FK
             $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
