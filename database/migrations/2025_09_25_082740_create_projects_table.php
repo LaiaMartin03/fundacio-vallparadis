@@ -13,18 +13,20 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-
-            $table->string('name');
-            $table->string('responsible');
-            $table->text('description');
-            $table->text('observations');
-            $table->text('attached_docs');
             $table->unsignedBigInteger('center_id');
-
+            $table->string('name')->nullable();
+            $table->unsignedBigInteger('responsible_professional')->nullable();
+            $table->text('description')->nullable();
+            $table->text('observations')->nullable();
+            $table->string('type')->nullable();
+            $table->integer('docs')->default(0);
+            $table->date('start_date')->nullable();
+            $table->date('finish_date')->nullable();
             $table->timestamps();
 
-            //FK
+            //  FK
             $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
+            $table->foreign('responsible_professional')->references('id')->on('users')->onDelete('set null');
         });
     }
 
@@ -36,3 +38,4 @@ return new class extends Migration
         Schema::dropIfExists('projects');
     }
 };
+

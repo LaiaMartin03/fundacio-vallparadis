@@ -13,14 +13,19 @@ return new class extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
-            $table->integer('locker')->nullable();
-            $table->integer('code')->nullable();
-            $table->integer('shirt_size');
-            $table->integer('pants_size');
-            $table->integer('lab_coat');
-            $table->integer('shoe_size');
+            $table->unsignedBigInteger('given_by_user_id');
+            $table->unsignedBigInteger('user_id');
+            $table->integer('shirt_size')->nullable();
+            $table->integer('pants_size')->nullable();
+            $table->integer('lab_coat')->nullable();
+            $table->integer('shoe_size')->nullable();
             $table->timestamps();
-        });
+
+            //FK 
+            $table->foreign('given_by_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+                
+        }); 
     }
 
     /**

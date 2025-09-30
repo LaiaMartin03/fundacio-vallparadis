@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('email');
             $table->string('username');
             $table->string('password');
+            $table->string('locker');
+            $table->string('code');
             $table->unsignedBigInteger('info_id');
             $table->boolean('active');
             $table->timestamps();
