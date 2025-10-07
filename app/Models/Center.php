@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Center extends Model
 {
     protected $table = "center";
-    protected $fillable = ['name', 'location'];
+    protected $fillable = ['name', 'location', 'email', 'phone'];
 }

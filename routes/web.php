@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CenterController;
+;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/altaCenter', [CenterController::class, 'create']);
-Route::post('/insertCenter', [CenterController::class, 'store'])->name("insertCenter");
+Route::resource('center', App\Http\Controllers\CenterController::class);
+Route::resource('project', App\Http\Controllers\ProjectController::class);
+Route::resource('professional', App\Http\Controllers\ProfessionalController::class);

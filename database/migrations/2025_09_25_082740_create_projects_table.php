@@ -19,7 +19,6 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('observations')->nullable();
             $table->string('type')->nullable();
-            $table->integer('docs')->default(0);
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();
             $table->timestamps();

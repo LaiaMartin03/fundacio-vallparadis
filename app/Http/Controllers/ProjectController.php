@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Center;
+use App\Models\Project;
 
-class CenterController extends Controller
+class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $centers = Center::get();
+        //
     }
 
     /**
@@ -20,7 +20,9 @@ class CenterController extends Controller
      */
     public function create()
     {
-        return view("center.formularioAlta");
+        $professionals = \App\Models\Professional::all();
+        $centers = \App\Models\Center::all();
+        return view("project.formularioAlta", compact('centers', 'professionals'));
     }
 
     /**
@@ -29,18 +31,18 @@ class CenterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|min:3|max:255|unique:center,name',
-            'location'=>'required|min:3|max:255',
-            'phone'=>'required|min:9|max:15',
-            'email'=>'required|email|unique:center,email'
+            'name'=>'required|min:3|max:255',
+            'type'=>'required'
         ]);
-        Center::create([
+        Project::create([
+            'center_id' => $request->input('center_id'),
+            'responsible_professional' => $request->input('responsible_professional'),  
             'name'=>request('name'),
-            'location'=>request('location'),
-            'email'=>request('email'),
-            'phone'=>request('phone')
+            'description'=>request('description'),
+            'observations'=>request('observations'),
+            'type'=>request('type')
         ]);
-        return redirect()->route('center.create')->with('success', 'Centre creat correctament.');
+        return redirect()->route('project.create')->with('success', 'Centre creat correctament.');
     }
 
     /**
@@ -54,7 +56,7 @@ class CenterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Center $center)
+    public function edit(string $id)
     {
         //
     }
