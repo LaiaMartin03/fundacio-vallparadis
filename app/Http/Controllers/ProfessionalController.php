@@ -12,7 +12,8 @@ class ProfessionalController extends Controller
      */
     public function index()
     {
-        //
+        $professionals = Professional::all();
+        return view("professional.lista", compact('professionals'));
     }
 
     /**
@@ -27,6 +28,7 @@ class ProfessionalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -69,14 +71,23 @@ class ProfessionalController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function activate(Professional $professional)
     {
-        //
+        $professional->active = 1;
+        $professional->save(); 
+        return redirect()->route('professional.index')->with('success', 'Professional activat correctament.');
+    }
+    
+    public function destroy(Professional $professional)
+    {
+        $professional->active = 0;
+        $professional->save(); 
+        return redirect()->route('professional.index')->with('success', 'Professional desactivat correctament.');
     }
 }

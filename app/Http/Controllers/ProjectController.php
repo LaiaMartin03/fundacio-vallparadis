@@ -12,7 +12,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = \App\Models\Project::all(); // Trae todos los proyectos
+        return view('project.lista', compact('projects'));
     }
 
     /**
@@ -72,8 +73,17 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function activate(Project $project)
     {
-        //
+        $project->active = 1;
+        $project->save(); 
+        return redirect()->route('project.index')->with('success', 'Professional activat correctament.');
+    }
+    
+    public function destroy(Project $project)
+    {
+        $project->active = 0;
+        $project->save(); 
+        return redirect()->route('project.index')->with('success', 'Professional desactivat correctament.');
     }
 }

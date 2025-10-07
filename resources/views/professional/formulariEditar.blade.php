@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{ route("center.update", $center) }}" method="POST">
+    <form action="{{ route("professional.update", $center) }}" method="POST">
         @crsf
         @method('PUT')
     </form>

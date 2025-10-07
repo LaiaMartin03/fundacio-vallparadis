@@ -52,6 +52,12 @@
                 <option value="comision">Comisió</option>
             </select>
             <br>
+            <select name="active" required>
+                <option value="">-- Selecciona estado --</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+            </select>
+            <br>
             <input type="submit" value="Acceptar">
         </form>         
     </body>

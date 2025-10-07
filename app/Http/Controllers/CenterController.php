@@ -12,7 +12,8 @@ class CenterController extends Controller
      */
     public function index()
     {
-        $centers = Center::get();
+        $centers = Center::all(); 
+        return view('center.lista', compact('centers'));
     }
 
     /**
@@ -70,8 +71,16 @@ class CenterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function activate(Center $center)
     {
-        //
+        $center->active = 1;
+        $center->save();
+        return redirect()->route('center.index')->with('success', 'Center activat correctament.');
+    }
+    public function destroy(Center $center)
+    {
+        $center->active = 0;
+        $center->save();
+        return redirect()->route('center.index')->with('success', 'Center desactivat correctament.');
     }
 }

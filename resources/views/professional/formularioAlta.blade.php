@@ -40,11 +40,10 @@
         <br>
         <select name="active" required>
             <option value="">-- Selecciona estado --</option>
-            <option value="1">Activo</option>
-            <option value="0">Inactivo</option>
+            <option value="1">Sí</option>
+            <option value="0">No</option>
         </select>
         <br>
-
         <input type="submit" value="Aceptar">
     </form>
 </body>
