@@ -10,6 +10,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
+
+
 Route::resource('center', CenterController::class);
 Route::put('center/{center}/activate', [CenterController::class, 'activate'])->name('center.activate');
 
@@ -20,3 +31,4 @@ Route::resource('professional', ProfessionalController::class);
 Route::put('professional/{professional}/activate', [ProfessionalController::class, 'activate'])->name('professional.activate');
 Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])->name('professionals.import');
 Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
+
