@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('project_id')->nullable();
             $table->string('name')->nullable();
             $table->text('path')->nullable();
-            $table->unsignedBigInteger('project_id');
             $table->timestamps();
 
-            // FK
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            //FK
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('set null');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('center_documents');
+        Schema::dropIfExists('documents');
     }
 };
