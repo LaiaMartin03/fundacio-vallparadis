@@ -122,5 +122,4 @@ class ProfessionalController extends Controller
 
         return back()->with('success', 'Profesionales importados correctamente.');
     }
-    //tiempo con el movil desde las 12:12
 }
