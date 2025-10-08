@@ -31,7 +31,7 @@
                         <td>{{ $professional->locker }}</td>
                         <td>{{ $professional->code }}</td>
                         <td>{{ $professional->active ? 'Actiu' : 'Inactiu' }}</td>
-                        <td>Edit</td>
+                        <td><a href="{{ route('professional.edit', $professional) }}">Editar</a></td>
                         <td> 
                             @if (!$professional->active)
                                 <form action="{{ route('professional.activate', $professional->id) }}" method="POST">
@@ -52,6 +52,9 @@
                 @endforeach
             </tbody>
         </table>
+        <a href="{{ route('professionals.export') }}">
+            <button> Exportar a Excel</button>
+        </a>
     @endif
 </body>
 </html>

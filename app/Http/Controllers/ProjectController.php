@@ -12,7 +12,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = \App\Models\Project::all(); // Trae todos los proyectos
+        $projects = \App\Models\Project::with(['center', 'professional'])->get();
         return view('project.lista', compact('projects'));
     }
 
@@ -57,17 +57,33 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project)
     {
-        //
+        $centers = \App\Models\Center::all();
+        $professionals = \App\Models\Professional::all();
+        return view('project.formulariEditar', compact('project', 'centers', 'professionals'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:3|max:255',
+            'type' => 'required',
+        ]);
+
+        $project->update([
+            'center_id' => $request->input('center_id'),
+            'responsible_professional' => $request->input('responsible_professional'),
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'observations' => $request->input('observations'),
+            'type' => $request->input('type'),
+        ]);
+
+        return redirect()->route('project.index')->with('success', 'Projecte actualitzat correctament.');
     }
 
     /**

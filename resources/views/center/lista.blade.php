@@ -31,7 +31,7 @@
                         <td>{{ $center->email }}</td>
                         <td>{{ $center->phone }}</td>
                         <td>{{ $center->active ? 'Sí' : 'No' }}</td>
-                        <td>Edit</td>
+                        <td><a href="{{ route('center.edit', $center) }}">Editar</a></td>
                         <td>
                             @if (!$center->active)
                                 <form action="{{ route('center.activate', $center->id) }}" method="POST">

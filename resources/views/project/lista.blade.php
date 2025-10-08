@@ -29,13 +29,13 @@
                 @foreach($projects as $project)
                     <tr>
                         <td>{{ $project->name }}</td>
-                        <td>{{ $project->center_id }}</td> <!-- Puedes mostrar $project->center->name si defines relación -->
-                        <td>{{ $project->responsible_professional }}</td>
+                        <td>{{ $project->center->name ?? '-' }}</td>
+                        <td>{{ $project->responsible_professional ?? '-'}}</td>
                         <td>{{ $project->description }}</td>
                         <td>{{ $project->observations }}</td>
                         <td>{{ $project->type }}</td>
                         <td>{{ $project->active ? 'Sí' : 'No' }}</td>
-                        <td>Edit</td>
+                        <td><a href="{{ route('project.edit', $project->id) }}">Editar</a></td>
                         <td>
                             @if (!$project->active)
                                 <form action="{{ route('project.activate', $project->id) }}" method="POST">

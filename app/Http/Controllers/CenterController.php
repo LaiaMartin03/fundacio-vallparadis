@@ -57,15 +57,28 @@ class CenterController extends Controller
      */
     public function edit(Center $center)
     {
-        //
+        $centers = Center::all(); 
+        return view('center.formulariEditar', compact('center'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Center $center)
     {
-        //
+        $request->validate([
+            'name'=>'required|min:3|max:255|unique:center,name',
+            'location'=>'required|min:3|max:255',
+            'phone'=>'required|min:9|max:15',
+            'email'=>'required'
+        ]);
+        $center->update([
+            'name'=>request('name'),
+            'location'=>request('location'),
+            'email'=>request('email'),
+            'phone'=>request('phone')
+        ]);
+        return redirect()->route('center.index')->with('success', 'Centre modificat correctament.');
     }
 
     /**

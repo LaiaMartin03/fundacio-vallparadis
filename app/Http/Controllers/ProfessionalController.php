@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Professional;
 use Illuminate\Http\Request;
+use App\Exports\ProfessionalsExport;
+use App\Imports\ProfessionalsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProfessionalController extends Controller
 {
@@ -47,7 +50,7 @@ class ProfessionalController extends Controller
             'info_id'=>null,
             'active'=>request('active')
         ]);
-        return redirect()->route('professional.create')->with('success', 'Centre creat correctament.');
+        return redirect()->route('professional.create')->with('success', 'Professional creat correctament.');
     }
 
     /**
@@ -61,17 +64,33 @@ class ProfessionalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Professional $professional)
     {
-        //
+        return view("professional.formulariEditar", compact('professional'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Professional $professional)
     {
-        
+        $request->validate([
+            'email'=>'required|min:3|max:255',
+            'username'=>'required|min:3|max:20',
+            'password'=>'required|min:8|max:255',
+            'locker'=>'required',
+            'code'=>'required'
+        ]);
+        $professional->update([
+            'email'=>request('email'),
+            'username'=>request('username'),
+            'password'=>request('password'),
+            'locker'=>request('locker'),
+            'code'=>request('code'),
+            'info_id'=>null,
+            'active'=>request('active')
+        ]);
+        return redirect()->route('professional.index')->with('success', 'Professional editat correctament.');
     }
 
     /**
@@ -90,4 +109,18 @@ class ProfessionalController extends Controller
         $professional->save(); 
         return redirect()->route('professional.index')->with('success', 'Professional desactivat correctament.');
     }
+
+    public function exportProfessionals()
+    {
+        return Excel::download(new ProfessionalsExport, 'professionals.xlsx');
+    }
+    
+    public function importProfessionals(Request $request)
+    {
+        $file = $request->file('excel_file');
+        Excel::import(new ProfessionalsImport, $file);
+
+        return back()->with('success', 'Profesionales importados correctamente.');
+    }
+    //tiempo con el movil desde las 12:12
 }
