@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('locker');
             $table->string('code');
-            $table->unsignedBigInteger('info_id');
-            $table->boolean('active');
+            $table->unsignedBigInteger('info_id')->nullable();
+            $table->boolean('active')->nullable();
             $table->timestamps();
 
             //FK
