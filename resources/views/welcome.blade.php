@@ -7,22 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{{ route('professional.index') }}">Professional (lista)</a>
-    <br>
-    <a href="{{ route('professional.create') }}">Professional (create)</a>
-    <br>
-    <hr>
-    <a href="{{ route('center.index') }}">Center (lista)</a>
-    <br>
-    <a href="{{ route('center.create') }}">Center (Create)</a>
-    <br>
-    <hr>
-    <a href="{{ route('project.index') }}">Project (lista)</a>
-    <br>
-    <a href="{{ route('project.create') }}">Project (Create)</a>
-    <hr>
-    <a href="{{ route('resources.index') }}">Resource (lista)</a>
-    <br>
-    <a href="{{ route('resources.create') }}">Resource (Create)</a>
+    
 </body>
 </html>
