@@ -2,23 +2,23 @@
 
 namespace App\Exports;
 
-use App\Models\Uniform;
+use App\Models\Resource;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class UniformsExport implements FromCollection, WithHeadings, WithStyles
+class ResourcesExport implements FromCollection, WithHeadings, WithStyles
 {
     public function collection()
     {
-        return Uniform::select(
-            'ID',
-            'shirt_size',
-            'pants_size',
-            'lab_coat',
-            'shoe_size'
+        return Resource::select(
+            'id',
+            'uniform_id',
+            'user_id',
+            'given_by_user_id',
+            'delivered_at'
         )->get();
     }
 
@@ -26,16 +26,16 @@ class UniformsExport implements FromCollection, WithHeadings, WithStyles
     {
         return [
             'ID',
-            'Talla Camisa',
-            'Talla Pantalón',
-            'Bata',
-            'Talla Zapatos',
+            'Uniform ID',
+            'User ID',
+            'Given by User ID',
+            'Delivered At',
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('A1:G1')->applyFromArray([
+        $sheet->getStyle('A1:E1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'color' => ['rgb' => 'FFFFFF']

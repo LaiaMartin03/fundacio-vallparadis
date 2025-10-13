@@ -8,18 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('uniforms', function (Blueprint $table) {
+        Schema::create('resources', function (Blueprint $table) {
             $table->id();
-            $table->integer('shirt_size')->nullable();
-            $table->integer('pants_size')->nullable();
-            $table->boolean('lab_coat')->default(0);
-            $table->integer('shoe_size')->nullable();
+            $table->unsignedBigInteger('uniform_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('given_by_user_id');
+            $table->timestamp('delivered_at')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('uniforms');
+        Schema::dropIfExists('resources');
     }
 };

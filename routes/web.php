@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\UniformController;
+use App\Http\Controllers\ResourceController;
 
 
 Route::get('/', function () {
@@ -30,6 +31,7 @@ Route::resource('project', ProjectController::class);
 Route::put('project/{project}/activate', [ProjectController::class, 'activate'])->name('project.activate');
 
 Route::put('professional/{professional}/activate', [ProfessionalController::class, 'activate'])->name('professional.activate');
+
 Route::resource('professional', ProfessionalController::class);
 Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])->name('professionals.import');
 Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
@@ -37,3 +39,8 @@ Route::get('/professionals/export', [ProfessionalController::class, 'exportProfe
 Route::resource('uniforms', UniformController::class)->except(['show']);
 Route::get('uniforms/export', [UniformController::class, 'exportUniforms'])->name('uniforms.export');
 Route::post('uniforms/import', [UniformController::class, 'importUniforms'])->name('uniforms.import');
+
+Route::resource('resources', ResourceController::class)->except(['show']);
+Route::get('resources/export', [ResourceController::class, 'exportResources'])->name('resources.export');
+Route::post('resources/import', [ResourceController::class, 'importResources'])->name('resources.import');
+

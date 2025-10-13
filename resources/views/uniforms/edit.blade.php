@@ -11,12 +11,6 @@
         @csrf
         @method('PUT')
 
-        <label>Dado por (User ID):</label>
-        <input type="number" name="given_by_user_id" value="{{ $uniform->given_by_user_id }}"><br>
-
-        <label>Usuario ID:</label>
-        <input type="number" name="user_id" value="{{ $uniform->user_id }}"><br>
-
         <label>Talla Camisa:</label>
         <input type="number" name="shirt_size" value="{{ $uniform->shirt_size }}"><br>
 
@@ -31,9 +25,6 @@
 
         <label>Talla Zapatos:</label>
         <input type="number" name="shoe_size" value="{{ $uniform->shoe_size }}"><br>
-
-        <label>Fecha Entrega:</label>
-        <input type="datetime-local" name="delivery_at" value="{{ $uniform->delivery_at }}"><br>
 
         <button type="submit">Actualizar</button>
     </form>

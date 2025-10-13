@@ -9,11 +9,6 @@
 
     <form action="{{ route('uniforms.store') }}" method="POST">
         @csrf
-        <label>Dado por (User ID):</label>
-        <input type="number" name="given_by_user_id"><br>
-
-        <label>Usuario ID:</label>
-        <input type="number" name="user_id"><br>
 
         <label>Talla Camisa:</label>
         <input type="number" name="shirt_size"><br>
@@ -29,9 +24,6 @@
 
         <label>Talla Zapatos:</label>
         <input type="number" name="shoe_size"><br>
-
-        <label>Fecha Entrega:</label>
-        <input type="datetime-local" name="delivery_at"><br>
 
         <button type="submit">Guardar</button>
     </form>

@@ -32,15 +32,14 @@ class UniformController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'given_by_user_id' => 'nullable|integer',
-            'user_id' => 'nullable|integer',
+       $request->validate([
+            'id' => 'nullable|integer',
             'shirt_size' => 'nullable|integer',
             'pants_size' => 'nullable|integer',
             'lab_coat' => 'nullable|boolean',
-            'shoe_size' => 'nullable|integer',
-            'delivery_at' => 'nullable|date',
+            'shoe_size' => 'nullable|integer'
         ]);
+
 
         Uniform::create($request->all());
         return redirect()->route('uniforms.index')->with('success', 'Uniforme creado correctamente.');
@@ -61,14 +60,12 @@ class UniformController extends Controller
     {
         $request->validate([
             'id' => 'nullable|integer',
-            'given_by_user_id' => 'nullable|integer',
-            'user_id' => 'nullable|integer',
             'shirt_size' => 'nullable|integer',
             'pants_size' => 'nullable|integer',
             'lab_coat' => 'nullable|boolean',
-            'shoe_size' => 'nullable|integer',
-            'delivery_at' => 'nullable|date',
+            'shoe_size' => 'nullable|integer'
         ]);
+
 
         $uniform->update($request->all());
         return redirect()->route('uniforms.index')->with('success', 'Uniforme actualizado correctamente.');

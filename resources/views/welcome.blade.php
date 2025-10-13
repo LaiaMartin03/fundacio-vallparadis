@@ -20,5 +20,9 @@
     <a href="{{ route('project.index') }}">Project (lista)</a>
     <br>
     <a href="{{ route('project.create') }}">Project (Create)</a>
+    <hr>
+    <a href="{{ route('resources.index') }}">Resource (lista)</a>
+    <br>
+    <a href="{{ route('resources.create') }}">Resource (Create)</a>
 </body>
 </html>

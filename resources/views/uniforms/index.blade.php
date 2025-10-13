@@ -27,13 +27,10 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Dado por</th>
-                    <th>Usuario</th>
                     <th>Camisa</th>
                     <th>Pantalón</th>
                     <th>Bata</th>
                     <th>Zapatos</th>
-                    <th>Entrega</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -42,13 +39,10 @@
                 @foreach ($uniforms as $uniform)
                     <tr>
                         <td>{{ $uniform->id }}</td>
-                        <td>{{ $uniform->given_by_user_id }}</td>
-                        <td>{{ $uniform->user_id }}</td>
                         <td>{{ $uniform->shirt_size }}</td>
                         <td>{{ $uniform->pants_size }}</td>
                         <td>{{ $uniform->lab_coat ? 'Sí' : 'No' }}</td>
                         <td>{{ $uniform->shoe_size }}</td>
-                        <td>{{ $uniform->delivery_at }}</td>
                         <td><a href="{{ route('uniforms.edit', $uniform->id) }}">Editar</a></td>
                         <td>
                             <form action="{{ route('uniforms.destroy', $uniform->id) }}" method="POST">
