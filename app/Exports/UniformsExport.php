@@ -27,9 +27,9 @@ class UniformsExport implements FromCollection, WithHeadings, WithStyles
         return [
             'ID',
             'Talla Camisa',
-            'Talla Pantalón',
+            'Talla Pantaló',
             'Bata',
-            'Talla Zapatos',
+            'Talla Sabates',
         ];
     }
 

@@ -41,7 +41,7 @@ class ResourceController extends Controller
 
 
         Resource::create($request->all());
-        return redirect()->route('resources.index')->with('success', 'Recurso creado correctamente.');
+        return redirect()->route('resources.index')->with('success', 'Recurs creat correctament.');
     }
 
     /**
@@ -67,16 +67,24 @@ class ResourceController extends Controller
 
 
         $resource->update($request->all());
-        return redirect()->route('resources.index')->with('success', 'Recurso actualizado correctamente.');
+        return redirect()->route('resources.index')->with('success', 'Recurs actualitzat correctament.');
     }
 
     /**
      * Eliminar un resourcee
      */
+    public function activate(Resource $resource)
+    {
+        $resource->active = 1;
+        $resource->save(); 
+        return redirect()->route('resources.index')->with('success', 'Recurs activat correctament.');
+    }
+    
     public function destroy(Resource $resource)
     {
-        $resource->delete();
-        return redirect()->route('resources.index')->with('success', 'Recurso eliminado correctamente.');
+        $resource->active = 0;
+        $resource->save(); 
+        return redirect()->route('resources.index')->with('success', 'Recurs desactivat correctament.');
     }
 
     /**
@@ -94,6 +102,6 @@ class ResourceController extends Controller
     {
         $file = $request->file('excel_file');
         Excel::import(new ResourcesImport, $file);
-        return back()->with('success', 'Recursos importados correctamente.');
+        return back()->with('success', 'Recursos importats correctament.');
     }
 }

@@ -33,7 +33,7 @@ class UniformController extends Controller
     public function store(Request $request)
     {
        $request->validate([
-            'id' => 'nullable|integer',
+            'id' => 'integer',
             'shirt_size' => 'nullable|integer',
             'pants_size' => 'nullable|integer',
             'lab_coat' => 'nullable|boolean',
@@ -42,7 +42,7 @@ class UniformController extends Controller
 
 
         Uniform::create($request->all());
-        return redirect()->route('uniforms.index')->with('success', 'Uniforme creado correctamente.');
+        return redirect()->route('uniforms.index')->with('success', 'Uniforme creat correctament.');
     }
 
     /**
@@ -59,7 +59,7 @@ class UniformController extends Controller
     public function update(Request $request, Uniform $uniform)
     {
         $request->validate([
-            'id' => 'nullable|integer',
+            'id' => 'integer',
             'shirt_size' => 'nullable|integer',
             'pants_size' => 'nullable|integer',
             'lab_coat' => 'nullable|boolean',
@@ -68,16 +68,24 @@ class UniformController extends Controller
 
 
         $uniform->update($request->all());
-        return redirect()->route('uniforms.index')->with('success', 'Uniforme actualizado correctamente.');
+        return redirect()->route('uniforms.index')->with('success', 'Uniforme actualitzar correctament.');
     }
 
     /**
      * Eliminar un uniforme
      */
+    public function activate(Uniform $uniform)
+    {
+        $uniform->active = 1;
+        $uniform->save(); 
+        return redirect()->route('uniforms.index')->with('success', 'Uniforme activat correctament.');
+    }
+    
     public function destroy(Uniform $uniform)
     {
-        $uniform->delete();
-        return redirect()->route('uniforms.index')->with('success', 'Uniforme eliminado correctamente.');
+        $uniform->active = 0;
+        $uniform->save(); 
+        return redirect()->route('uniforms.index')->with('success', 'Uniforme desactivat correctament.');
     }
 
     /**
@@ -95,6 +103,6 @@ class UniformController extends Controller
     {
         $file = $request->file('excel_file');
         Excel::import(new UniformsImport, $file);
-        return back()->with('success', 'Uniformes importados correctamente.');
+        return back()->with('success', 'Uniformes importats correctament.');
     }
 }

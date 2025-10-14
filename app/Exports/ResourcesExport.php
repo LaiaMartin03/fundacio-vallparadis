@@ -26,10 +26,10 @@ class ResourcesExport implements FromCollection, WithHeadings, WithStyles
     {
         return [
             'ID',
-            'Uniform ID',
-            'User ID',
-            'Given by User ID',
-            'Delivered At',
+            'Uniforme',
+            'Usuari',
+            'Assignat per',
+            'Data de lliurament',
         ];
     }
 
