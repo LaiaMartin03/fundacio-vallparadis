@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Crear Uniforme</title>
-</head>
-<body>
+<x-app-layout>
     <h1>Nuevo Uniforme</h1>
 
     <form action="{{ route('uniforms.store') }}" method="POST">
@@ -27,5 +21,4 @@
 
         <button type="submit">Guardar</button>
     </form>
-</body>
-</html>
+</x-app-layout>

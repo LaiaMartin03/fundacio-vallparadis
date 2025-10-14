@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Uniforme</title>
-</head>
-<body>
+<x-app-layout>
     <h1>Editar Uniforme</h1>
 
     <form action="{{ route('uniforms.update', $uniform->id) }}" method="POST">
@@ -28,5 +22,4 @@
 
         <button type="submit">Actualizar</button>
     </form>
-</body>
-</html>
+</x-app-layout>

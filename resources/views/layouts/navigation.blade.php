@@ -6,14 +6,39 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <x-application-logo class="block h-9 w-auto fill-current" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        <img src="icons/Home.svg" alt="">
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')">
+                        <img src="icons/Home.svg" alt="">
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('project.index')" :active="request()->routeIs('project.index')">
+                        <img src="icons/Home.svg" alt="">
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('center.index')" :active="request()->routeIs('center.index')">
+                        <img src="icons/Home.svg" alt="">
+                    </x-nav-link>
+                </div>
+                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('resources.index')" :active="request()->routeIs('resources.index')">
+                        <img src="icons/Home.svg" alt="">
+                    </x-nav-link>
+                </div>
+                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('uniforms.index')" :active="request()->routeIs('uniforms.index')">
+                        <img src="icons/Home.svg" alt="">
                     </x-nav-link>
                 </div>
             </div>
