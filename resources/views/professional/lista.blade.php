@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Professionals</title>
-</head>
-<body>
+<x-app-layout>  
     <h1>Listado de Professionals</h1>
 
     @if($professionals->isEmpty())
@@ -27,7 +20,7 @@
                 @foreach($professionals as $professional)
                     <tr>
                         <td>{{ $professional->email }}</td>
-                        <td>{{ $professional->username }}</td>
+                        <td>{{ $professional->name }}</td>
                         <td>{{ $professional->locker }}</td>
                         <td>{{ $professional->code }}</td>
                         <td>{{ $professional->active ? 'Actiu' : 'Inactiu' }}</td>
@@ -56,5 +49,4 @@
             <button> Exportar a Excel</button>
         </a>
     @endif
-</body>
-</html>
+</x-app-layout>  

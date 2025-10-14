@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Professional</title>
-</head>
-<body>
+<x-app-layout>  
     <h3>
         @if (session('success'))
             <div style="color: green;">
@@ -27,7 +20,7 @@
         @csrf
         @method('PUT')
 
-        Nombre: <input type="text" name="username" placeholder="Nombre del Profesional" value="{{ old('username', $professional->username) }}">
+        Nombre: <input type="text" name="name" placeholder="Nombre del Profesional" value="{{ old('name', $professional->name) }}">
         <br>
         Email: <input type="email" name="email" placeholder="correo@ejemplo.com" value="{{ old('email', $professional->email) }}">
         <br>
@@ -48,5 +41,4 @@
         <br>
         <input type="submit" value="Actualizar">
     </form>
-</body>
-</html>
+</x-app-layout>  

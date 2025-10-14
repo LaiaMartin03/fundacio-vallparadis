@@ -17,6 +17,7 @@ class ProfessionalController extends Controller
     {
         $professionals = Professional::all();
         return view("professional.lista", compact('professionals'));
+        
     }
 
     /**
@@ -36,14 +37,14 @@ class ProfessionalController extends Controller
     {
         $request->validate([
             'email'=>'required|min:3|max:255',
-            'username'=>'required|min:3|max:20',
+            'name'=>'required|min:3|max:20',
             'password'=>'required|min:8|max:255',
             'locker'=>'required',
             'code'=>'required'
         ]);
         Professional::create([
             'email'=>request('email'),
-            'username'=>request('username'),
+            'name'=>request('name'),
             'password'=>request('password'),
             'locker'=>request('locker'),
             'code'=>request('code'),
@@ -76,14 +77,14 @@ class ProfessionalController extends Controller
     {
         $request->validate([
             'email'=>'required|min:3|max:255',
-            'username'=>'required|min:3|max:20',
+            'name'=>'required|min:3|max:20',
             'password'=>'required|min:8|max:255',
             'locker'=>'required',
             'code'=>'required'
         ]);
         $professional->update([
             'email'=>request('email'),
-            'username'=>request('username'),
+            'name'=>request('name'),
             'password'=>request('password'),
             'locker'=>request('locker'),
             'code'=>request('code'),
