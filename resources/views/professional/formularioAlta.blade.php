@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta Professional</title>
-</head>
-<body>
+<x-app-layout>  
     <h3>
         @if (session('success'))
             <div style="color: green;">
@@ -26,7 +19,7 @@
 
     <form action="{{ route('professional.store') }}" method="POST">
         @csrf
-        Nombre: <input type="text" name="username" placeholder="Nombre del Profesional" value="{{ old('username') }}">
+        Nombre: <input type="text" name="name" placeholder="Nombre del Profesional" value="{{ old('name') }}">
         <br>
         Email: <input type="email" name="email" placeholder="correo@ejemplo.com" value="{{ old('email') }}">
         <br>
@@ -46,5 +39,4 @@
         <br>
         <input type="submit" value="Aceptar">
     </form>
-</body>
-</html>
+</x-app-layout>  

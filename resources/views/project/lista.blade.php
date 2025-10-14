@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Projects</title>
-</head>
-<body>
+<x-app-layout>  
+
     <h1>Listado de Projects</h1>
 
     @if($projects->isEmpty())
@@ -56,5 +50,4 @@
             </tbody>
         </table>
     @endif
-</body>
-</html>
+</x-app-layout>  

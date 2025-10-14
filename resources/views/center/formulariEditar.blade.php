@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="ca">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Centre</title>
-</head>
-<body>
+<x-app-layout>  
+
     <h3>
         @if (session('success'))
             <div style="color: green;">
@@ -42,5 +36,4 @@
         <br>
         <input type="submit" value="Actualizar">
     </form>         
-</body>
-</html>
+</x-app-layout>  

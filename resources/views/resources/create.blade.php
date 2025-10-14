@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Crear Resource</title>
-</head>
-<body>
+<x-app-layout>  
     <h1>Nuevo Recurso</h1>
 
     <form action="{{ route('resources.store') }}" method="POST">
@@ -24,5 +18,4 @@
 
         <button type="submit">Guardar</button>
     </form>
-</body>
-</html>
+</x-app-layout>  

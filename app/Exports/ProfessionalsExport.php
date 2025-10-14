@@ -13,7 +13,7 @@ class ProfessionalsExport implements FromCollection, WithHeadings, WithStyles
 {
     public function collection()
     {
-        return Professional::select('username', 'locker')->get();
+        return Professional::select('name', 'locker')->get();
     }
 
     public function headings(): array
