@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Resource</title>
-</head>
-<body>
+<x-app-layout>  
     <h1>Editar Recurso</h1>
 
     <form action="{{ route('resources.update', $resource->id) }}" method="POST">
@@ -25,5 +19,4 @@
 
         <button type="submit">Actualizar</button>
     </form>
-</body>
-</html>
+</x-app-layout>  

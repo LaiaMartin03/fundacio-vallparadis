@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Recursos</title>
-</head>
-<body>
+<x-app-layout>  
+
     <h1>Listado de Recursos</h1>
 
     @if (session('success'))
@@ -50,5 +45,4 @@
             </tbody>
         </table>
     @endif
-</body>
-</html>
+</x-app-layout>  

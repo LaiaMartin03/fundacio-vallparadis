@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="ca">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Projecte</title>
-</head>
-<body>
+<x-app-layout>  
     <h1>Editar Projecte: {{ $project->name }}</h1>
 
     <h3>
@@ -41,7 +35,7 @@
         <select name="responsible_professional" required>
             @foreach($professionals as $professional)
                 <option value="{{ $professional->id }}" {{ $project->responsible_professional == $professional->id ? 'selected' : '' }}>
-                    {{ $professional->username }}
+                    {{ $professional->name }}
                 </option>
             @endforeach
         </select>
@@ -68,5 +62,4 @@
 
         <button type="submit">Actualitzar</button>
     </form>
-</body>
-</html>
+</x-app-layout>  

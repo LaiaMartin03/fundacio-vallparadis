@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-    </head>
-    <body>
+<x-app-layout>  
         <h3>
             @if (session('success'))
                 <div style="color: green;">
@@ -42,5 +34,4 @@
             <br>
             <input type="submit" value="Acceptar">
         </form>         
-    </body>
-</html>
+</x-app-layout>  

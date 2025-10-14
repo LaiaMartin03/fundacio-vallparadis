@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Centers</title>
-</head>
-<body>
+<x-app-layout>  
+
     <h1>Listado de Centers</h1>
 
     @if($centers->isEmpty())
@@ -52,5 +46,4 @@
             </tbody>
         </table>
     @endif
-</body>
-</html>
+</x-app-layout>  
