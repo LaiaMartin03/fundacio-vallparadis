@@ -13,10 +13,14 @@ export default {
         extend: {
             /*Empezar a escribir aquí*/
             colors: {
-                
+                primary: '#FF7400',
+                gray: '#575656',
+                charcoal: '#37434B',
+                light: '#F7F7F7',
             },
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                figtree: ['Figtree', ...defaultTheme.fontFamily.sans],
+                mclaren: ['McLaren', 'sans-serif'],
             },
         },
     },
