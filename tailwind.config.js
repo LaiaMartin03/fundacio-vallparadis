@@ -13,10 +13,10 @@ export default {
         extend: {
             /*Empezar a escribir aquí*/
             colors: {
-                primary: '#FF7400',
-                gray: '#575656',
-                charcoal: '#37434B',
-                light: '#F7F7F7',
+                primary_color: '#FF7400',
+                gray_color: '#575656',
+                charcoal_color: '#37434B',
+                light_color: '#F7F7F7',
             },
             fontFamily: {
                 figtree: ['Figtree', ...defaultTheme.fontFamily.sans],

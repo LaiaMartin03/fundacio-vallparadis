@@ -1,40 +1,70 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 h-screen w-20 fixed top-0 left-0">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 h-screen w-20 fixed top-0 left-0">
     <!-- Logo -->
-    <div class="flex flex-col items-center mt-4">
+    <div class="flex flex-col items-center py-4 h-full">
         <a href="{{ route('dashboard') }}">
             <x-application-logo class="h-9 w-auto fill-current" />
         </a>
-    </div>
 
-    <!-- Navigation Links -->
-    <div class="flex flex-col mt-10 space-y-6 items-center">
-        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-            <img src="icons/Home.svg" alt="">
+        <!-- Navigation Links -->
+        <div class="flex flex-col mt-16 space-y-6 items-center">
+            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" title="Inici">
+                <img src="icons/Home.svg" alt="" class="pb-2">
+            </x-nav-link>
+            <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Professionals">
+                <img src="icons/User.svg" alt="" class="pb-2">
+            </x-nav-link>
+            <x-nav-link :href="route('project.index')" :active="request()->routeIs('project.index')" title="Projectes">
+                <img src="icons/Projects.svg" alt="" class="pb-2">
+            </x-nav-link>
+            <!--<x-nav-link :href="route('center.index')" :active="request()->routeIs('center.index')">
+                <img src="icons/Home.svg" alt="">
+            </x-nav-link>-->
+            <!--<x-nav-link :href="route('resources.index')" :active="request()->routeIs('resources.index')">
+                <img src="icons/Home.svg" alt="">
+            </x-nav-link>-->
+            <!--<x-nav-link :href="route('uniforms.index')" :active="request()->routeIs('uniforms.index')">
+                <img src="icons/Home.svg" alt="">
+            </x-nav-link>-->
+        </div>  
+        
+        <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Settings" class="mt-auto">
+                <img src="icons/Gear.svg" alt="" class="pb-2">
         </x-nav-link>
-        <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')">
-            <img src="icons/Home.svg" alt="">
-        </x-nav-link>
-        <x-nav-link :href="route('project.index')" :active="request()->routeIs('project.index')">
-            <img src="icons/Home.svg" alt="">
-        </x-nav-link>
-        <x-nav-link :href="route('center.index')" :active="request()->routeIs('center.index')">
-            <img src="icons/Home.svg" alt="">
-        </x-nav-link>
-        <x-nav-link :href="route('resources.index')" :active="request()->routeIs('resources.index')">
-            <img src="icons/Home.svg" alt="">
-        </x-nav-link>
-        <x-nav-link :href="route('uniforms.index')" :active="request()->routeIs('uniforms.index')">
-            <img src="icons/Home.svg" alt="">
-        </x-nav-link>
-    </div>    
+    </div>
 </nav>
 
-<div class="ml-20 p-6 flex justify-center items-center">
-    <div id="calendar" class="flex items-center gap-3">
-        <img src="icons/Calendar.svg" alt="">
-        <span>14 d'Octubre 2025</span>
-        <img src="icons/Arrow.svg" class="-rotate-90" alt="">
+<div class="ml-20 p-5 flex justify-center items-center">
+    <div id="calendar" class="flex items-center gap-3 ml-auto">
+
+        <x-dropdown align="right">
+            <x-slot name="trigger">
+                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                    <img src="icons/Calendar.svg" alt="">
+                    <span class="text-sm ml-2">14 d'Octubre 2025</span>
+                    <div class="ms-1">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </button>
+            </x-slot>
+
+            <x-slot name="content">
+                <x-dropdown-link :href="route('professional.edit', Auth::user()->id)">
+                    {{ __('Profile') }}
+                </x-dropdown-link>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-dropdown-link :href="route('logout')"
+                        onclick="event.preventDefault(); this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-dropdown-link>
+                </form>
+            </x-slot>
+        </x-dropdown>
     </div>
+
+
 
     <div class="mt-auto mb-4 flex flex-col items-center ml-auto">
         <x-dropdown align="right" width="48">
