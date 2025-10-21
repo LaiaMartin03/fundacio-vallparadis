@@ -1,4 +1,4 @@
-<x-app-layout class="container border">  
+<x-app-layout>  
     <div class="mx-20 px-20 py-10 space-y-10">
         <div id="header" class="flex justify-between items-center">
             <h1 class="font-mclaren text-primary_color text-4xl">Professionals</h1>
@@ -16,19 +16,19 @@
                 <div class="h-[1px] bg-primary_color w-full"></div>
             </button>
 
-            <div class="grid grid-rows-auto grid-cols-5 gap-16" id="section">                
+            <div class="grid grid-rows-auto grid-cols-5 gap-16 transition-all duration-300 ease-in-out" id="section">                
                 @if($professionals->isEmpty())
                     <p>No hi ha professionals registrats.</p>
                 @else
                     @foreach($professionals as $professional)
-                        <div class="items-center w-fit bg-white py-5 px-8 rounded-xl flex flex-col">
+                        <a class="items-center w-fit bg-white py-5 px-8 rounded-xl flex flex-col" href="{{ route('professional.edit', $professional->id)}}">
                             <img class="rounded-full w-40 m-auto aspect-square object-cover" src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" alt="">
                             <span class="mt-5 text-lg">{{ $professional->name }}</span>
                             <span class="text-primary_color text-sm">Psícologo</span>
-                        </div>
+                        </a>
                     @endforeach
                 @endif
             </div>
         </div>
-    </div>
+    </div>  
 </x-app-layout>  
