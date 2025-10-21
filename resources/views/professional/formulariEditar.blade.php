@@ -1,104 +1,73 @@
 <x-app-layout>
-
-    {{-- Mensajes de éxito o errores --}}
+    <h3>
     @if (session('success'))
-        <div class="text-green-600 mb-4">
+        <div style="color: green;">
             {{ session('success') }}
         </div>
     @elseif ($errors->any())
-        <div class="text-red-600 mb-4">
-            <ul class="list-disc pl-5">
+        <div style="color: red;">
+            <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
         </div>
     @endif
+    </h3>
 
-    <h1 class="text-2xl font-bold mb-4">Editar Projecte: {{ $project->name }}</h1>
-
-    <form action="{{ route('project.update', $project->id) }}" method="POST" class="space-y-4">
-        @csrf
-        @method('PUT')
-
-        {{-- Center --}}
-        <x-input-label for="center_id" :value="'Centre'" />
-        <select id="center_id" name="center_id" required class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            @foreach($centers as $center)
-                <option value="{{ $center->id }}" {{ old('center_id', $project->center_id) == $center->id ? 'selected' : '' }}>
-                    {{ $center->name }}
-                </option>
-            @endforeach
-        </select>
-        <x-input-error :messages="$errors->get('center_id')" class="mt-2" />
-
-        {{-- Responsible Professional --}}
-        <x-input-label for="responsible_professional" :value="'Professional responsable'" />
-        <select id="responsible_professional" name="responsible_professional" required class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            @foreach($professionals as $professional)
-                <option value="{{ $professional->id }}" {{ old('responsible_professional', $project->responsible_professional) == $professional->id ? 'selected' : '' }}>
-                    {{ $professional->name }}
-                </option>
-            @endforeach
-        </select>
-        <x-input-error :messages="$errors->get('responsible_professional')" class="mt-2" />
-
-        {{-- Name --}}
-        <x-input-label for="name" :value="'Nom del Projecte'" />
-        <x-text-input id="name" name="name" type="text" placeholder="Nom del Projecte" class="mt-1 block w-full" :value="old('name', $project->name)" />
-        <x-input-error :messages="$errors->get('name')" class="mt-2" />
-
-        {{-- Description --}}
-        <x-input-label for="description" :value="'Description'" />
-        <x-text-input id="description" name="description" type="text" placeholder="El projecte consisteix..." class="mt-1 block w-full" :value="old('description', $project->description)" />
-        <x-input-error :messages="$errors->get('description')" class="mt-2" />
-
-        {{-- Observations --}}
-        <x-input-label for="observations" :value="'Observations'" />
-        <x-text-input id="observations" name="observations" type="text" placeholder="Observacions..." class="mt-1 block w-full" :value="old('observations', $project->observations)" />
-        <x-input-error :messages="$errors->get('observations')" class="mt-2" />
-
-        {{-- Type (radios) --}}
-        <x-input-label for="type" :value="'Tipus'" />
-        <div class="flex items-center gap-6 mt-1">
-            <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="type" value="project" class="text-blue-600 focus:ring-blue-500"
-                    {{ old('type', $project->type) == 'project' ? 'checked' : '' }}>
-                <span>Projecte</span>
-            </label>
-
-            <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="type" value="comision" class="text-blue-600 focus:ring-blue-500"
-                    {{ old('type', $project->type) == 'comision' ? 'checked' : '' }}>
-                <span>Comisió</span>
-            </label>
-        </div>
-        <x-input-error :messages="$errors->get('type')" class="mt-2" />
+    <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
+        <h1 class="text-2xl font-bold mb-4">Editar Profesional: {{ $professional->name }}</h1>
 
 
-        {{-- Active (radios) --}}
-        <x-input-label for="active" :value="'Activo'" />
-        <div class="flex items-center gap-6 mt-1">
-            <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="active" value="1" class="text-blue-600 focus:ring-blue-500"
-                    {{ old('active', $project->active) == 1 ? 'checked' : '' }}>
-                <span>Sí</span>
-            </label>
+        <form action="{{ route('professional.update', $professional->id) }}" method="POST" class="space-y-4">
+            @csrf
+            @method('PUT')
 
-            <label class="flex items-center gap-2 cursor-pointer">
-                <input type="radio" name="active" value="0" class="text-blue-600 focus:ring-blue-500"
-                    {{ old('active', $project->active) == 0 ? 'checked' : '' }}>
-                <span>No</span>
-            </label>
-        </div>
-        <x-input-error :messages="$errors->get('active')" class="mt-2" />
+            <x-text-input id="name" name="name" type="text" placeholder="Nom" class="mt-1 block w-full" :value="old('name', $professional->name)" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
 
-        {{-- Botón --}}
-        <div class="flex justify-end mt-4">
-            <x-primary-button>
-                Actualitzar
-            </x-primary-button>
-        </div>
-    </form>
+            <x-text-input id="email" name="email" type="email" placeholder="Correu electrònic" class="mt-1 block w-full" :value="old('email', $professional->email)" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
 
+            <x-text-input id="password" name="password" type="password" placeholder="Contrasenya" class="mt-1 block w-full" />
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+
+            <x-text-input id="locker" name="locker" type="text" placeholder="Número de taquilla" class="mt-1 block w-full" :value="old('locker', $professional->locker)" />
+            <x-input-error :messages="$errors->get('locker')" class="mt-2" />
+
+            <x-text-input id="code" name="code" type="text" placeholder="Codi de taquilla" class="mt-1 block w-full" :value="old('code', $professional->code)" />
+            <x-input-error :messages="$errors->get('code')" class="mt-2" />
+
+            <div class="flex items-center gap-6 mt-1">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                        type="radio"
+                        name="active"
+                        value="1"
+                        class="accent-blue-600 focus:ring-primary_color"
+                        {{ old('active', $professional->active) == "1" ? 'checked' : '' }}
+                    >
+                    <span>Actiu</span>
+                </label>
+
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                        type="radio"
+                        name="active"
+                        value="0"
+                        class="accent-blue-600 focus:ring-primary_color"
+                        {{ old('active', $professional->active) == "0" ? 'checked' : '' }}
+                    >
+                    <span>Inactiu</span>
+                </label>
+            </div>
+            <x-input-error :messages="$errors->get('active')" class="mt-2" />
+
+            <div class="flex justify-end mt-4">
+                <x-primary-button>
+                    Aceptar
+                </x-primary-button>
+            </div>
+        </form>
+    </div>
 </x-app-layout>
