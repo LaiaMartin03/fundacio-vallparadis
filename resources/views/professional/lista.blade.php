@@ -1,7 +1,6 @@
 <x-app-layout class="container border">  
     <div class="mx-20 px-20 py-10 space-y-10">
         <div id="header" class="flex justify-between items-center">
-
             <h1 class="font-mclaren text-primary_color text-4xl">Professionals</h1>
             
             <a href="{{ route('professionals.export') }}">
