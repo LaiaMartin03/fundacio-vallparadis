@@ -16,7 +16,7 @@
     @endif
     
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
-        <h1 class="text-2xl font-bold mb-4">Editar Recurso #{{ $resource->id }}</h1>
+        <h1 class="text-2xl font-bold mb-4">Editar Entrega de Material #{{ $resource->id }}</h1>
         <form action="{{ route('resources.update', $resource->id) }}" method="POST" class="space-y-4">
             @csrf
             @method('PUT')

@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
-        <h1>Nuevo Uniforme</h1>
+        <h1>Nou Uniforme</h1>
 
         <form method="POST" action="{{ route('uniforms.store') }}" class="space-y-4">
             @csrf
