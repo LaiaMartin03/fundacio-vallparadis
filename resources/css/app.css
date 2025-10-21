@@ -1,14 +1,3 @@
-:root {
-    --color-primary: #FF7400;
-    --gray: #575656;
-    --charcoal: #37434B;
-    --light: #F7F7F7;
-
-    --poppins: 'Poppins', sans-serif;
-    --mclaren: 'McLaren', cursive;
-    --redacted: 'Redacted Script', cursive;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -25,7 +25,7 @@
                 <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
             </label>-->
             @if (Route::has('password.request'))
-                <a class="mt-2 block underline text-sm text-gray-300 dark:text-gray-400 hover:text-[#FF9740] ease-in-out duration-300 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
+                <a class="mt-2 block underline text-xs text-gray-400 dark:text-gray-300 hover:text-[#FF9740] ease-in-out duration-300 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF9740] dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
                     {{ __('Has oblidat la contrasenya?') }}
                 </a>
             @endif

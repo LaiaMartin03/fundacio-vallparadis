@@ -1,52 +1,24 @@
-<x-app-layout>  
-    <h1>Listado de Professionals</h1>
+<x-app-layout class="container border">  
+    <div class="mx-20 px-20 py-10">
+        <h1 class="font-mclaren text-primary">Professionals</h1>
 
-    @if($professionals->isEmpty())
-        <p>No hay professionals registrados.</p>
-    @else
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Nom</th>
-                    <th>Taquilla</th>
-                    <th>Codi</th>
-                    <th>Actiu</th>
-                    <th>Editar</th>
-                    <th>Descactivar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($professionals as $professional)
-                    <tr>
-                        <td>{{ $professional->email }}</td>
-                        <td>{{ $professional->name }}</td>
-                        <td>{{ $professional->locker }}</td>
-                        <td>{{ $professional->code }}</td>
-                        <td>{{ $professional->active ? 'Actiu' : 'Inactiu' }}</td>
-                        <td><a href="{{ route('professional.edit', $professional) }}">Editar</a></td>
-                        <td> 
-                            @if (!$professional->active)
-                                <form action="{{ route('professional.activate', $professional->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit">Activar</button>
-                                </form>
-                            @else
-                                <form action="{{ route('professional.destroy', $professional->id) }}" method="POST" >
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit">Desactivar</button>
-                                </form>
-                            @endif
-                            
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <a href="{{ route('professionals.export') }}">
-            <button> Exportar a Excel</button>
-        </a>
-    @endif
+        <div class="grid grid-rows-auto grid-cols-5 gap-16">
+            @if($professionals->isEmpty())
+            <p>No hi ha professionals registrats.</p>
+            @else
+            
+            @foreach($professionals as $professional)
+            <div class="items-center w-fit bg-white py-5 px-8 rounded-xl flex flex-col">
+                <img class="rounded-full w-40 m-auto aspect-square object-cover" src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" alt="">
+                <span class="mt-5">{{ $professional->name }}</span>
+                <span class="text-primary">Psícologo</span>
+            </div>
+            @endforeach
+            
+            <a href="{{ route('professionals.export') }}">
+                <x-primary-button> Exportar a Excel</x-primary-button>
+            </a>
+            @endif
+        </div>
+    </div>
 </x-app-layout>  
