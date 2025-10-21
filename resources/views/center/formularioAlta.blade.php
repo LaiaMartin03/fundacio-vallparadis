@@ -1,37 +1,68 @@
-<x-app-layout>  
-        <h3>
-            @if (session('success'))
-                <div style="color: green;">
-                    {{ session('success') }}
-                </div>
-            @elseif ($errors->any())
-                <div style="color: red;">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </h3>
-        
-        <h1>Alta Centres Increiblemente Increible</h1>
-        <form action="{{route('center.store')}}" method="POST">
-            @csrf
-            Nom: <input type="text" name="name" placeholder="Nom del centre">
-            <br>
-            Direcció: <input type="text" name="location" placeholder="Sicilia, 321">
-            <br>
-            Correu: <input type="email" name="email" placeholder="centre@gmail.com">
-            <br>
-            Telèfon: <input type="text" name="phone" placeholder="123456789">
-            <br>
-            <select name="active" required>
-                <option value="">-- Selecciona estado --</option>
-                <option value="1">Activo</option>
-                <option value="0">Inactivo</option>
-            </select>
-            <br>
-            <input type="submit" value="Acceptar">
-        </form>         
-</x-app-layout>  
+<x-app-layout>
+
+    {{-- Mensajes de éxito o errores --}}
+    @if (session('success'))
+        <div class="text-green-600 mb-4">
+            {{ session('success') }}
+        </div>
+    @elseif ($errors->any())
+        <div class="text-red-600 mb-4">
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <h1 class="text-2xl font-bold mb-4">Alta Centres Increiblemente Increible</h1>
+
+    <form action="{{ route('center.store') }}" method="POST" class="space-y-4">
+        @csrf
+
+        {{-- Nombre --}}
+        <x-input-label for="name" :value="'Nom'" />
+        <x-text-input id="name" name="name" type="text" placeholder="Nom del centre" class="mt-1 block w-full" :value="old('name')" />
+        <x-input-error :messages="$errors->get('name')" class="mt-2" />
+
+        {{-- Dirección --}}
+        <x-input-label for="location" :value="'Direcció'" />
+        <x-text-input id="location" name="location" type="text" placeholder="Sicilia, 321" class="mt-1 block w-full" :value="old('location')" />
+        <x-input-error :messages="$errors->get('location')" class="mt-2" />
+
+        {{-- Correo --}}
+        <x-input-label for="email" :value="'Correu'" />
+        <x-text-input id="email" name="email" type="email" placeholder="centre@gmail.com" class="mt-1 block w-full" :value="old('email')" />
+        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+
+        {{-- Teléfono --}}
+        <x-input-label for="phone" :value="'Telèfon'" />
+        <x-text-input id="phone" name="phone" type="text" placeholder="123456789" class="mt-1 block w-full" :value="old('phone')" />
+        <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+
+        {{-- Activo (radios) --}}
+        <x-input-label for="active" :value="'Activo'" />
+        <div class="flex items-center gap-6 mt-1">
+            <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="active" value="1" class="text-blue-600 focus:ring-blue-500"
+                    {{ old('active', '1') === "1" ? 'checked' : '' }}>
+                <span>Activo</span>
+            </label>
+
+            <label class="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="active" value="0" class="text-blue-600 focus:ring-blue-500"
+                    {{ old('active') === "0" ? 'checked' : '' }}>
+                <span>Inactivo</span>
+            </label>
+        </div>
+        <x-input-error :messages="$errors->get('active')" class="mt-2" />
+
+        {{-- Botón de envío --}}
+        <div class="flex justify-end mt-4">
+            <x-primary-button>
+                Acceptar
+            </x-primary-button>
+        </div>
+    </form>
+
+</x-app-layout>
