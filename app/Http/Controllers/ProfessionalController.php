@@ -67,6 +67,7 @@ class ProfessionalController extends Controller
      */
     public function edit(Professional $professional)
     {
+        $professionals = Professional::all();
         return view("professional.formulariEditar", compact('professional'));
     }
 
