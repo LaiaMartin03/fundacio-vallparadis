@@ -81,6 +81,7 @@ class ProjectController extends Controller
             'description' => $request->input('description'),
             'observations' => $request->input('observations'),
             'type' => $request->input('type'),
+            'active' => $request->has('active') ? 1 : 0,
         ]);
 
         return redirect()->route('project.index')->with('success', 'Projecte actualitzat correctament.');
