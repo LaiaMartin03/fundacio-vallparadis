@@ -40,7 +40,12 @@ class ProfessionalController extends Controller
             'name'=>'required|min:3|max:20',
             'password'=>'required|min:8|max:255',
             'locker'=>'required',
-            'code'=>'required'
+            'code'=>'required',
+            'surname'=>'required',
+            'address'=>'required',
+            'phone'=>'required',
+            'birthday'=>'required|date',
+            'curriculum'=>'nullable'
         ]);
         Professional::create([
             'email'=>request('email'),
@@ -48,7 +53,11 @@ class ProfessionalController extends Controller
             'password'=>request('password'),
             'locker'=>request('locker'),
             'code'=>request('code'),
-            'info_id'=>null,
+            'surname'=>request('surname'),
+            'address'=>request('address'),
+            'phone'=>request('phone'),
+            'birthday'=>request('birthday'),
+            'curriculum'=>request('curriculum'),
             'active'=>request('active')
         ]);
         return redirect()->route('professional.create')->with('success', 'Professional creat correctament.');

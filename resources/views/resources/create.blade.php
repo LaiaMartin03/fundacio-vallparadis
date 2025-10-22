@@ -1,20 +1,28 @@
 <x-app-layout>
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
-        <h1>Nova Entrega de Material</h1>
+        <h1 class="text-2xl font-bold mb-4">Nova Entrega de Material</h1>
 
         <form method="POST" action="{{ route('resources.store') }}" class="space-y-4">
             @csrf
 
             {{-- Uniform --}}
-            <x-input-label for="uniform_id" :value="'Uniforme'" />
-            <select id="uniform_id" name="uniform_id" class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Selecciona un uniforme</option>
-                @foreach($uniforms as $uniform)
-                    <option value="{{ $uniform->id }}" {{ old('uniform_id') == $uniform->id ? 'selected' : '' }}>
-                        Uniforme #{{ $uniform->id }}
-                    </option>
-                @endforeach
+            <x-text-input id="shirt_size" name="shirt_size" type="number" class="mt-1 block w-full" :value="old('shirt_size')" placeholder="Samarreta" />
+            <x-input-error :messages="$errors->get('shirt_size')" class="mt-2" />
+            
+            <x-text-input id="pants_size" name="pants_size" type="number" class="mt-1 block w-full" :value="old('pants_size')" placeholder="Pantalons" />
+            <x-input-error :messages="$errors->get('pants_size')" class="mt-2" />
+            
+            <x-input-label for="lab_coat" :value="'Bata'" />
+            <select id="lab_coat" name="lab_coat" class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Selecciona una opción</option>
+                <option value="1" {{ old('lab_coat') === '1' ? 'selected' : '' }}>Sí</option>
+                <option value="0" {{ old('lab_coat') === '0' ? 'selected' : '' }}>No</option>
             </select>
+            <x-input-error :messages="$errors->get('lab_coat')" class="mt-2" />
+
+            <x-text-input id="shoe_size" name="shoe_size" type="number" class="mt-1 block w-full" :value="old('shoe_size')" placeholder="Sabates" />
+            <x-input-error :messages="$errors->get('shoe_size')" class="mt-2" />
+
             <x-input-error :messages="$errors->get('uniform_id')" class="mt-2" />
 
             {{-- Usuario que recibe --}}

@@ -24,9 +24,8 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        $uniforms = \App\Models\Uniform::all();
         $users = \App\Models\User::all();
-        return view('resources.create', compact('uniforms', 'users'));
+        return view('resources.create', compact( 'users'));
     }
 
     /**
@@ -35,7 +34,10 @@ class ResourceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'uniform_id' => 'required|integer',
+            'shirt_size' => 'nullable|integer',
+            'pants_size' => 'nullable|integer',
+            'lab_coat' => 'nullable|boolean',
+            'shoe_size' => 'nullable|integer',
             'user_id' => 'required|integer',
             'given_by_user_id' => 'required|integer',
             'delivered_at' => 'nullable|date',
@@ -57,7 +59,6 @@ class ResourceController extends Controller
      */
     public function edit(Resource $resource)
     {
-        $uniforms = \App\Models\Uniform::all();
         $users = \App\Models\User::all();
         return view('resources.edit', compact('resource', 'uniforms', 'users'));
     }

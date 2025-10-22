@@ -10,9 +10,13 @@ class Resource extends Model
     use HasFactory;
 
     protected $fillable = [
-        'uniform_id',
+        'shirt_size',
+        'pants_size',
+        'lab_coat',
+        'shoe_size',
         'user_id',
         'given_by_user_id',
         'delivered_at',
+
     ];
 }
