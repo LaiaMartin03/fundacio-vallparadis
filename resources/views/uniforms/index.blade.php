@@ -1,57 +1,37 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Uniformes') }}
-        </h2>
-    </x-slot>
-
     @if (session('success'))
         <p style="color: green;">{{ session('success') }}</p>
     @endif
 
-    <a href="{{ route('uniforms.create') }}">Crear nuevo uniforme</a>
-    <a href="{{ route('uniforms.export') }}">Exportar a Excel</a>
+    <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl flex flex-col gap-8">
+        <div class="flex gap-12">
+            <form action="{{ route('uniforms.import') }}" method="POST" enctype="multipart/form-data" class="border p-3 rounded-xl text-sm">
+                @csrf
+                <input type="file" name="excel_file" required>
+                <button type="submit">Importar</button>
+            </form>
 
-    <form action="{{ route('uniforms.import') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <input type="file" name="excel_file" required>
-        <button type="submit">Importar</button>
-    </form>
+            <x-nav-link href="{{ route('uniforms.create') }}" class="ml-auto">Crear nuevo uniforme</x-nav-link>
+            <x-nav-link href="{{ route('uniforms.export') }}">Exportar a Excel</x-nav-link>
+        </div>
 
-    @if ($uniforms->isEmpty())
-        <p>No hay uniformes registrados.</p>
-    @else
-        <table border="1" cellpadding="5">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Camisa</th>
-                    <th>Pantalón</th>
-                    <th>Bata</th>
-                    <th>Zapatos</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($uniforms as $uniform)
-                    <tr>
-                        <td>{{ $uniform->id }}</td>
-                        <td>{{ $uniform->shirt_size }}</td>
-                        <td>{{ $uniform->pants_size }}</td>
-                        <td>{{ $uniform->lab_coat ? 'Sí' : 'No' }}</td>
-                        <td>{{ $uniform->shoe_size }}</td>
-                        <td><a href="{{ route('uniforms.edit', $uniform->id) }}">Editar</a></td>
-                        <td>
-                            <form action="{{ route('uniforms.destroy', $uniform->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
+        
+
+        @if ($uniforms->isEmpty())
+            <p>Ni hi han uniformes registrats.</p>
+        @else
+            @foreach($uniforms as $uniform)
+                <a href="{{ route('uniform.edit', $uniform->id) }}" class="bg-white shadow-lg rounded-lg p-4 mb-4 hover:bg-gray-100 flex justify-between items-center">
+                    <div class="flex gap-10">
+                        <span>{{ $uniform->name }}</span>
+                        <span class="text-gray-700">{{ $uniform->description }}</span>
+                    </div>
+
+                    <div>
+                        <span class="text-orange-500">{{ $uniform->type }}</span>
+                    </div>
+                </a>
+            @endforeach
+        @endif
+    </div>
 </x-app-layout>

@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 h-screen w-20 fixed top-0 left-0">
     <!-- Logo -->
-    <div class="flex flex-col items-center py-4 h-full">
+    <div class="flex flex-col items-center py-4 h-full shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
         <a href="{{ route('dashboard') }}">
             <x-application-logo class="h-9 w-auto fill-current" />
         </a>

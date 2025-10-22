@@ -39,8 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('project/{project}/activate', [ProjectController::class, 'activate'])->name('project.activate');
 
     // Professional
-    Route::put('professional/{professional}/activate', [ProfessionalController::class, 'activate'])->name('professional.activate');
     Route::resource('professional', ProfessionalController::class);
+    Route::get('/professional/{id}', [ProfessionalController::class, 'show'])->name('professional.show');
+    Route::put('professional/{professional}/activate', [ProfessionalController::class, 'activate'])->name('professional.activate');
     Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])->name('professionals.import');
     Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
 

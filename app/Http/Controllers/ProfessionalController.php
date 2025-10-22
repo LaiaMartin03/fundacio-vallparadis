@@ -59,7 +59,8 @@ class ProfessionalController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $professional = Professional::findOrFail($id);
+        return view('professional.show', compact('professional'));
     }
 
     /**
