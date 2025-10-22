@@ -4,7 +4,7 @@
     <form method="POST" action="{{ route('login') }}" class="w-full flex flex-col gap-10 items-center">
         @csrf
 
-        <h1 class="text-4xl text-[#FF7400] font-medium text-center w-full">Iniciar sessió</h1>
+        <h1 class="text-4xl text-primary_color font-medium text-center w-full">Iniciar sessió</h1>
 
         <div class="block mt-4 w-full">
             <!-- Email Address -->
