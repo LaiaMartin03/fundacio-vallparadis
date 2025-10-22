@@ -1,11 +1,9 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 h-screen w-20 fixed top-0 left-0">
-    <!-- Logo -->
     <div class="flex flex-col items-center py-4 h-full shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
         <a href="{{ route('dashboard') }}">
             <x-application-logo class="h-9 w-auto fill-current" />
         </a>
 
-        <!-- Navigation Links -->
         <div class="flex flex-col mt-16 space-y-6 items-center">
             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" title="Inici">
                 <img src="icons/Home.svg" alt="" class="pb-2">
@@ -16,15 +14,6 @@
             <x-nav-link :href="route('project.index')" :active="request()->routeIs('project.index')" title="Projectes">
                 <img src="icons/Projects.svg" alt="" class="pb-2">
             </x-nav-link>
-            <!--<x-nav-link :href="route('center.index')" :active="request()->routeIs('center.index')">
-                <img src="icons/Home.svg" alt="">
-            </x-nav-link>-->
-            <!--<x-nav-link :href="route('resources.index')" :active="request()->routeIs('resources.index')">
-                <img src="icons/Home.svg" alt="">
-            </x-nav-link>-->
-            <!--<x-nav-link :href="route('uniforms.index')" :active="request()->routeIs('uniforms.index')">
-                <img src="icons/Home.svg" alt="">
-            </x-nav-link>-->
         </div>  
         
         <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Settings" class="mt-auto">

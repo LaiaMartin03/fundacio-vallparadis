@@ -102,7 +102,8 @@ class ProfessionalController extends Controller
             'info_id'=>null,
             'active'=>request('active')
         ]);
-        return redirect()->route('professional.index')->with('success', 'Professional editat correctament.');
+
+        return redirect()->route('professional.show', $professional->id) ->with('success', 'Professional actualitzat correctament.');
     }
 
     /**
