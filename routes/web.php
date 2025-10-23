@@ -45,11 +45,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])->name('professionals.import');
     Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
 
-    // Uniforms
-    Route::resource('uniforms', UniformController::class)->except(['show']);
-    Route::get('uniforms/export', [UniformController::class, 'exportUniforms'])->name('uniforms.export');
-    Route::post('uniforms/import', [UniformController::class, 'importUniforms'])->name('uniforms.import');
-
     // Resources
     Route::resource('resources', ResourceController::class)->except(['show']);
     Route::get('resources/export', [ResourceController::class, 'exportResources'])->name('resources.export');

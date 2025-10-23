@@ -113,14 +113,14 @@ class ProfessionalController extends Controller
     {
         $professional->active = 1;
         $professional->save(); 
-        return redirect()->route('professional.index')->with('success', 'Professional activat correctament.');
+        return redirect()->route('professional.show', $professional->id)->with('success', 'Professional activat correctament.');
     }
-    
+
     public function destroy(Professional $professional)
     {
         $professional->active = 0;
         $professional->save(); 
-        return redirect()->route('professional.index')->with('success', 'Professional desactivat correctament.');
+        return redirect()->route('professional.show', $professional->id)->with('success', 'Professional desactivat correctament.');
     }
 
     public function exportProfessionals()
