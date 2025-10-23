@@ -6,18 +6,26 @@
 
         <div class="flex flex-col mt-16 space-y-6 items-center">
             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" title="Inici">
-                <img src="icons/Home.svg" alt="" class="pb-2">
+                <svg class="size-5">
+                    <use href="#home"></use>
+                </svg>
             </x-nav-link>
             <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Professionals">
-                <img src="icons/User.svg" alt="" class="pb-2">
+                <svg class="size-5">
+                    <use href="#user"></use>
+                </svg>
             </x-nav-link>
             <x-nav-link :href="route('project.index')" :active="request()->routeIs('project.index')" title="Projectes">
-                <img src="icons/Projects.svg" alt="" class="pb-2">
+                <svg class="size-5">
+                    <use href="#project"></use>
+                </svg>
             </x-nav-link>
         </div>  
         
         <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Settings" class="mt-auto">
-                <img src="icons/Gear.svg" alt="" class="pb-2">
+            <svg class="size-5">
+                <use href="#gear"></use>
+            </svg>
         </x-nav-link>
     </div>
 </nav>
@@ -28,7 +36,9 @@
         <x-dropdown align="right">
             <x-slot name="trigger">
                 <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                    <img src="icons/Calendar.svg" alt="">
+                    <svg class="size-5">
+                        <use href="#calendar"></use>
+                    </svg>
                     <span class="text-sm ml-2">14 d'Octubre 2025</span>
                     <div class="ms-1">
                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

@@ -17,7 +17,8 @@
     </head>
     <body class="font-figtree antialiased bg-[#FFF4EC]">
         <div class="min-h-screen dark:bg-gray-900">
-            @include('layouts.navigation')
+            @include('components.icons')
+            @include('components.navigation')
 
             <!-- Page Heading -->
             @isset($header)
