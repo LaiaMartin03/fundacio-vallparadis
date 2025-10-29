@@ -29,6 +29,41 @@
                     @endforeach
                 @endif
             </div>
+
+            <x-modal-form titulo="Nuevo usuario">
+                <form action="{{ route('users.store') }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="nombre" class="block text-sm font-medium">Nombre</label>
+                        <input 
+                            type="text" 
+                            id="nombre" 
+                            name="nombre" 
+                            class="w-full border border-gray-300 rounded p-2"
+                            required
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="block text-sm font-medium">Email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="w-full border border-gray-300 rounded p-2"
+                            required
+                        >
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    >
+                        Guardar
+                    </button>
+                </form>
+            </x-modal-form>
+
         </div>
     </div>  
 </x-app-layout>  
