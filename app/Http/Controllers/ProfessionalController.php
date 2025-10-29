@@ -6,6 +6,7 @@ use App\Models\Professional;
 use Illuminate\Http\Request;
 use App\Exports\ProfessionalsExport;
 use App\Imports\ProfessionalsImport;
+use App\Models\Resource;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProfessionalController extends Controller
@@ -135,4 +136,21 @@ class ProfessionalController extends Controller
 
         return back()->with('success', 'Profesionales importados correctamente.');
     }
+
+    public function uniformes(Professional $professional)
+    {
+        // Cargar los uniformes
+        $uniformes = $professional->resources()->with('givenBy')->latest()->get();
+
+        // Verificar si es una petición Turbo Frame
+        $isTurboFrame = request()->header('Turbo-Frame') === 'contenido';
+
+        if ($isTurboFrame) {
+            return view('professional.partials._uniformes', compact('uniformes', 'professional'));
+        }
+
+        // Si no es Turbo Frame, devolver vista completa
+        return view('professional.show', compact('professional', 'uniformes'));
+    }
+
 }

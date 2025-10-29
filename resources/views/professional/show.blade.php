@@ -46,12 +46,28 @@
 
         <div id="box-content" class="relative w-full">
             <div class="flex gap-5">
-                <button class="px-3 py-1 text-primary_color rounded-t-lg bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">Qüestionaris</button>
-                <div class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">Formació</div>
-                <div class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">Evaluació</div>
-                <div class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">Uniformes</div>
+                <a href="{{ route('professional.show', $professional) }}" 
+                   data-turbo-frame="contenido"
+                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
+                    Qüestionaris
+                </a>
+                <a href="#" 
+                   data-turbo-frame="contenido"
+                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
+                    Formació
+                </a>
+                <a href="#" 
+                   data-turbo-frame="contenido"
+                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
+                    Evaluació
+                </a>
+                <a href="{{ route('professional.uniformes', $professional) }}" 
+                   data-turbo-frame="contenido"
+                   class="px-3 py-1 text-primary_color rounded-t-lg bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
+                    Uniformes
+                </a>
             </div>
-            
+
             <x-tabs />
         </div>
     </div>

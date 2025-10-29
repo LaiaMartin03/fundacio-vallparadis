@@ -13,22 +13,22 @@ return new class extends Migration
     {
         Schema::create('learning_program', function (Blueprint $table) {
             $table->id();
-
-            $table->string('forcem');
-            $table->float('hours');
-            $table->string('type');
-            $table->string('modality');
-            $table->text('info');
-            $table->string('assistent');
-            $table->date('finish_date');
-            $table->text('certification');
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('center_id');
+            $table->enum('forcem', ['Horta', 'La Pineda', 'Ametlla', 'M.Betriu', 'T. de llops', 'Mas i Dalmau', 'Mora la Nova', 'Tamariu', 'Tursia', 'Cambrils Suite','Poblenou'])->default('Horta');;
+            $table->float('hours')->nullable();
+            $table->enum('type', ['Formació Interna', 'Formació Externa', 'Formació Salut laboral','Jorn/Taller/Seminari/Congrès'])->default('Formació Interna');
+            $table->enum('modality', ['Presencial', 'On Line', 'Mixte'])->default('Presencial');;
+            $table->text('info')->nullable();
+            $table->unsignedBigInteger('assistent')->nullable();
+            $table->date('finish_date')->nullable();
+            $table->enum('certificate', ['Entregat', 'Pendent'])->default('Pendent');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             //FK
             $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('assistent')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

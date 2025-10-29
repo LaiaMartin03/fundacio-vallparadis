@@ -19,4 +19,14 @@ class Resource extends Model
         'delivered_at',
 
     ];
+
+    public function professional()
+    {
+        return $this->belongsTo(Professional::class, 'user_id');
+    }
+
+    public function givenBy()
+    {
+        return $this->belongsTo(Professional::class, 'given_by_user_id');
+    }
 }
