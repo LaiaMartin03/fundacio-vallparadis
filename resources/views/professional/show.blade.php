@@ -46,22 +46,37 @@
 
         <div id="box-content" class="relative w-full">
             <div class="flex gap-5">
-                <button class="px-3 py-1 text-primary_color rounded-t-lg bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">Qüestionaris</button>
-                <div class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">Formació</div>
-                <div class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">Evaluació</div>
-                <div class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">Uniformes</div>
+                <a href="{{ route('professional.show', $professional) }}" 
+                   data-turbo-frame="contenido"
+                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
+                    Qüestionaris
+                </a>
+                <a href="#" 
+                   data-turbo-frame="contenido"
+                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
+                    Formació
+                </a>
+                <a href="#" 
+                   data-turbo-frame="contenido"
+                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
+                    Evaluació
+                </a>
+                <a href="{{ route('professional.uniformes', $professional) }}" 
+                   data-turbo-frame="contenido"
+                   class="px-3 py-1 text-primary_color rounded-t-lg bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
+                    Uniformes
+                </a>
             </div>
-            <div class="absolute top-0 w-full">
-                <div class="flex gap-5">
-                    <button class="px-3 py-1 text-primary_color rounded-t-lg bg-white">Qüestionaris</button>
-                    <button class="px-3 py-1 text-white  opacity-0">Formació</button>
-                    <button class="px-3 py-1 text-white  opacity-0">Evaluació</button>
-                    <button class="px-3 py-1 text-white  opacity-0">Uniformes</button>
+
+            {{-- Turbo Frame --}}
+            <turbo-frame id="contenido" src="{{ route('professional.uniformes', $professional) }}" target="_top">
+                <div class="h-[500px] bg-white rounded-lg p-12 shadow flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary_color mx-auto mb-4"></div>
+                        <p class="text-gray-500">Carregant uniformes...</p>
+                    </div>
                 </div>
-                <div class="h-[500px] bg-white rounded-tr-lg rounded-br-lg rounded-bl-lg w-full p-12 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
-                    hola
-                </div>
-            </div>
+            </turbo-frame>
         </div>
     </div>
 </x-app-layout>
