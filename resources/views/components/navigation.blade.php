@@ -20,7 +20,7 @@
                     <use href="#project"></use>
                 </svg>
             </x-nav-link>
-            <x-nav-link :href="route('project.index')" :active="request()->routeIs('project.index')" title="Projectes">
+            <x-nav-link :href="route('courses.curso')" :active="request()->routeIs('courses.curso')" title="Cursos">
                 <svg class="size-5">
                     <use href="#course"></use>
                 </svg>

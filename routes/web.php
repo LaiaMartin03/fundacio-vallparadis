@@ -50,6 +50,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('resources', ResourceController::class)->except(['show']);
     Route::get('resources/export', [ResourceController::class, 'exportResources'])->name('resources.export');
     Route::post('resources/import', [ResourceController::class, 'importResources'])->name('resources.import');
+
+    // Cursos
+    Route::get('/courses/curso', function () {
+        return view('courses.curso');
+    })->name('courses.curso');
 });
 
 require __DIR__.'/auth.php';
