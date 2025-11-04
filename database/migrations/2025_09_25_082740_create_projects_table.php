@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('finish_date')->nullable();
             $table->timestamps();
 
-            //  FK
+            // FK
             $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
             $table->foreign('responsible_professional')->references('id')->on('users')->onDelete('set null');
         });
