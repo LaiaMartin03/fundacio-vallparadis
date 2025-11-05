@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('phone', 20)->nullable();
             $table->date('birthday')->nullable();
             $table->string('curriculum')->nullable();
-            
+            //roles
+            $table->enum('role', ['Responsable/Equip Tecnic', 'Equip Directiu', 'Administració'])->default('Responsable/Equip Tecnic');
             $table->boolean('active')->nullable();
             $table->timestamps();
 
