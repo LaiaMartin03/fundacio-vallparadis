@@ -56,6 +56,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Cursos
     Route::resource('curso', \App\Http\Controllers\CursoController::class);
+    Route::get('/courses/curso', function () {
+        return view('courses.curso');
+    })->name('courses.curso');
 });
 
 require __DIR__.'/auth.php';

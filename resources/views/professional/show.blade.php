@@ -68,15 +68,7 @@
                 </a>
             </div>
 
-            {{-- Turbo Frame --}}
-            <turbo-frame id="contenido" src="{{ route('professional.uniformes', $professional) }}" target="_top">
-                <div class="h-[500px] bg-white rounded-lg p-12 shadow flex items-center justify-center">
-                    <div class="text-center">
-                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary_color mx-auto mb-4"></div>
-                        <p class="text-gray-500">Carregant uniformes...</p>
-                    </div>
-                </div>
-            </turbo-frame>
+            <x-tabs />
         </div>
     </div>
 </x-app-layout>
