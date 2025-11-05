@@ -39,20 +39,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('project/{project}/activate', [ProjectController::class, 'activate'])->name('project.activate');
 
     // Professional
-    Route::put('professional/{professional}/activate', [ProfessionalController::class, 'activate'])->name('professional.activate');
     Route::resource('professional', ProfessionalController::class);
+    Route::get('/professional/{id}', [ProfessionalController::class, 'show'])->name('professional.show');
+    Route::put('professional/{professional}/activate', [ProfessionalController::class, 'activate'])->name('professional.activate');
     Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])->name('professionals.import');
     Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
-
-    // Uniforms
-    Route::resource('uniforms', UniformController::class)->except(['show']);
-    Route::get('uniforms/export', [UniformController::class, 'exportUniforms'])->name('uniforms.export');
-    Route::post('uniforms/import', [UniformController::class, 'importUniforms'])->name('uniforms.import');
+    Route::get('/professional/{professional}/uniformes', [ProfessionalController::class, 'uniformes'])->name('professional.uniformes');
 
     // Resources
     Route::resource('resources', ResourceController::class)->except(['show']);
     Route::get('resources/export', [ResourceController::class, 'exportResources'])->name('resources.export');
     Route::post('resources/import', [ResourceController::class, 'importResources'])->name('resources.import');
+
+    // Learning Programs
+    Route::resource('learningprogram', \App\Http\Controllers\LearningProgramController::class);
+
+    // Cursos
+    Route::resource('curso', \App\Http\Controllers\CursoController::class);
+    Route::get('/courses/curso', function () {
+        return view('courses.curso');
+    })->name('courses.curso');
 });
 
 require __DIR__.'/auth.php';

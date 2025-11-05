@@ -1,53 +1,24 @@
 <x-app-layout>  
+    <div class="mx-20 px-20 py-10 space-y-4">
+        <div id="header" class="flex justify-between items-center">
+            <h1 class="font-mclaren text-primary_color text-4xl">Projectes</h1>
+        </div>
 
-    <h1>Listado de Projects</h1>
+        @if($projects->isEmpty())
+            <p>Ni hi han projectes registrats.</p>
+        @else
+            @foreach($projects as $project)
+                <a href="{{ route('project.edit', $project->id) }}" class="bg-white shadow-lg rounded-lg p-4 mb-4 hover:bg-gray-100 flex justify-between items-center">
+                    <div class="flex gap-10">
+                        <span>{{ $project->name }}</span>
+                        <span class="text-gray-700">{{ $project->description }}</span>
+                    </div>
 
-    @if($projects->isEmpty())
-        <p>No hay projects registrados.</p>
-    @else
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Centro</th>
-                    <th>Responsable</th>
-                    <th>Descripción</th>
-                    <th>Observaciones</th>
-                    <th>Tipo</th>
-                    <th>Activo</th>
-                    <th>Editar</th>
-                    <th>Activar/Desactivar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($projects as $project)
-                    <tr>
-                        <td>{{ $project->name }}</td>
-                        <td>{{ $project->center->name ?? '-' }}</td>
-                        <td>{{ $project->responsible_professional ?? '-'}}</td>
-                        <td>{{ $project->description }}</td>
-                        <td>{{ $project->observations }}</td>
-                        <td>{{ $project->type }}</td>
-                        <td>{{ $project->active ? 'Sí' : 'No' }}</td>
-                        <td><a href="{{ route('project.edit', $project->id) }}">Editar</a></td>
-                        <td>
-                            @if (!$project->active)
-                                <form action="{{ route('project.activate', $project->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit">Activar</button>
-                                </form>
-                            @else
-                                <form action="{{ route('project.destroy', $project->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit">Desactivar</button>
-                                </form>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
-</x-app-layout>  
+                    <div>
+                        <span class="text-orange-500">{{ $project->type }}</span>
+                    </div>
+                </a>
+            @endforeach
+        @endif
+    </div>
+</x-app-layout>

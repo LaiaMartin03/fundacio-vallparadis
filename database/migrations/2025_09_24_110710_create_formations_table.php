@@ -17,9 +17,13 @@ return new class extends Migration
             $table->string('title');
             $table->string('institution');
             $table->text('description')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->date('end_date')->nullable();
 
             $table->timestamps();
+
+            //FK
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

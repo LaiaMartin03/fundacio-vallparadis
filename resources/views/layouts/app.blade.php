@@ -5,18 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>Fundació Vallparadís</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=mclaren:400" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-[#FFF4EC] dark:bg-gray-900">
-            @include('layouts.navigation')
+    <body class="font-figtree antialiased bg-[#FFF4EC]">
+        <div class="min-h-screen dark:bg-gray-900">
+            @include('components.icons')
+            @include('components.navigation')
 
             <!-- Page Heading -->
             @isset($header)

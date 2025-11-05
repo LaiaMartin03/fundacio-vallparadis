@@ -14,16 +14,23 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('email');
-            $table->string('name');
             $table->string('password');
             $table->string('locker')->nullable();
             $table->string('code')->nullable();
             $table->unsignedBigInteger('info_id')->nullable();
+            //personal info
+            $table->string('name');
+            $table->string('surname');
+            $table->string('address', 500)->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->date('birthday')->nullable();
+            $table->string('curriculum')->nullable();
+            //roles
+            $table->enum('role', ['Responsable/Equip Tecnic', 'Equip Directiu', 'Administració'])->default('Responsable/Equip Tecnic');
             $table->boolean('active')->nullable();
             $table->timestamps();
 
             //FK
-            $table->foreign('info_id')->references('id')->on('info')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

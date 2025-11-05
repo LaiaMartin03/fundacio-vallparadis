@@ -6,6 +6,7 @@ use App\Models\Professional;
 use Illuminate\Http\Request;
 use App\Exports\ProfessionalsExport;
 use App\Imports\ProfessionalsImport;
+use App\Models\Resource;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProfessionalController extends Controller
@@ -40,7 +41,12 @@ class ProfessionalController extends Controller
             'name'=>'required|min:3|max:20',
             'password'=>'required|min:8|max:255',
             'locker'=>'required',
-            'code'=>'required'
+            'code'=>'required',
+            'surname'=>'required',
+            'address'=>'required',
+            'phone'=>'required',
+            'birthday'=>'required|date',
+            'curriculum'=>'nullable'
         ]);
         Professional::create([
             'email'=>request('email'),
@@ -48,7 +54,11 @@ class ProfessionalController extends Controller
             'password'=>request('password'),
             'locker'=>request('locker'),
             'code'=>request('code'),
-            'info_id'=>null,
+            'surname'=>request('surname'),
+            'address'=>request('address'),
+            'phone'=>request('phone'),
+            'birthday'=>request('birthday'),
+            'curriculum'=>request('curriculum'),
             'active'=>request('active')
         ]);
         return redirect()->route('professional.create')->with('success', 'Professional creat correctament.');
@@ -59,7 +69,8 @@ class ProfessionalController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $professional = Professional::findOrFail($id);
+        return view('professional.show', compact('professional'));
     }
 
     /**
@@ -67,6 +78,7 @@ class ProfessionalController extends Controller
      */
     public function edit(Professional $professional)
     {
+        $professionals = Professional::all();
         return view("professional.formulariEditar", compact('professional'));
     }
 
@@ -91,7 +103,8 @@ class ProfessionalController extends Controller
             'info_id'=>null,
             'active'=>request('active')
         ]);
-        return redirect()->route('professional.index')->with('success', 'Professional editat correctament.');
+
+        return redirect()->route('professional.show', $professional->id) ->with('success', 'Professional actualitzat correctament.');
     }
 
     /**
@@ -101,14 +114,14 @@ class ProfessionalController extends Controller
     {
         $professional->active = 1;
         $professional->save(); 
-        return redirect()->route('professional.index')->with('success', 'Professional activat correctament.');
+        return redirect()->route('professional.show', $professional->id)->with('success', 'Professional activat correctament.');
     }
-    
+
     public function destroy(Professional $professional)
     {
         $professional->active = 0;
         $professional->save(); 
-        return redirect()->route('professional.index')->with('success', 'Professional desactivat correctament.');
+        return redirect()->route('professional.show', $professional->id)->with('success', 'Professional desactivat correctament.');
     }
 
     public function exportProfessionals()
@@ -123,4 +136,21 @@ class ProfessionalController extends Controller
 
         return back()->with('success', 'Profesionales importados correctamente.');
     }
+
+    public function uniformes(Professional $professional)
+    {
+        // Cargar los uniformes
+        $uniformes = $professional->resources()->with('givenBy')->latest()->get();
+
+        // Verificar si es una petición Turbo Frame
+        $isTurboFrame = request()->header('Turbo-Frame') === 'contenido';
+
+        if ($isTurboFrame) {
+            return view('professional.partials._uniformes', compact('uniformes', 'professional'));
+        }
+
+        // Si no es Turbo Frame, devolver vista completa
+        return view('professional.show', compact('professional', 'uniformes'));
+    }
+
 }
