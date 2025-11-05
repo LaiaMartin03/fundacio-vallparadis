@@ -8,6 +8,7 @@ use App\Http\Controllers\UniformController;
 use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CursoController;
 
 // Ruta raíz: redirige según si el usuario está logueado
 Route::get('/', function () {
@@ -55,10 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('learningprogram', \App\Http\Controllers\LearningProgramController::class);
 
     // Cursos
-    Route::resource('curso', \App\Http\Controllers\CursoController::class);
-    Route::get('/courses/curso', function () {
-        return view('courses.curso');
-    })->name('courses.curso');
+    Route::resource('curso', CursoController::class);
 });
 
 require __DIR__.'/auth.php';

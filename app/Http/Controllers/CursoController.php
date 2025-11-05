@@ -58,10 +58,20 @@ class CursoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
-    {
-        
+    public function show($id) {
+        $curso = Curso::findOrFail($id);
+
+        $learningPrograms = \App\Models\LearningProgram::with(['user'])
+                            ->where('curso_id', $curso->id)
+                            ->get();
+
+        $usuariosInscritos = $learningPrograms->pluck('user')->filter();
+
+        $usuariosNoInscritos = \App\Models\User::whereNotIn('id', $usuariosInscritos->pluck('id'))->get();
+
+        return view('curso.show', compact('curso', 'usuariosInscritos', 'usuariosNoInscritos'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

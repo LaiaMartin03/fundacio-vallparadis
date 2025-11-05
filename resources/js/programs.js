@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const assignUsers = document.getElementById("assignUsers");
+    const usersZone = document.getElementById("usersZone");
+    const arrowButton = document.querySelectorAll(".arrowButton");
+
     const dragItems = document.querySelectorAll(".dragItem");
     const dropZone = document.getElementById("dropZone");
     const dropEffect = document.getElementById("dropEffect");
@@ -16,17 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener("dragend", () => {
             draggedItem = null;
             item.classList.remove("opacity-50", "scale-95");
+            item.setAttribute("draggable", "false");
         });
     });
 
     // --- Cuando estás sobre el dropZone ---
     dropZone.addEventListener("dragover", e => {
-        e.preventDefault(); // necesario
+        e.preventDefault();
         dropEffect.classList.remove("hidden");
     });
 
     dropZone.addEventListener("dragleave", () => {
-        dropZone.classList.add("hidden");
+        dropEffect.classList.add("hidden");
     });
 
     // --- Cuando sueltas ---
@@ -34,7 +39,15 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         if (draggedItem) {
             dropZone.appendChild(draggedItem);
-            dropZone.classList.remove("border-gray-300", "bg-gray-100", "opacity-50");
+            dropEffect.classList.add("hidden");
         }
+    });
+
+    assignUsers.addEventListener("click", e => {
+        usersZone.classList.toggle("hidden")
+        arrowButton.forEach(arrow => {arrow.classList.toggle("rotate-180")})
+
+        dropZone.classList.toggle("[border:1px_dashed_#F07405]")
+        dropZone.classList.toggle("border-primary_color")
     });
 });

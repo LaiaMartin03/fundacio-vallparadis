@@ -18,5 +18,9 @@ class Professional extends Model
     {
         return $this->hasMany(Resource::class, 'given_by_user_id');
     }
+
+    public function cursos() {
+        return $this->belongsToMany(Curso::class, 'learning_programs', 'user_id', 'curso_id');
+    }
 }
 
