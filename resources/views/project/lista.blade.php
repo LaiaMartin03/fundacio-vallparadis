@@ -8,7 +8,7 @@
             <p>Ni hi han projectes registrats.</p>
         @else
             @foreach($projects as $project)
-                <a href="{{ route('project.edit', $project->id) }}" class="bg-white shadow-lg rounded-lg p-4 mb-4 hover:bg-gray-100 flex justify-between items-center">
+                <a href="{{ route('project.show', $project->id) }}" class="bg-white shadow-lg rounded-lg p-4 mb-4 hover:bg-gray-100 flex justify-between items-center">
                     <div class="flex gap-10">
                         <span>{{ $project->name }}</span>
                         <span class="text-gray-700">{{ $project->description }}</span>
