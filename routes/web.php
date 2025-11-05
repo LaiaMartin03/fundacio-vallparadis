@@ -51,7 +51,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('resources/export', [ResourceController::class, 'exportResources'])->name('resources.export');
     Route::post('resources/import', [ResourceController::class, 'importResources'])->name('resources.import');
 
+    // Learning Programs
+    Route::resource('learningprogram', \App\Http\Controllers\LearningProgramController::class);
+
     // Cursos
+    Route::resource('curso', \App\Http\Controllers\CursoController::class);
     Route::get('/courses/curso', function () {
         return view('courses.curso');
     })->name('courses.curso');
