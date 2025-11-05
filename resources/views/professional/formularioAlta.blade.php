@@ -1,42 +1,65 @@
-<x-app-layout>  
-    <h3>
-        @if (session('success'))
-            <div style="color: green;">
-                {{ session('success') }}
-            </div>
-        @elseif ($errors->any())
-            <div style="color: red;">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    </h3>
+<x-app-layout>
+    {{-- Mensajes de éxito o errores --}}
+    @if (session('success'))
+        <div class="text-green-600 mb-4">
+            {{ session('success') }}
+        </div>
+    @elseif ($errors->any())
+        <div class="text-red-600 mb-4">
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <h1>Alta Professionals Increíblemente Increíble</h1>
+    <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
+        <h1 class="text-2xl font-bold mb-4">Nou Professional</h1>
 
-    <form action="{{ route('professional.store') }}" method="POST">
-        @csrf
-        Nombre: <input type="text" name="name" placeholder="Nombre del Profesional" value="{{ old('name') }}">
-        <br>
-        Email: <input type="email" name="email" placeholder="correo@ejemplo.com" value="{{ old('email') }}">
-        <br>
-        Contraseña: <input type="password" name="password" placeholder="********">
-        <br>
-        Locker: <input type="text" name="locker" placeholder="Locker del profesional" value="{{ old('locker') }}">
-        <br>
-        Código: <input type="text" name="code" placeholder="Código del profesional" value="{{ old('code') }}">
-        <br>
-        Info ID: <input type="text" name="info_id" placeholder="ID de info (opcional)" value="{{ old('info_id') }}">
-        <br>
-        <select name="active" required>
-            <option value="">-- Selecciona estado --</option>
-            <option value="1">Sí</option>
-            <option value="0">No</option>
-        </select>
-        <br>
-        <input type="submit" value="Aceptar">
-    </form>
-</x-app-layout>  
+        <form action="{{ route('professional.store') }}" method="POST" class="space-y-4">
+            @csrf
+
+            <x-text-input id="name" name="name" type="text" placeholder="Nom" class="mt-1 block w-full" :value="old('name')" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+
+            <x-text-input id="email" name="email" type="email" placeholder="Correu electrònic" class="mt-1 block w-full" :value="old('email')" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+
+            <x-text-input id="password" name="password" type="password" placeholder="Contrasenya" class="mt-1 block w-full" />
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+
+            <x-text-input id="locker" name="locker" type="text" placeholder="Número de taquilla" class="mt-1 block w-full" :value="old('locker')" />
+            <x-input-error :messages="$errors->get('locker')" class="mt-2" />
+
+            <x-text-input id="code" name="code" type="text" placeholder="Codi de taquilla" class="mt-1 block w-full" :value="old('code')" />
+            <x-input-error :messages="$errors->get('code')" class="mt-2" />
+
+                
+                <div class="flex items-center gap-6 mt-1">
+                    
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="active" value="0" class="accent-blue-600 focus:ring-primary_color"
+
+                        {{ old('active', '1') === "1" ? 'checked' : '' }}>
+                        <span>Actiu</span>
+                    </label>
+                    
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="active" value="0" class="accent-blue-600 focus:ring-primary_color"
+
+                        {{ old('active') === "0" ? 'checked' : '' }}>
+                        <span>Inactiu</span>
+                    </label>
+                </div>
+
+            <x-input-error :messages="$errors->get('active')" class="mt-2" />
+
+            <div class="flex justify-end mt-4">
+                <x-primary-button>
+                    Aceptar
+                </x-primary-button>
+            </div>
+        </form>
+    </div>
+</x-app-layout>

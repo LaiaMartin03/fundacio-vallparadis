@@ -30,15 +30,38 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|confirmed|min:8',
+            'birthday' => 'nullable|date|before:today',
+            'address' => 'nullable|string|max:500',
+            'phone' => 'nullable|string|max:20',
+            'curriculum' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'active' => 'nullable|boolean',
+            'locker' => 'nullable|string|max:255',
+            'code' => 'nullable|string|max:255',
+            'info_id' => 'nullable|integer|exists:other_table,id', // ajusta el nombre de la tabla
         ]);
+
+        $curriculumPath = null;
+        if ($request->hasFile('curriculum')) {
+            $curriculumPath = $request->file('curriculum')->store('curriculums', 'public');
+        }
 
         $user = User::create([
             'name' => $request->name,
+            'surname' => $request->surname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'birthday' => $request->birthday,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'curriculum' => $curriculumPath,
+            'active' => $request->active ?? true, // por defecto activo
+            'locker' => $request->locker,
+            'code' => $request->code,
+            'info_id' => $request->info_id,
         ]);
 
         event(new Registered($user));

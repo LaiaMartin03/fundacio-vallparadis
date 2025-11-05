@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Info extends Model
+class Learning_Program extends Model
 {
     //
 }

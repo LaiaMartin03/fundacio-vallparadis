@@ -10,7 +10,7 @@
     <a href="{{ route('resources.export') }}">Exportar a Excel</a>
 
     @if ($resources->isEmpty())
-        <p>No hay recursos registrados.</p>
+        <p>Ni hi han recursos registrats.</p>
     @else
         <table border="1" cellpadding="5">
             <thead>

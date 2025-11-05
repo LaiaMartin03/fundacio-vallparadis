@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Inicio') }}
         </h2>
     </x-slot>
 
@@ -12,13 +12,6 @@
                     <a href="{{ route('professional.index') }}">Professional (lista)</a>
                     <br>
                     <a href="{{ route('professional.create') }}">Professional (create)</a>
-                    <br>
-                    <br>
-                    <hr>
-                    <br>
-                    <a href="{{ route('center.index') }}">Center (lista)</a>
-                    <br>
-                    <a href="{{ route('center.create') }}">Center (Create)</a>
                     <br>
                     <br>
                     <hr>

@@ -24,7 +24,8 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        return view('resources.create');
+        $users = \App\Models\User::all();
+        return view('resources.create', compact( 'users'));
     }
 
     /**
@@ -32,15 +33,24 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
-            'uniform_id' => 'required|integer',
+        $request->validate([
+            'shirt_size' => 'nullable|integer',
+            'pants_size' => 'nullable|integer',
+            'lab_coat' => 'nullable|boolean',
+            'shoe_size' => 'nullable|integer',
             'user_id' => 'required|integer',
             'given_by_user_id' => 'required|integer',
             'delivered_at' => 'nullable|date',
         ]);
 
+        $data = $request->all();
 
-        Resource::create($request->all());
+        if(!empty($data['delivered_at'])){
+            // Convertir YYYY-MM-DDTHH:MM a YYYY-MM-DD HH:MM:SS
+            $data['delivered_at'] = date('Y-m-d H:i:s', strtotime($data['delivered_at']));
+        }
+
+        Resource::create($data);
         return redirect()->route('resources.index')->with('success', 'Recurs creat correctament.');
     }
 
@@ -49,7 +59,8 @@ class ResourceController extends Controller
      */
     public function edit(Resource $resource)
     {
-        return view('resources.edit', compact('resource'));
+        $users = \App\Models\User::all();
+        return view('resources.edit', compact('resource', 'uniforms', 'users'));
     }
 
     /**

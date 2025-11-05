@@ -10,9 +10,23 @@ class Resource extends Model
     use HasFactory;
 
     protected $fillable = [
-        'uniform_id',
+        'shirt_size',
+        'pants_size',
+        'lab_coat',
+        'shoe_size',
         'user_id',
         'given_by_user_id',
         'delivered_at',
+
     ];
+
+    public function professional()
+    {
+        return $this->belongsTo(Professional::class, 'user_id');
+    }
+
+    public function givenBy()
+    {
+        return $this->belongsTo(Professional::class, 'given_by_user_id');
+    }
 }

@@ -3,7 +3,7 @@
     <h1>Listado de Centers</h1>
 
     @if($centers->isEmpty())
-        <p>No hay centers registrados.</p>
+        <p>Ni hi han centres registrats.</p>
     @else
         <table border="1">
             <thead>
