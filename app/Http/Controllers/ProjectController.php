@@ -51,7 +51,8 @@ class ProjectController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $project = Project::with(['center', 'professional'])->findOrFail($id);
+        return view('project.show', compact('project'));
     }
 
     /**
