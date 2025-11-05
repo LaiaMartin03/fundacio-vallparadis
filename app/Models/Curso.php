@@ -13,7 +13,6 @@ class Curso extends Model
         'forcem',
         'hours',
         'type',
-        'modality',
         'info',
         'assistent',
         'start_date',
