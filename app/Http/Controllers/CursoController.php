@@ -59,15 +59,16 @@ class CursoController extends Controller
     public function show($id) {
         $curso = Curso::findOrFail($id);
 
-        $learningPrograms = \App\Models\LearningProgram::with(['user'])
-                            ->where('curso_id', $curso->id)
-                            ->get();
+        $learningProgram = \App\Models\LearningProgram::with(['user'])
+            ->where('curso_id', $curso->id)
+            ->get();
 
-        $usuariosInscritos = $learningPrograms->pluck('user')->filter();
-
+        
+        $usuariosInscritos = $learningProgram->pluck('user')->filter();
+        
         $usuariosNoInscritos = \App\Models\User::whereNotIn('id', $usuariosInscritos->pluck('id'))->get();
-
-        return view('curso.show', compact('curso', 'usuariosInscritos', 'usuariosNoInscritos'));
+        
+        return view('curso.show', compact('curso', 'usuariosInscritos', 'usuariosNoInscritos', 'learningProgram'));
     }
 
 

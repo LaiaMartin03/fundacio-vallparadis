@@ -23,6 +23,6 @@ class Curso extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'learning_programs', 'curso_id', 'user_id');
+        return $this->belongsToMany(User::class, 'learning_program', 'curso_id', 'user_id');
     }
 }
