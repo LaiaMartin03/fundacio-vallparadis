@@ -76,6 +76,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <x-primary-button id="saveChanges">Guardar cambios</x-primary-button>
                 </div>
             </div>
         </div>

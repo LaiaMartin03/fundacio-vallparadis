@@ -31,7 +31,7 @@
                                 </div>
 
                                 <div class="rounded-full aspect-square w-8 flex items-center justify-center -ml-4 bg-charcoal_color">
-                                    <span class="text-white text-xs font-bold">10+ {{ $learningProgram }}</span>
+                                    <span class="text-white text-xs font-bold">10+</span>
                                 </div>
                             </div>
                         </div>

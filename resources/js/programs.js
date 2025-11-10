@@ -35,11 +35,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // --- Cuando sueltas ---
+    let droppedItems = [];
+
     dropZone.addEventListener("drop", e => {
         e.preventDefault();
         if (draggedItem) {
             dropZone.appendChild(draggedItem);
             dropEffect.classList.add("hidden");
+
+            // Guardamos en memoria
+            const itemId = draggedItem.dataset.id;
+            if (!droppedItems.includes(itemId)) {
+                droppedItems.push(itemId);
+            }
         }
     });
 
@@ -49,5 +57,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dropZone.classList.toggle("[border:1px_dashed_#F07405]")
         dropZone.classList.toggle("border-primary_color")
+    });
+
+    document.getElementById("saveChanges").addEventListener("click", () => {
+        fetch('/save-drop', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ items: droppedItems })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            alert("Cambios guardados correctamente");
+        })
+        .catch(err => console.error(err));
     });
 });
