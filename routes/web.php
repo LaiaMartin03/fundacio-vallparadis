@@ -46,6 +46,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
     Route::get('/professional/{professional}/uniformes', [ProfessionalController::class, 'uniformes'])->name('professional.uniformes');
 
+    // listado parcial (fetch)
+    Route::get('professional/{professional}/followups/partial', [\App\Http\Controllers\CenterFollowupController::class, 'partial'])
+        ->name('professional.followups.partial');
+
+    // guardar followup (form)
+    Route::post('professional/{professional}/followups', [\App\Http\Controllers\CenterFollowupController::class, 'store'])
+        ->name('professional.followups.store');
+
     // Resources
     Route::resource('resources', ResourceController::class)->except(['show']);
     Route::get('resources/export', [ResourceController::class, 'exportResources'])->name('resources.export');

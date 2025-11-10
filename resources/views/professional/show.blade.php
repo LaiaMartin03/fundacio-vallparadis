@@ -61,6 +61,12 @@
                    class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
                     Evaluació
                 </a>
+                <button type="button"
+                    class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40"
+                    data-tab="questionnaires"
+                    data-url="{{ route('professional.followups.partial', $professional) }}">
+                    Seguiment
+                </button>
                 <a href="{{ route('professional.uniformes', $professional) }}" 
                    data-turbo-frame="contenido"
                    class="px-3 py-1 text-primary_color rounded-t-lg bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
@@ -68,7 +74,11 @@
                 </a>
             </div>
 
-            <x-tabs />
+            <!-- CONTENEDOR donde se cargan los partials vía fetch -->
+            <div id="tab-container" class="bg-white p-4 rounded shadow-sm mt-4">
+                {{-- carga inicial opcional (si ya pasas $followups desde el controlador) --}}
+                @includeWhen(isset($followups), 'professional.partials._followups', ['professional' => $professional, 'followups' => $followups])
+            </div>
         </div>
     </div>
 </x-app-layout>

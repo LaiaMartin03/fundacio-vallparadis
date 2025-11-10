@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Professional;
 use Illuminate\Http\Request;
+use App\Models\Professional;
 use App\Exports\ProfessionalsExport;
 use App\Imports\ProfessionalsImport;
+use App\Models\CenterFollowup;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProfessionalController extends Controller
@@ -66,10 +67,15 @@ class ProfessionalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Professional $professional)
     {
-        $professional = Professional::findOrFail($id);
-        return view('professional.show', compact('professional'));
+        // cargar followups para el partial
+        $followups = CenterFollowup::where('professional_user_id', $professional->id)
+            ->with('registrant') // opcional, para mostrar quien lo registró
+            ->latest()
+            ->get();
+
+        return view('professional.show', compact('professional', 'followups'));
     }
 
     /**
