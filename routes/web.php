@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Cursos
     Route::resource('curso', \App\Http\Controllers\CursoController::class);
+    Route::get('/cursos/export', [\App\Http\Controllers\CursoController::class, 'exportCursos'])->name('curso.export');
     Route::get('/courses/curso', function () {
         return view('courses.curso');
     })->name('courses.curso');

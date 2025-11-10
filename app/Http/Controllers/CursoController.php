@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Curso;
+use App\Exports\CursosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CursoController extends Controller
 {
@@ -118,5 +120,10 @@ class CursoController extends Controller
         $curso->active = 0;
         $curso->save(); 
         return redirect()->route('curso.index', $curso->id)->with('success', 'Professional desactivat correctament.');
+    }
+
+    public function exportCursos()
+    {
+        return Excel::download(new CursosExport, 'cursos.xlsx');
     }
 }

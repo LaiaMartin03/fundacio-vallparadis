@@ -25,15 +25,10 @@ class LearningProgram extends Model
         return $this->belongsTo(Center::class, 'center_id');
     }
 
-    // Relación con el usuario (quién hace el curso)
+    // Relación con el usuario (professional) — users table
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Professional::class, 'user_id');
     }
 
-    // Relación con el asistente
-    public function assistant(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'assistent');
-    }
 }
