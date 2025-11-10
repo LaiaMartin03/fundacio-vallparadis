@@ -46,6 +46,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
     Route::get('/professional/{professional}/uniformes', [ProfessionalController::class, 'uniformes'])->name('professional.uniformes');
 
+    // formulario via fetch
+    Route::get('professional/{professional}/evaluation-form/partial', [\App\Http\Controllers\EvaluationFormController::class, 'partial'])
+        ->name('professional.evaluation_form.partial');
+
+    // guardar
+    Route::post('professional/{professional}/evaluation-form', [\App\Http\Controllers\EvaluationFormController::class, 'store'])
+        ->name('professional.evaluation_form.store');
+
+    // sumatori
+    Route::get('professional/{professional}/evaluation-form/sum_partial', [\App\Http\Controllers\EvaluationFormController::class, 'sumPartial'])
+        ->name('professional.evaluation_form.sum_partial');
+
     // listado parcial (fetch)
     Route::get('professional/{professional}/followups/partial', [\App\Http\Controllers\CenterFollowupController::class, 'partial'])
         ->name('professional.followups.partial');

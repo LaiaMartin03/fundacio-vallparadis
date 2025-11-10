@@ -46,21 +46,25 @@
 
         <div id="box-content" class="relative w-full">
             <div class="flex gap-5">
-                <a href="{{ route('professional.show', $professional) }}" 
-                   data-turbo-frame="contenido"
-                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
+                <button type="button"
+                    class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40 active"
+                    data-tab="questionnaires"
+                    data-url="{{ route('professional.evaluation_form.partial', $professional) }}">
                     Qüestionaris
-                </a>
+                </button>
+
+                <button type="button"
+                    class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40"
+                    data-tab="sumatori"
+                    data-url="{{ route('professional.evaluation_form.sum_partial', $professional) }}">
+                    Sumatori
+                </button>
                 <a href="#" 
                    data-turbo-frame="contenido"
                    class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
                     Formació
                 </a>
-                <a href="#" 
-                   data-turbo-frame="contenido"
-                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
-                    Evaluació
-                </a>
+
                 <button type="button"
                     class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40"
                     data-tab="questionnaires"
@@ -74,11 +78,11 @@
                 </a>
             </div>
 
+
             <!-- CONTENEDOR donde se cargan los partials vía fetch -->
-            <div id="tab-container" class="bg-white p-4 rounded shadow-sm mt-4">
-                {{-- carga inicial opcional (si ya pasas $followups desde el controlador) --}}
-                @includeWhen(isset($followups), 'professional.partials._followups', ['professional' => $professional, 'followups' => $followups])
-            </div>
+            <div id="tab-container" class="mt-4 bg-white p-4 rounded shadow-sm"></div>
+
+            <script src="{{ asset('js/professional-tabs.js') }}" defer></script>
         </div>
     </div>
 </x-app-layout>
