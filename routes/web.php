@@ -9,6 +9,9 @@ use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\LearningProgramController;
+use App\Http\Controllers\CenterFollowupController;
+use App\Http\Controllers\EvaluationFormController;
 
 // Ruta raíz: redirige según si el usuario está logueado
 Route::get('/', function () {
@@ -51,23 +54,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/professional/{professional}/uniformes', [ProfessionalController::class, 'uniformes'])->name('professional.uniformes');
 
     // formulario via fetch
-    Route::get('professional/{professional}/evaluation-form/partial', [\App\Http\Controllers\EvaluationFormController::class, 'partial'])
+    Route::get('professional/{professional}/evaluation-form/partial', [EvaluationFormController::class, 'partial'])
         ->name('professional.evaluation_form.partial');
 
     // guardar
-    Route::post('professional/{professional}/evaluation-form', [\App\Http\Controllers\EvaluationFormController::class, 'store'])
+    Route::post('professional/{professional}/evaluation-form', [EvaluationFormController::class, 'store'])
         ->name('professional.evaluation_form.store');
 
     // sumatori
-    Route::get('professional/{professional}/evaluation-form/sum_partial', [\App\Http\Controllers\EvaluationFormController::class, 'sumPartial'])
+    Route::get('professional/{professional}/evaluation-form/sum_partial', [EvaluationFormController::class, 'sumPartial'])
         ->name('professional.evaluation_form.sum_partial');
 
     // listado parcial (fetch)
-    Route::get('professional/{professional}/followups/partial', [\App\Http\Controllers\CenterFollowupController::class, 'partial'])
+    Route::get('professional/{professional}/followups/partial', [CenterFollowupController::class, 'partial'])
         ->name('professional.followups.partial');
 
     // guardar followup (form)
-    Route::post('professional/{professional}/followups', [\App\Http\Controllers\CenterFollowupController::class, 'store'])
+    Route::post('professional/{professional}/followups', [CenterFollowupController::class, 'store'])
         ->name('professional.followups.store');
 
     // Resources
@@ -76,12 +79,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('resources/import', [ResourceController::class, 'importResources'])->name('resources.import');
 
     // Learning Programs
-    Route::resource('learningprogram', \App\Http\Controllers\LearningProgramController::class);
+    Route::resource('learningprogram', LearningProgramController::class);
 
     // Cursos
-    Route::resource('curso', \App\Http\Controllers\CursoController::class);
+    Route::resource('curso', CursoController::class);
     Route::view('curso/vista', 'cursos.curso')->name('cursos.curso');
-    Route::get('/cursos/export', [\App\Http\Controllers\CursoController::class, 'exportCursos'])->name('curso.export');
+    Route::get('/cursos/export', [CursoController::class, 'exportCursos'])->name('curso.export');
 
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
