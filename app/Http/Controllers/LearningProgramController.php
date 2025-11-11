@@ -29,13 +29,15 @@ class LearningProgramController extends Controller
     {
         $request->validate([
             'curso_id' => 'required|exists:curso,id',
-            'user_id' => 'required|exists:users,id'
+            'user_id' => 'required|exists:users,id',
+            'certification' => 'required|in:Entregat,Pendent'
         ]);
 
         LearningProgram::create([
             'center_id' => 1,
             'curso_id' => $request->curso_id,
             'user_id' => $request->user_id,
+            'certification' => "Pendent"
         ]);
         
         return redirect()->route('learningprogram.create')->with('success', 'Learning Program creat correctament.');
@@ -105,6 +107,7 @@ class LearningProgramController extends Controller
                         'curso_id' => $cursoId,
                         'user_id' => $userId,
                         'center_id' => 1,
+                        'certification' => 'Pendent'
                     ]);
                     
                     if ($program->wasRecentlyCreated) {

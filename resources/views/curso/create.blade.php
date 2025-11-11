@@ -87,18 +87,7 @@
                 <x-text-input id="finish_date" name="finish_date" type="date" class="mt-1 block w-full" :value="old('finish_date')" />
                 <x-input-error :messages="$errors->get('finish_date')" class="mt-2" />
             </div>
-
-            {{-- Certification --}}
-            <div>
-                <label for="certification" class="block text-sm font-medium text-gray-700">Certificat</label>
-                <select id="certification" name="certification" class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none">
-                    <option value="Pendent" {{ old('certification', 'Pendent') == 'Pendent' ? 'selected' : '' }}>Pendent</option>
-                    <option value="Entregat" {{ old('certification') == 'Entregat' ? 'selected' : '' }}>Entregat</option>
-                </select>
-                <x-input-error :messages="$errors->get('certification')" class="mt-2" />
-            </div>
-
-            
+      
             <div class="flex justify-end mt-4">
                 <x-primary-button>
                     Acceptar
