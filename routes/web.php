@@ -38,6 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Project
     Route::resource('project', ProjectController::class);
     Route::put('project/{project}/activate', [ProjectController::class, 'activate'])->name('project.activate');
+    Route::get('project/{project}/addProfessional', [ProjectController::class, 'addProfessional'])->name('project.addProfessional');
+    Route::post('project/{project}/storeProfessional', [ProjectController::class, 'storeProfessional'])->name('project.storeProfessional');
+    Route::delete('project/{project}/removeProfessional/{professional}', [ProjectController::class, 'removeProfessional'])->name('project.removeProfessional');
 
     // Professional
     Route::resource('professional', ProfessionalController::class);

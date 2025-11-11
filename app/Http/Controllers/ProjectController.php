@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
-
+use App\Models\Professional;
+use App\Models\Projectdistribution;
 class ProjectController extends Controller
 {
     /**
@@ -12,10 +13,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = \App\Models\Project::with(['center', 'professional'])->get();
+        $projects = Project::with(['center', 'professional'])->get();
         return view('project.lista', compact('projects'));
     }
-
+        
     /**
      * Show the form for creating a new resource.
      */
@@ -49,10 +50,18 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Project $project)
     {
-        $project = Project::with(['center', 'professional'])->findOrFail($id);
-        return view('project.show', compact('project'));
+        $project = Project::with(['center', 'professional'])->findOrFail($project->id);
+        
+        // Obtener los IDs de los profesionales asociados al proyecto
+        $professionalIds = \App\Models\Projectdistribution::where('project_id', $project->id)
+            ->pluck('user_id')
+            ->toArray();
+        
+        // Cargar los objetos completos de los profesionales
+        $professionals = \App\Models\User::whereIn('id', $professionalIds)->get();
+        return view('project.show', compact('project', 'professionals'));
     }
 
     /**
@@ -60,6 +69,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $project= Project::findOrFail($project->id);
         $centers = \App\Models\Center::all();
         $professionals = \App\Models\Professional::all();
         return view('project.formulariEditar', compact('project', 'centers', 'professionals'));
@@ -88,6 +98,41 @@ class ProjectController extends Controller
         return redirect()->route('project.index')->with('success', 'Projecte actualitzat correctament.');
     }
 
+    public function removeProfessional(Request $request, Project $project, Professional $professional)
+    {
+        // Eliminar la relación del profesional con el proyecto
+        Projectdistribution::where('project_id', $project->id)
+            ->where('user_id', $professional->id)
+            ->delete();
+
+        return redirect()->route('project.show', $project->id)
+            ->with('success', 'Professional desassignat correctament.');
+    }
+
+    public function addProfessional(Request $request, Project $project)
+    {
+        // Obtener los ids de profesionales ya asignados a este proyecto
+        $assigned = Projectdistribution::where('project_id', $project->id)->pluck('user_id')->toArray();
+
+        // Obtener sólo los profesionales que NO están asignados
+        $professionals = Professional::whereNotIn('id', $assigned)->get();
+
+        return view('project.addProfessional', compact('project', 'professionals'));
+    }
+    
+
+    public function storeProfessional(Request $request, Project $project)
+    {
+        $request->validate([
+            'professional_id' => 'required|exists:users,id',
+        ]);
+        Projectdistribution::create([
+            'project_id' => $project->id,
+            'user_id' => $request->input('professional_id'),
+        ]);
+
+        return redirect()->route('project.show', $project->id)->with('success', 'Professional afegit correctament al projecte.');
+    }
     /**
      * Remove the specified resource from storage.
      */
@@ -95,13 +140,13 @@ class ProjectController extends Controller
     {
         $project->active = 1;
         $project->save(); 
-        return redirect()->route('project.index')->with('success', 'Professional activat correctament.');
+        return redirect()->route('project.show', $project->id)->with('success', 'Professional activat correctament.');
     }
     
     public function destroy(Project $project)
     {
         $project->active = 0;
         $project->save(); 
-        return redirect()->route('project.index')->with('success', 'Professional desactivat correctament.');
+        return redirect()->route('project.show',$project->id)->with('success', 'Professional desactivat correctament.');
     }
 }
