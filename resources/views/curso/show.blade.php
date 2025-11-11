@@ -34,7 +34,7 @@
                     </p>
                 </div>
             
-                <div id="dropZone" class="h-full grid grid-cols-4 grid-rows-auto gap-4 rounded-lg relative p-5 p-4 border-transparent border">
+                <div id="dropZone" class="h-full grid grid-cols-4 grid-rows-auto gap-4 rounded-lg relative p-4 border border-transparent">
                     <div class="pointer-events-none bg-black opacity-25 flex justify-center items-center absolute w-full h-full text-white font-bold rounded-lg hidden" id="dropEffect">Drop Here</div>
 
                     @if($learningProgram->isEmpty())
@@ -77,7 +77,7 @@
                         </div>
                     </div>
 
-                    <x-primary-button id="saveChanges">Guardar cambios</x-primary-button>
+                    <x-primary-button id="save-changes">Guardar cambios</x-primary-button>
                 </div>
             </div>
         </div>

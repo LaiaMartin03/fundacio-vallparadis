@@ -111,4 +111,22 @@ class LearningProgramController extends Controller
         $learningprogram->save(); 
         return redirect()->route('learningprogram.index', $learningprogram->id)->with('success', 'Professional desactivat correctament.');
     }
+
+    public function saveDragDrops(Request $request)
+    {
+        $data = $request->all();
+        
+        foreach ($data as $cursoId => $userIds) {
+            foreach ($userIds as $userId) {
+                LearningProgram::firstOrCreate([
+                    'curso_id' => $cursoId,
+                    'user_id' => $userId,
+                    'center_id' => 1
+                ]);
+            }
+        }
+
+        return response()->json(['ok' => true]);
+    }
+
 }

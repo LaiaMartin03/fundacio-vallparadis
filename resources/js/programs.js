@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
         item.addEventListener("dragend", () => {
             draggedItem = null;
             item.classList.remove("opacity-50", "scale-95");
-            item.setAttribute("draggable", "false");
         });
     });
 
@@ -34,21 +33,33 @@ document.addEventListener("DOMContentLoaded", () => {
         dropEffect.classList.add("hidden");
     });
 
-    // --- Cuando sueltas ---
-    let droppedItems = [];
+    const cursosUsuarios = {};
 
     dropZone.addEventListener("drop", e => {
         e.preventDefault();
+
         if (draggedItem) {
             dropZone.appendChild(draggedItem);
             dropEffect.classList.add("hidden");
+            draggedItem.setAttribute("draggable", "false");
 
-            // Guardamos en memoria
-            const itemId = draggedItem.dataset.id;
-            if (!droppedItems.includes(itemId)) {
-                droppedItems.push(itemId);
+            const userId = draggedItem.dataset.id;
+            const cursoId = dropZone.dataset.courseId;
+
+            if (!cursosUsuarios[cursoId]) cursosUsuarios[cursoId] = [];
+
+            if (!cursosUsuarios[cursoId].includes(userId)) {
+                cursosUsuarios[cursoId].push(userId);
             }
         }
+    });
+
+    document.getElementById('save-changes').addEventListener('click', async () => {
+        await fetch('/api/save-drag-drops', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(cursosUsuarios)
+        });
     });
 
     assignUsers.addEventListener("click", e => {
@@ -71,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
             console.log(data);
-            alert("Cambios guardados correctamente");
         })
         .catch(err => console.error(err));
     });
