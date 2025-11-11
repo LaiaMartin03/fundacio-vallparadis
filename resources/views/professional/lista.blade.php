@@ -30,7 +30,7 @@
                 @endif
             </div>
 
-            <x-modal-form titulo="Nou Professional">
+            <!--<x-modal-form titulo="Nou Professional" id="modal" class="">
                 <form action="{{ route('professional.store') }}" method="POST" class="space-y-4">
                     @csrf
 
@@ -124,7 +124,7 @@
                         </x-primary-button>
                     </div>
                 </form>
-            </x-modal-form>
+            </x-modal-form>-->
         </div>
     </div>  
 </x-app-layout>  
