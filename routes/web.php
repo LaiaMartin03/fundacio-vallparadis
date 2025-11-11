@@ -80,7 +80,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Cursos
     Route::resource('curso', \App\Http\Controllers\CursoController::class);
-    Route::view('curso/vista', 'courses.curso')->name('courses.curso');
+    Route::view('curso/vista', 'cursos.curso')->name('cursos.curso');
     Route::get('/cursos/export', [\App\Http\Controllers\CursoController::class, 'exportCursos'])->name('curso.export');
 
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
