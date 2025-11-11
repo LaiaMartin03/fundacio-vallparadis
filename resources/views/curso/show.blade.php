@@ -34,14 +34,14 @@
                     </p>
                 </div>
             
-                <div id="dropZone" class="h-full grid grid-cols-4 grid-rows-auto gap-4 rounded-lg relative p-4 border border-transparent">
+                <div id="dropZone" data-course-id="{{ $curso->id }}" class="h-full grid grid-cols-4 grid-rows-auto gap-4 rounded-lg relative p-4 border border-transparent">
                     <div class="pointer-events-none bg-black opacity-25 flex justify-center items-center absolute w-full h-full text-white font-bold rounded-lg hidden" id="dropEffect">Drop Here</div>
 
                     @if($learningProgram->isEmpty())
-                        <p>No hi ha professionals registrats.</p>
+                        <p id="no-professionals">No hi ha professionals registrats.</p>
                     @else
                         @foreach($learningProgram as $program)
-                            <div class="py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-fit h-fit">
+                            <div data-id="4" class="relative py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-fit h-fit dragItem" draggable="true">
                                 <img class="rounded-full h-12 aspect-square object-cover" src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" alt="">
                                 <div class="flex flex-col">
                                     <div>Antonio Lobato</div>
@@ -68,7 +68,24 @@
                     <x-text-input id="name" name="name" type="text" placeholder="Nom" class="mt-1 block w-full" :value="old('name')" />
 
                     <div class="flex flex-col gap-4 pr-4 py-2 overflow-y-scroll h-full">
-                        <div class="py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-fit h-fit dragItem" draggable="true">
+                        @foreach($learningProgram as $program)
+                            <div data-id="4" class="relative py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-fit h-fit dragItem" draggable="true">
+                                <img class="rounded-full h-12 aspect-square object-cover" src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" alt="">
+                                <div class="flex flex-col">
+                                    <div>Antonio Lobato</div>
+                                    <div class="text-sm text-primary_color">Psicólogo</div>
+                                </div>
+                            </div>
+                        @endforeach
+                        <div data-id="2" class="relative py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-fit h-fit dragItem" draggable="true">
+                            <img class="rounded-full h-12 aspect-square object-cover" src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" alt="">
+                            <div class="flex flex-col">
+                                <div>Antonio Lobato</div>
+                                <div class="text-sm text-primary_color">Psicólogo</div>
+                            </div>
+                        </div>
+
+                        <div data-id="3" class="relative py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-fit h-fit dragItem" draggable="true">
                             <img class="rounded-full h-12 aspect-square object-cover" src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" alt="">
                             <div class="flex flex-col">
                                 <div>Antonio Lobato</div>

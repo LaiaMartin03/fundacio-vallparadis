@@ -9,6 +9,7 @@ use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\LearningProgramController;
 
 // Ruta raíz: redirige según si el usuario está logueado
 Route::get('/', function () {

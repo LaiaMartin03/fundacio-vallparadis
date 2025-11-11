@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const dropZone = document.getElementById("dropZone");
     const dropEffect = document.getElementById("dropEffect");
 
+    const saveButton = document.getElementById("saveChanges")
+
     let draggedItem = null;
 
     // --- Cuando empiezas a arrastrar ---
@@ -51,15 +53,43 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!cursosUsuarios[cursoId].includes(userId)) {
                 cursosUsuarios[cursoId].push(userId);
             }
+
+            document.getElementById("no-professionals").classList.add("hidden")
         }
     });
 
     document.getElementById('save-changes').addEventListener('click', async () => {
-        await fetch('/api/save-drag-drops', {
-            method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(cursosUsuarios)
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const datosParaEnviar = {};
+        
+        Object.keys(cursosUsuarios).forEach(cursoId => {
+            datosParaEnviar[cursoId] = cursosUsuarios[cursoId];
         });
+
+        console.log('Datos a enviar:', datosParaEnviar);
+
+        try {
+            const res = await fetch('/save-drag-drops', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": token
+                },
+                body: JSON.stringify(datosParaEnviar)
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                console.error('Error en el fetch:', text);
+                return;
+            }
+
+            const data = await res.json();
+            console.log('Guardado exitoso:', data);
+        } catch (err) {
+            console.error('Error al guardar:', err);
+        }
     });
 
     assignUsers.addEventListener("click", e => {
@@ -68,9 +98,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dropZone.classList.toggle("[border:1px_dashed_#F07405]")
         dropZone.classList.toggle("border-primary_color")
+        document.getElementById("take-out").classList.toggle("hidden")
     });
 
-    document.getElementById("saveChanges").addEventListener("click", () => {
+    saveButton.addEventListener("click", () => {
         fetch('/save-drop', {
             method: 'POST',
             headers: {
@@ -82,7 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
             console.log(data);
+            saveButton.innerText = "Cambios guardados"
         })
         .catch(err => console.error(err));
+
     });
 });
