@@ -37,7 +37,6 @@ class CursoController extends Controller
             'forcem' => 'required|integer|min:0',
             'hours' => 'required|integer|min:0',
             'type' => 'required|string|max:255',
-            'modality' => 'nullable|string|max:255',
             'info' => 'nullable|string',
             'start_date' => 'required|date',
             'finish_date' => 'required|date|after_or_equal:start_date',
@@ -48,7 +47,6 @@ class CursoController extends Controller
             'forcem'=>request('forcem'),
             'hours'=>request('hours'),
             'type'=>request('type'),
-            'modality'=>request('modality'),
             'info'=>request('info'),
             'finish_date'=>request('finish_date'),
             'certificate'=>request('certificate'),
@@ -60,10 +58,21 @@ class CursoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
-    {
+    public function show($id) {
+        $curso = Curso::findOrFail($id);
+
+        $learningProgram = \App\Models\LearningProgram::with(['user'])
+            ->where('curso_id', $curso->id)
+            ->get();
+
         
+        $usuariosInscritos = $learningProgram->pluck('user')->filter();
+        
+        $usuariosNoInscritos = \App\Models\User::whereNotIn('id', $usuariosInscritos->pluck('id'))->get();
+        
+        return view('curso.show', compact('curso', 'usuariosInscritos', 'usuariosNoInscritos', 'learningProgram'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -84,7 +93,6 @@ class CursoController extends Controller
             'forcem' => 'required|integer|min:0',
             'hours' => 'required|integer|min:0',
             'type' => 'required|string|max:255',
-            'modality' => 'nullable|string|max:255',
             'info' => 'nullable|string',
             'start_date' => 'required|date',
             'finish_date' => 'required|date|after_or_equal:start_date',
@@ -96,7 +104,6 @@ class CursoController extends Controller
             'forcem'=>request('forcem'),
             'hours'=>request('hours'),
             'type'=>request('type'),
-            'modality'=>request('modality'),
             'info'=>request('info'),
             'finish_date'=>request('finish_date'),
             'active'=>request('active'),

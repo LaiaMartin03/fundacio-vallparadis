@@ -8,10 +8,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Curso extends Model
 {
-    protected $table = "curso";
+    protected $table = 'curso';
 
     protected $fillable = [
-        'name', 'hours', 'information', 'active'
+        'name',
+        'forcem',
+        'hours',
+        'type',
+        'info',
+        'assistent',
+        'start_date',
+        'finish_date',
+        'certification',
+        'active'
     ];
 
     // relación many-to-many con Professional usando la tabla intermedia learning_program

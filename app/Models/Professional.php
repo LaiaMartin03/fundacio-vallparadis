@@ -21,7 +21,6 @@ class Professional extends Model
         return $this->hasMany(Resource::class, 'given_by_user_id');
     }
 
-    // relación many-to-many con Curso vía learning_program
     public function cursos(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -32,7 +31,6 @@ class Professional extends Model
         );
     }
 
-    // opcional: relación hacia registros de la tabla intermedia
     public function learningPrograms(): HasMany
     {
         return $this->hasMany(LearningProgram::class, 'user_id');

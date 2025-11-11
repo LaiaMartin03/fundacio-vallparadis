@@ -8,6 +8,7 @@ use App\Http\Controllers\UniformController;
 use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CursoController;
 
 // Ruta raíz: redirige según si el usuario está logueado
 Route::get('/', function () {
@@ -75,6 +76,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('learningprogram', \App\Http\Controllers\LearningProgramController::class);
 
     // Cursos
+    Route::get('/curso/{id}', [CursoController::class, 'show'])->name('curso.show');
     Route::resource('curso', \App\Http\Controllers\CursoController::class);
     Route::get('/cursos/export', [\App\Http\Controllers\CursoController::class, 'exportCursos'])->name('curso.export');
     Route::get('/courses/curso', function () {
