@@ -38,7 +38,6 @@ class CursoSeeder extends Seeder
                 'hours' => 30,
                 'type' => 'Formació Salut laboral',
                 'info' => 'Formació en prevenció de riscos laborals',
-                'assistent' => null,
                 'start_date' => '2025-11-07',
                 'finish_date' => '2025-12-07',
                 'certification' => 'Pendent',

@@ -56,6 +56,17 @@
                 <x-input-error :messages="$errors->get('type')" class="mt-2" />
             </div>
 
+            {{-- Modality --}}
+            <div>
+                <label for="modality" class="block text-sm font-medium text-gray-700">Modalitat</label>
+                <select id="modality" name="modality" required class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none">
+                    <option value="">-- Selecciona una modalitat --</option>
+                    <option value="Presencial" {{ old('modality') == 'Presencial' ? 'selected' : '' }}>Presencial</option>
+                    <option value="Online" {{ old('modality') == 'Online' ? 'selected' : '' }}>Online</option>
+                    <option value="Híbrid" {{ old('modality') == 'Mixte' ? 'selected' : '' }}>Mixte</option>
+                </select>
+                <x-input-error :messages="$errors->get('modality')" class="mt-2" />
+            </div>
             {{-- Info --}}
             <div>
                 <label for="info" class="block text-sm font-medium text-gray-700">Informació</label>

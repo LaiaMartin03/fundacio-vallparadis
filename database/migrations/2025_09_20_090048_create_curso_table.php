@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('forcem', 255)->notNull();
             $table->float('hours')->nullable();
             $table->enum('type', ['Formació Interna', 'Formació Externa', 'Formació Salut laboral','Jorn/Taller/Seminari/Congrès'])->default('Formació Interna');
+            $table->enum('modality', ['Presencial', 'Online', 'Mixte'])->default('Presencial');
             $table->text('info')->nullable();
-            $table->unsignedBigInteger('assistent')->nullable();
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();
             $table->enum('certification', ['Entregat', 'Pendent'])->default('Pendent');; 
