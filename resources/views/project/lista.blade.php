@@ -15,7 +15,7 @@
                     </div>
 
                     <div>
-                        <span class="text-orange-500">{{ $project->type }}</span>
+                        <span class="text-orange-500">{{ $project->type === 'project' ? 'Projecte' : 'Comissió' }}</span>
                     </div>
                 </a>
             @endforeach

@@ -37,6 +37,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Project
     Route::resource('project', ProjectController::class);
     Route::put('project/{project}/activate', [ProjectController::class, 'activate'])->name('project.activate');
+    Route::get('project/{project}/addProfessional', [ProjectController::class, 'addProfessional'])->name('project.addProfessional');
+    Route::post('project/{project}/storeProfessional', [ProjectController::class, 'storeProfessional'])->name('project.storeProfessional');
+    Route::delete('project/{project}/removeProfessional/{professional}', [ProjectController::class, 'removeProfessional'])->name('project.removeProfessional');
 
     // Professional
     Route::resource('professional', ProfessionalController::class);
@@ -50,6 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('resources', ResourceController::class)->except(['show']);
     Route::get('resources/export', [ResourceController::class, 'exportResources'])->name('resources.export');
     Route::post('resources/import', [ResourceController::class, 'importResources'])->name('resources.import');
+
 });
 
 require __DIR__.'/auth.php';
