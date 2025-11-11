@@ -47,6 +47,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
     Route::get('/professional/{professional}/uniformes', [ProfessionalController::class, 'uniformes'])->name('professional.uniformes');
 
+    // formulario via fetch
+    Route::get('professional/{professional}/evaluation-form/partial', [\App\Http\Controllers\EvaluationFormController::class, 'partial'])
+        ->name('professional.evaluation_form.partial');
+
+    // guardar
+    Route::post('professional/{professional}/evaluation-form', [\App\Http\Controllers\EvaluationFormController::class, 'store'])
+        ->name('professional.evaluation_form.store');
+
+    // sumatori
+    Route::get('professional/{professional}/evaluation-form/sum_partial', [\App\Http\Controllers\EvaluationFormController::class, 'sumPartial'])
+        ->name('professional.evaluation_form.sum_partial');
+
+    // listado parcial (fetch)
+    Route::get('professional/{professional}/followups/partial', [\App\Http\Controllers\CenterFollowupController::class, 'partial'])
+        ->name('professional.followups.partial');
+
+    // guardar followup (form)
+    Route::post('professional/{professional}/followups', [\App\Http\Controllers\CenterFollowupController::class, 'store'])
+        ->name('professional.followups.store');
+
     // Resources
     Route::resource('resources', ResourceController::class)->except(['show']);
     Route::get('resources/export', [ResourceController::class, 'exportResources'])->name('resources.export');
@@ -56,8 +76,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('learningprogram', \App\Http\Controllers\LearningProgramController::class);
 
     // Cursos
-    Route::resource('curso', CursoController::class);
     Route::get('/curso/{id}', [CursoController::class, 'show'])->name('curso.show');
+    Route::resource('curso', \App\Http\Controllers\CursoController::class);
+    Route::get('/cursos/export', [\App\Http\Controllers\CursoController::class, 'exportCursos'])->name('curso.export');
+    Route::get('/courses/curso', function () {
+        return view('courses.curso');
+    })->name('courses.curso');
 });
 
 require __DIR__.'/auth.php';

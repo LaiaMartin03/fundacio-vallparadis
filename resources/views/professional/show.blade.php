@@ -46,21 +46,31 @@
 
         <div id="box-content" class="relative w-full">
             <div class="flex gap-5">
-                <a href="{{ route('professional.show', $professional) }}" 
-                   data-turbo-frame="contenido"
-                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
+                <button type="button"
+                    class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40 active"
+                    data-tab="questionnaires"
+                    data-url="{{ route('professional.evaluation_form.partial', $professional) }}">
                     Qüestionaris
-                </a>
+                </button>
+
+                <button type="button"
+                    class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40"
+                    data-tab="sumatori"
+                    data-url="{{ route('professional.evaluation_form.sum_partial', $professional) }}">
+                    Sumatori
+                </button>
                 <a href="#" 
                    data-turbo-frame="contenido"
                    class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
                     Formació
                 </a>
-                <a href="#" 
-                   data-turbo-frame="contenido"
-                   class="px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
-                    Evaluació
-                </a>
+
+                <button type="button"
+                    class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40"
+                    data-tab="questionnaires"
+                    data-url="{{ route('professional.followups.partial', $professional) }}">
+                    Seguiment
+                </button>
                 <a href="{{ route('professional.uniformes', $professional) }}" 
                    data-turbo-frame="contenido"
                    class="px-3 py-1 text-primary_color rounded-t-lg bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
@@ -68,7 +78,11 @@
                 </a>
             </div>
 
-            <x-tabs />
+
+            <!-- CONTENEDOR donde se cargan los partials vía fetch -->
+            <div id="tab-container" class="mt-4 bg-white p-4 rounded shadow-sm"></div>
+
+            <script src="{{ asset('js/professional-tabs.js') }}" defer></script>
         </div>
     </div>
 </x-app-layout>

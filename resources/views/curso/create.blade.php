@@ -94,5 +94,7 @@
                 </x-primary-button>
             </div>
         </form>
+        <a href="{{ route('curso.export') }}" class="btn btn-sm btn-primary">Exportar cursos</a>
+
     </div>
 </x-app-layout>
