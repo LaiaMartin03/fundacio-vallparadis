@@ -29,6 +29,10 @@
                 </header>
             @endisset
 
+            @if (isset($breadcrumbs))
+                <x-breadcrumbs :links="$breadcrumbs" />
+            @endif
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}
