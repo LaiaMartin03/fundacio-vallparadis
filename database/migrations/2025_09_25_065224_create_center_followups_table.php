@@ -18,13 +18,17 @@ return new class extends Migration
             $table->text('description');
             $table->unsignedBigInteger('center_id');
             $table->unsignedBigInteger('professional_user_id');
+            $table->unsignedBigInteger('registrant_user_id')->nullable();
+            $table->enum('type', ['obert','restringit','origen','fi_vinculacio'])->default('obert');
+            $table->string('topic')->nullable();
             $table->text('attached_docs')->nullable();
 
             $table->timestamps();
 
-            //FK
+            // FK: ajusta el nombre de la tabla referenciada si no es 'center'
             $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
             $table->foreign('professional_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('registrant_user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

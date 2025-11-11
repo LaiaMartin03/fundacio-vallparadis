@@ -29,6 +29,102 @@
                     @endforeach
                 @endif
             </div>
+
+            <x-modal-form titulo="Nou Professional">
+                <form action="{{ route('professional.store') }}" method="POST" class="space-y-4">
+                    @csrf
+
+                    {{-- Nom --}}
+                    <x-text-input 
+                        id="name" 
+                        name="name" 
+                        type="text" 
+                        placeholder="Nom" 
+                        class="mt-1 block w-full"
+                        :value="old('name')" 
+                        required
+                    />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+
+                    {{-- Email --}}
+                    <x-text-input 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        placeholder="Correu electrònic" 
+                        class="mt-1 block w-full" 
+                        :value="old('email')" 
+                        required
+                    />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+
+                    {{-- Contrasenya --}}
+                    <x-text-input 
+                        id="password" 
+                        name="password" 
+                        type="password" 
+                        placeholder="Contrasenya" 
+                        class="mt-1 block w-full" 
+                        required
+                    />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+
+                    {{-- Número de taquilla --}}
+                    <x-text-input 
+                        id="locker" 
+                        name="locker" 
+                        type="text" 
+                        placeholder="Número de taquilla" 
+                        class="mt-1 block w-full" 
+                        :value="old('locker')" 
+                    />
+                    <x-input-error :messages="$errors->get('locker')" class="mt-2" />
+
+                    {{-- Codi de taquilla --}}
+                    <x-text-input 
+                        id="code" 
+                        name="code" 
+                        type="text" 
+                        placeholder="Codi de taquilla" 
+                        class="mt-1 block w-full" 
+                        :value="old('code')" 
+                    />
+                    <x-input-error :messages="$errors->get('code')" class="mt-2" />
+
+                    {{-- Actiu / Inactiu --}}
+                    <div class="flex items-center gap-6 mt-1">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input 
+                                type="radio" 
+                                name="active" 
+                                value="1" 
+                                class="accent-blue-600 focus:ring-primary_color"
+                                {{ old('active', '1') === '1' ? 'checked' : '' }}
+                            >
+                            <span>Actiu</span>
+                        </label>
+                        
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input 
+                                type="radio" 
+                                name="active" 
+                                value="0" 
+                                class="accent-blue-600 focus:ring-primary_color"
+                                {{ old('active') === '0' ? 'checked' : '' }}
+                            >
+                            <span>Inactiu</span>
+                        </label>
+                    </div>
+                    <x-input-error :messages="$errors->get('active')" class="mt-2" />
+
+                    {{-- Botó --}}
+                    <div class="flex justify-end mt-4">
+                        <x-primary-button>
+                            Aceptar
+                        </x-primary-button>
+                    </div>
+                </form>
+            </x-modal-form>
         </div>
     </div>  
 </x-app-layout>  

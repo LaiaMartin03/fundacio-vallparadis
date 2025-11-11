@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Professional extends Model
 {
@@ -17,6 +19,21 @@ class Professional extends Model
     public function givenResources()
     {
         return $this->hasMany(Resource::class, 'given_by_user_id');
+    }
+
+    public function cursos(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Curso::class,
+            'learning_program', // tabla intermedia
+            'user_id',          // FK en learning_program hacia users (professional)
+            'curso_id'          // FK en learning_program hacia curso
+        );
+    }
+
+    public function learningPrograms(): HasMany
+    {
+        return $this->hasMany(LearningProgram::class, 'user_id');
     }
 }
 

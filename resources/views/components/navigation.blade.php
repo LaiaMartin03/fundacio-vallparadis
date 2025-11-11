@@ -20,6 +20,11 @@
                     <use href="#project"></use>
                 </svg>
             </x-nav-link>
+            <x-nav-link :href="route('curso.index')" :active="request()->routeIs('curso.index')" title="Cursos">
+                <svg class="size-5">
+                    <use href="#course"></use>
+                </svg>
+            </x-nav-link>
         </div>  
         
         <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Settings" class="mt-auto">

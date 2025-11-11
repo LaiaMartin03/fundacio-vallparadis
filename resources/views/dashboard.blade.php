@@ -15,13 +15,6 @@
                     <br>
                     <br>
                     <hr>
-                    <!--<br>
-                    <a href="{{ route('center.index') }}">Center (lista)</a>
-                    <br>
-                    <a href="{{ route('center.create') }}">Center (Create)</a>
-                    <br>
-                    <br>
-                    <hr>-->
                     <br>
                     <a href="{{ route('project.index') }}">Project (lista)</a>
                     <br>
