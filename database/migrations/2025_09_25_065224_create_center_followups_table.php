@@ -25,7 +25,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            // FK: ajusta el nombre de la tabla referenciada si no es 'center'
+            // FK
             $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
             $table->foreign('professional_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('registrant_user_id')->references('id')->on('users')->onDelete('set null');

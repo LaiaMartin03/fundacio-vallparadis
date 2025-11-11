@@ -25,9 +25,9 @@ class Professional extends Model
     {
         return $this->belongsToMany(
             Curso::class,
-            'learning_program', // tabla intermedia
-            'user_id',          // FK en learning_program hacia users (professional)
-            'curso_id'          // FK en learning_program hacia curso
+            'learning_program', 
+            'user_id',          
+            'curso_id'
         );
     }
 

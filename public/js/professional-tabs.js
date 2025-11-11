@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // carga inicial (primer botón marcado con .active o el primero)
+    // carga inicial 
     const initial = buttons.find(b => b.classList.contains('active')) || buttons[0];
     if (initial) loadPartial(initial.dataset.url, initial);
 });

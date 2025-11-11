@@ -1,4 +1,3 @@
-<?php
 <div class="py-4">
     <h3 class="text-lg font-semibold mb-3">Qüestionari de valoració</h3>
 
@@ -17,12 +16,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($questions as $key => $label)
+                    @foreach($questions as $clave => $valor)
                         <tr class="align-top">
-                            <td class="p-2 border pr-4">{{ $label }}</td>
+                            <td class="p-2 border pr-4">{{ $valor }}</td>
                             @for($v=1;$v<=4;$v++)
                                 <td class="p-2 border text-center">
-                                    <input type="radio" name="answers[{{ $key }}]" value="{{ $v }}" required>
+                                    <input type="radio" name="answers[{{ $clave }}]" value="{{ $v }}" required>
                                 </td>
                             @endfor
                         </tr>

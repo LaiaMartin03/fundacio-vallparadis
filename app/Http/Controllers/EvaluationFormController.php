@@ -37,7 +37,6 @@ class EvaluationFormController extends Controller
         ];
     }
 
-    // devuelve solo el partial con el formulario (para fetch)
     public function partial(User $professional)
     {
         $questions = $this->questions();
