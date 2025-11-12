@@ -14,7 +14,13 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::with(['center', 'professional'])->get();
-        return view('project.lista', compact('projects'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Proyectos' => route('project.index'),
+        ];
+
+        return view('project.lista', compact('projects', 'breadcrumbs'));
     }
         
     /**
@@ -24,7 +30,14 @@ class ProjectController extends Controller
     {
         $professionals = \App\Models\Professional::all();
         $centers = \App\Models\Center::all();
-        return view("project.formularioAlta", compact('centers', 'professionals'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Proyectos' => route('project.index'),
+            'Crear proyecto' => route('project.create'),
+        ];
+
+        return view('project.formularioAlta', compact('centers', 'professionals', 'breadcrumbs'));
     }
 
     /**
@@ -53,15 +66,20 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $project = Project::with(['center', 'professional'])->findOrFail($project->id);
-        
-        // Obtener los IDs de los profesionales asociados al proyecto
+
         $professionalIds = \App\Models\Projectdistribution::where('project_id', $project->id)
             ->pluck('user_id')
             ->toArray();
-        
-        // Cargar los objetos completos de los profesionales
+
         $professionals = \App\Models\User::whereIn('id', $professionalIds)->get();
-        return view('project.show', compact('project', 'professionals'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Proyectos' => route('project.index'),
+            $project->name => route('project.show', $project->id),
+        ];
+
+        return view('project.show', compact('project', 'professionals', 'breadcrumbs'));
     }
 
     /**
@@ -69,10 +87,18 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        $project= Project::findOrFail($project->id);
+        $project = Project::findOrFail($project->id);
         $centers = \App\Models\Center::all();
         $professionals = \App\Models\Professional::all();
-        return view('project.formulariEditar', compact('project', 'centers', 'professionals'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Proyectos' => route('project.index'),
+            $project->name => route('project.show', $project->id),
+            'Editar' => route('project.edit', $project->id),
+        ];
+
+        return view('project.formulariEditar', compact('project', 'centers', 'professionals', 'breadcrumbs'));
     }
 
     /**

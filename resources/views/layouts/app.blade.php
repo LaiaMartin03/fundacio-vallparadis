@@ -28,8 +28,8 @@
                     </div>
                 </header>
             @endisset
-
-            @if (isset($breadcrumbs))
+            
+            @if (!empty($breadcrumbs))
                 <x-breadcrumbs :links="$breadcrumbs" />
             @endif
 
