@@ -4,7 +4,7 @@
             <img class="rounded-full w-[200px] aspect-square object-cover" 
             src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?auto=format&q=80&w=300" 
             alt="{{ $professional->name }}">
-            
+
             <div id="details" class="flex flex-col gap-5 w-full">
                 <div class="flex items-center gap-5 items-center">
                     <h1 class="font-mclaren text-primary_color text-4xl">{{ $professional->name }} {{ $professional->surname }}</h1>
@@ -45,7 +45,7 @@
         </div>
 
         <div id="box-content" class="relative w-full">
-            <div class="flex gap-5">
+            <div class="flex gap-x-5">
                 <button type="button"
                     class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40 active"
                     data-tab="questionnaires"
@@ -80,7 +80,7 @@
 
 
             <!-- CONTENEDOR donde se cargan los partials vía fetch -->
-            <div id="tab-container" class="mt-4 bg-white p-4 rounded shadow-sm"></div>
+            <div id="tab-container" class=" bg-white p-4 rounded shadow-sm"></div>
 
             <script src="{{ asset('js/professional-tabs.js') }}" defer></script>
         </div>

@@ -1,9 +1,13 @@
 <div class="py-4">
-    <h3 class="text-lg font-semibold mb-3">Qüestionari de valoració</h3>
+    <div class="flex justify-between items-center">
+        <h3 class="text-lg font-semibold mb-3">Qüestionari de valoració</h3>
+        <x-primary-button onclick="toggleQuestionnaire(this)">
+            Avaluar
+        </x-primary-button>
+    </div>
 
-    <form action="{{ route('professional.evaluation_form.store', $professional) }}" method="POST">
+    <form id="questionnaire" action="{{ route('professional.evaluation_form.store', $professional) }}" method="POST" class="mt-4 hidden">
         @csrf
-
         <div class="overflow-auto">
             <table class="w-full border-collapse text-sm">
                 <thead>
@@ -41,4 +45,38 @@
             </button>
         </div>
     </form>
+
+    <div class="mt-6">
+        <h4 class="text-md font-semibold mb-2">Historial d'avaluacions</h4>
+        @if(isset($forms) && $forms->isNotEmpty())
+            <table class="w-full border-collapse text-sm">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="p-2 border text-left">Data</th>
+                        <th class="p-2 border text-left">Avaluador</th>
+                        <th class="p-2 border text-center">Total</th>
+                        <th class="p-2 border text-left">Observacions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($forms as $form)
+                        <tr>
+                            <td class="p-2 border">{{ optional($form->created_at)->format('d/m/Y H:i') }}</td>
+                            <td class="p-2 border">{{ $form->evaluator_name ?? '—' }}</td>  
+                            <td class="p-2 border text-center">
+                                @if(isset($form->total))
+                                    {{ sprintf('%.1f / 10', $form->total / 8) }}
+                                @else
+                                    —
+                                @endif
+                            </td>
+                            <td class="p-2 border">{{ $form->observations ?? '—' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <p class="text-gray-500">No hi ha avaluacions registrades.</p>
+        @endif
+    </div>
 </div>
