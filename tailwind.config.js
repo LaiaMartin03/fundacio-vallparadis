@@ -14,6 +14,7 @@ export default {
             /*Empezar a escribir aquí*/
             colors: {
                 primary_color: '#FF7400',
+                secondary_color: '#ffc494ff',
                 gray_color: '#575656',
                 charcoal_color: '#37434B',
                 light_color: '#F7F7F7',

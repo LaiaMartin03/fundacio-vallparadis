@@ -17,8 +17,13 @@ class ProfessionalController extends Controller
     public function index()
     {
         $professionals = Professional::all();
-        return view("professional.lista", compact('professionals'));
-        
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Profesionales' => route('professional.index'),
+        ];
+
+        return view('professional.lista', compact('professionals', 'breadcrumbs'));
     }
 
     /**
@@ -27,7 +32,14 @@ class ProfessionalController extends Controller
     public function create()
     {
         $centers = \App\Models\Center::all();
-        return view("professional.formularioAlta", compact('centers'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Profesionales' => route('professional.index'),
+            'Crear profesional' => route('professional.create'),
+        ];
+
+        return view('professional.formularioAlta', compact('centers', 'breadcrumbs'));
     }
 
     /**
@@ -69,13 +81,18 @@ class ProfessionalController extends Controller
      */
     public function show(Professional $professional)
     {
-        // cargar followups para el partial
-        $followups = CenterFollowup::where('professional_user_id', $professional->id)
-            ->with('registrant') // opcional, para mostrar quien lo registró
-            ->latest()
-            ->get();
+        $followups = \App\Models\CenterFollowup::where('professional_user_id', $professional->id)
+        ->with('registrant')
+        ->latest()
+        ->get();
 
-        return view('professional.show', compact('professional', 'followups'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Profesionales' => route('professional.index'),
+            $professional->name => route('professional.show', $professional->id),
+        ];
+
+        return view('professional.show', compact('professional', 'followups', 'breadcrumbs'));
     }
 
     /**
@@ -83,8 +100,14 @@ class ProfessionalController extends Controller
      */
     public function edit(Professional $professional)
     {
-        $professionals = Professional::all();
-        return view("professional.formulariEditar", compact('professional'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Profesionales' => route('professional.index'),
+            $professional->name => route('professional.show', $professional->id),
+            'Editar' => route('professional.edit', $professional->id),
+        ];
+
+        return view('professional.formulariEditar', compact('professional', 'breadcrumbs'));
     }
 
     /**

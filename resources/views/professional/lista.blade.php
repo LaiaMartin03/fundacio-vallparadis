@@ -30,6 +30,8 @@
                 @endif
             </div>
 
+            <x-add-button href="{{ route('professional.create') }}"></x-add-button>
+
             <!--<x-modal-form titulo="Nou Professional" id="modal" class="">
                 <form action="{{ route('professional.store') }}" method="POST" class="space-y-4">
                     @csrf

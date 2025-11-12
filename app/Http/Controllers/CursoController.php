@@ -15,7 +15,13 @@ class CursoController extends Controller
     public function index()
     {
         $cursos = Curso::all();
-        return view('curso.index', compact('cursos'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Cursos' => route('curso.index'),
+        ];
+
+        return view('curso.index', compact('cursos', 'breadcrumbs'));
     }
 
     /**
@@ -24,7 +30,14 @@ class CursoController extends Controller
     public function create()
     {
         $cursos = Curso::all();
-        return view('curso.create', compact('cursos'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Cursos' => route('curso.index'),
+            'Crear curso' => route('curso.create'),
+        ];
+
+        return view('curso.create', compact('cursos', 'breadcrumbs'));
     }
 
     /**
@@ -68,12 +81,16 @@ class CursoController extends Controller
             ->where('curso_id', $curso->id)
             ->get();
 
-        
         $usuariosInscritos = $learningProgram->pluck('user')->filter();
-        
         $usuariosNoInscritos = \App\Models\User::whereNotIn('id', $usuariosInscritos->pluck('id'))->get();
-        
-        return view('curso.show', compact('curso', 'usuariosInscritos', 'usuariosNoInscritos', 'learningProgram'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Cursos' => route('curso.index'),
+            $curso->name => route('curso.show', $curso->id),
+        ];
+
+        return view('curso.show', compact('curso', 'usuariosInscritos', 'usuariosNoInscritos', 'learningProgram', 'breadcrumbs'));
     }
 
 
@@ -83,7 +100,15 @@ class CursoController extends Controller
     public function edit(Curso $curso)
     {
         $curso = Curso::find($curso->id);
-        return view('curso.edit', compact('curso'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Cursos' => route('curso.index'),
+            $curso->name => route('curso.show', $curso->id),
+            'Editar' => route('curso.edit', $curso->id),
+        ];
+
+        return view('curso.edit', compact('curso', 'breadcrumbs'));
     }
 
     /**
