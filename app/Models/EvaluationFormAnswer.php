@@ -12,6 +12,7 @@ class EvaluationFormAnswer extends Model
         'evaluation_form_id',
         'question_key',
         'score',
+        'created_by'
     ];
 
     public function form()

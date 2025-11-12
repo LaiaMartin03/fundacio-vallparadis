@@ -79,6 +79,7 @@ class EvaluationFormController extends Controller
                     'evaluation_form_id' => $form->id,
                     'question_key' => $qkey,
                     'score' => (int) $score,
+                    'created_by' => Auth::id(),
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -92,7 +93,7 @@ class EvaluationFormController extends Controller
     }
 
     // partial con medias por pregunta
-    public function sumPartial(User $professional)
+    public function sumPartial(Professional $professional)
     {
         $questions = $this->questions();
 

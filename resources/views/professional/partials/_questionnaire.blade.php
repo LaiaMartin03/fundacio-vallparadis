@@ -71,6 +71,14 @@
                                 @endif
                             </td>
                             <td class="p-2 border">{{ $form->observations ?? '—' }}</td>
+                            <td class="p-2 border">
+                                <x-primary-button onclick="viewEvaluationForm({{ $form->id }})">
+                                    Mostrar
+                                </x-primary-button>
+                            </td>
+                        </tr>
+                        <tr id="table-form-show" class="border hidden">
+                            <td>tabla</td>
                         </tr>
                     @endforeach
                 </tbody>
