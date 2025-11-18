@@ -52,11 +52,11 @@
             <table id="evaluation-history-table" class="w-full border-collapse text-sm">
                 <thead>
                     <tr class="bg-primary_color text-white">
-                        <th class="p-2 border text-left">Data</th>
-                        <th class="p-2 border text-left">Avaluador</th>
-                        <th class="p-2 border text-center">Total</th>
-                        <th class="p-2 border text-left">Observacions</th>
-                        <th class="p-2 border text-left">Accions</th>
+                        <th class="p-2 border text-left w-1/6">Data</th>
+                        <th class="p-2 border text-left w-1/4">Avaluador</th>
+                        <th class="p-2 border text-center w-24">Total</th>
+                        <th class="p-2 border text-left ">Observacions</th>
+                        <th class="p-2 border text-left w-24">Accions</th>
                     </tr>
                 </thead>
                 <tbody id="evaluation-history-body">
@@ -93,10 +93,8 @@
                                                 <tr class="align-top">
                                                     <td class="p-2 border pr-4">{{ $valor }}</td>
                                                     <td class="p-2 border text-center">
-                                                        {{-- Opción 1: Si usas with('answers') --}}
                                                         @if($form->answers->where('question_key', $clave)->first())
                                                             {{ $form->answers->where('question_key', $clave)->first()->score }} / 4
-                                                        {{-- Opción 2: Si usas $answersByForm --}}
                                                         @elseif(isset($answersByForm[$form->id][$clave]))
                                                             {{ $answersByForm[$form->id][$clave]->score }} / 4
                                                         @else
@@ -107,12 +105,6 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    @if($form->observations)
-                                        <div class="mt-4">
-                                            <h5 class="font-medium text-gray-700">Observacions:</h5>
-                                            <p class="text-sm text-gray-600 mt-1">{{ $form->observations }}</p>
-                                        </div>
-                                    @endif
                                 </div>
                             </td>
                         </tr>
