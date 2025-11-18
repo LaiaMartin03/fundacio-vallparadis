@@ -104,7 +104,7 @@
                                                 </tr>
                                             @endforeach
                                         </tbody>
-                                    </table>
+                                    </table>    
                                 </div>
                             </td>
                         </tr>
