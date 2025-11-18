@@ -18,7 +18,6 @@ class CursoSeeder extends Seeder
                 'info' => 'Curs bàsic de primers auxilis',
                 'start_date' => '2025-11-05',
                 'finish_date' => '2025-11-25',
-                'certification' => 'Pendent',
                 'active' => true,
             ],
             [
@@ -29,7 +28,6 @@ class CursoSeeder extends Seeder
                 'info' => 'Certificat de manipulador d\'aliments',
                 'start_date' => '2025-11-06',
                 'finish_date' => '2025-11-20',
-                'certification' => 'Pendent',
                 'active' => true,
             ],
             [
@@ -40,7 +38,6 @@ class CursoSeeder extends Seeder
                 'info' => 'Formació en prevenció de riscos laborals',
                 'start_date' => '2025-11-07',
                 'finish_date' => '2025-12-07',
-                'certification' => 'Pendent',
                 'active' => true,
             ],
             [
@@ -51,7 +48,6 @@ class CursoSeeder extends Seeder
                 'info' => 'Formació especialitzada en atenció a persones dependents',
                 'start_date' => '2025-11-08',
                 'finish_date' => '2025-12-08',
-                'certification' => 'Pendent',
                 'active' => true,
             ],
             [
@@ -62,7 +58,6 @@ class CursoSeeder extends Seeder
                 'info' => 'Tècniques de comunicació i treball en equip',
                 'start_date' => '2025-11-09',
                 'finish_date' => '2025-11-19',
-                'certification' => 'Pendent',
                 'active' => true,
             ],
         ];
