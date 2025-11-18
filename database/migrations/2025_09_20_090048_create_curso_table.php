@@ -21,7 +21,6 @@ return new class extends Migration
             $table->text('info')->nullable();
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();
-            $table->enum('certification', ['Entregat', 'Pendent'])->default('Pendent');; 
             $table->boolean('active')->default(true);
             $table->timestamps(); 
         });

@@ -32,7 +32,6 @@ class CursosExport implements FromCollection, WithHeadings, WithMapping, WithSty
             'Informació',
             'Data Inici',
             'Data Fi',
-            'Certificació',
             'Professionals Assignats'
         ];
     }
@@ -53,7 +52,6 @@ class CursosExport implements FromCollection, WithHeadings, WithMapping, WithSty
             $curso->info ?? '',
             $curso->start_date ? \Carbon\Carbon::parse($curso->start_date)->format('d/m/Y') : '',
             $curso->finish_date ? \Carbon\Carbon::parse($curso->finish_date)->format('d/m/Y') : '',
-            $curso->certification ?? '',
             $professionalsCsv,
         ];
     }
