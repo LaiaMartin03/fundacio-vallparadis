@@ -6,7 +6,7 @@
     @else
         <table class="w-full border-collapse text-sm">
             <thead>
-                <tr class="bg-yellow-100">
+                <tr class="bg-secundary_color text-white">
                     <th class="p-2 border text-left">Aspecte</th>
                     <th class="p-2 border text-center">Mitjana (1..4)</th>
                     <th class="p-2 border text-center">N avaluacions</th>

@@ -27,9 +27,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('evaluation_form_id');
             $table->string('question_key'); 
-            $table->tinyInteger('score'); 
+            $table->tinyInteger('score');
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
 
+            // Foreign Keys
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('evaluation_form_id')->references('id')->on('evaluation_form')->onDelete('cascade');
         });
     }

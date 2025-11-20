@@ -7,7 +7,7 @@
                 <div class="flex items-center gap-5 items-center">
                     <h1 class="font-mclaren text-primary_color text-4xl">{{ $curso->name }}</h1>
 
-                    <a href="{{ route('curso.show', $curso->id) }}">
+                    <a href="{{ route('curso.edit', $curso->id) }}">
                         <svg class="size-5 text-primary_color">
                             <use href="#edit"></use>
                         </svg>
@@ -47,6 +47,7 @@
                                     <div>Antonio Lobato</div>
                                     <div class="text-sm text-primary_color">Psicólogo</div>
                                 </div>
+                                <button class="text-gray-300 hover:text-gray-500 cursor-pointer absolute bottom-2 right-4 hidden" id="take-out">X</button>
                             </div>
                         @endforeach
                     @endif

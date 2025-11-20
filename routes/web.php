@@ -47,7 +47,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Professional
     Route::resource('professional', ProfessionalController::class);
-    Route::get('/professional/{id}', [ProfessionalController::class, 'show'])->name('professional.show');
     Route::put('professional/{professional}/activate', [ProfessionalController::class, 'activate'])->name('professional.activate');
     Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])->name('professionals.import');
     Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');

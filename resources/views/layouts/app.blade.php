@@ -28,6 +28,10 @@
                     </div>
                 </header>
             @endisset
+            
+            @if (!empty($breadcrumbs))
+                <x-breadcrumbs :links="$breadcrumbs" />
+            @endif
 
             <!-- Page Content -->
             <main>

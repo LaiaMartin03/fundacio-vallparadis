@@ -40,9 +40,9 @@
             </div>
 
             <div class="flex justify-end">
-                <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                <x-primary-button type="submit">
                     Afegir seguiment
-                </button>
+                </x-primary-button>
             </div>
         </form>
     </div>

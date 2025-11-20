@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Professional;
 use App\Models\EvaluationForm;
 use App\Models\EvaluationFormAnswer;
 use App\Models\User;
@@ -37,14 +38,21 @@ class EvaluationFormController extends Controller
         ];
     }
 
-    public function partial(User $professional)
+    public function partial(Professional $professional)
     {
         $questions = $this->questions();
-        return view('professional.partials._questionnaire', compact('professional','questions'));
+        // Cargar historial de formularios para este professional, incluyendo el nombre del evaluador
+        $forms = EvaluationForm::leftJoin('users', 'evaluation_form.evaluator_user_id', '=', 'users.id')
+            ->where('evaluation_form.professional_id', $professional->id)
+            ->select('evaluation_form.*', 'users.name as evaluator_name')
+            ->orderByDesc('evaluation_form.created_at')
+            ->get();
+        
+        return view('professional.partials._questionnaire', compact('professional', 'questions', 'forms'));
     }
 
     // guarda la evaluación (form submit)
-    public function store(Request $request, User $professional)
+    public function store(Request $request, Professional $professional)
     {
         $questions = array_keys($this->questions());
 
@@ -71,6 +79,7 @@ class EvaluationFormController extends Controller
                     'evaluation_form_id' => $form->id,
                     'question_key' => $qkey,
                     'score' => (int) $score,
+                    'created_by' => Auth::id(),
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -84,7 +93,7 @@ class EvaluationFormController extends Controller
     }
 
     // partial con medias por pregunta
-    public function sumPartial(User $professional)
+    public function sumPartial(Professional $professional)
     {
         $questions = $this->questions();
 

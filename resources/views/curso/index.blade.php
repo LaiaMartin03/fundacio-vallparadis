@@ -1,13 +1,16 @@
 <x-app-layout>  
     <div class="mx-20 px-20 py-10 space-y-4">
-        <div id="header" class="flex justify-between items-center">
+        <div id="header" class="flex justify-between items-center mb-12">
             <h1 class="font-mclaren text-primary_color text-4xl mb-4">Cursos</h1>
+
+            <a href="{{ route('curso.export') }}">
+                <x-primary-button>Exportar a Excel</x-primary-button>
+            </a>
         </div>
 
         @if($cursos->isEmpty())
             <p>Ni hi han cursos registrats.</p>
         @else
-            <x-nav-link href="{{ route('curso.export') }}" class="btn btn-sm btn-primary">Exportar cursos</x-nav-link>
             <div clasS="grid grid-cols-5 grid-rows-auto gap-16">
                 @foreach($cursos as $curso)
                     <a class="rounded-xl bg-white flex flex-col p-5 w-full shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] gap-3" href="{{ route('curso.show', $curso->id) }}">
@@ -40,5 +43,7 @@
                 @endforeach
             </div>
         @endif
+
+        <x-add-button href="{{ route('curso.create') }}"></x-add-button>
     </div>
 </x-app-layout>
