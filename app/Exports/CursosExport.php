@@ -15,48 +15,69 @@ class CursosExport implements FromCollection, WithHeadings, WithMapping, WithSty
 {
     public function collection()
     {
-        // traer id + name para que Eloquent pueda hacer eager load correctamente
         return Curso::with('professionals')
-            ->select('id', 'name')
+            ->select('id', 'name', 'forcem', 'hours', 'modality', 'type', 'info', 'start_date', 'finish_date', 'certification')
             ->get();
     }
 
     public function headings(): array
     {
         return [
-            'Curso',
-            'Professionals',
+            'ID',
+            'Nom del Curs',
+            'Forcem',
+            'Hores',
+            'Modalitat',
+            'Tipus',
+            'Informació',
+            'Data Inici',
+            'Data Fi',
+            'Professionals Assignats'
         ];
     }
 
     public function map($curso): array
     {
-        // Asume que Professional tiene atributo 'name'
+        // Obtener nombres de profesionales
         $names = $curso->professionals->pluck('name')->filter()->values()->all();
-        $professionalsCsv = empty($names) ? '' : implode(', ', $names);
+        $professionalsCsv = empty($names) ? 'Cap professional assignat' : implode(', ', $names);
 
         return [
+            $curso->id,
             $curso->name,
+            $curso->forcem,
+            $curso->hours,
+            $curso->modality,
+            $curso->type,
+            $curso->info ?? '',
+            $curso->start_date ? \Carbon\Carbon::parse($curso->start_date)->format('d/m/Y') : '',
+            $curso->finish_date ? \Carbon\Carbon::parse($curso->finish_date)->format('d/m/Y') : '',
             $professionalsCsv,
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        // ajustado al número real de columnas (A:B)
-        $sheet->getStyle('A1:B1')->applyFromArray([
+        $sheet->getStyle('A1:K1')->applyFromArray([
             'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
             'fill' => [
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '4CAF50'],
+                'startColor' => ['rgb' => 'FF9740'],
             ],
             'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
             'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '000000']]],
         ]);
 
         $lastRow = $sheet->getHighestRow();
-        $sheet->getStyle("A2:B{$lastRow}")->applyFromArray([
+        $sheet->getStyle("A2:K{$lastRow}")->applyFromArray([
             'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '000000']]],
+            'alignment' => ['vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP],
         ]);
+
+        foreach ($sheet->getRowDimensions() as $rowDimension) {
+            $rowDimension->setRowHeight(-1);
+        }
+
+        $sheet->getStyle('G:G')->getAlignment()->setWrapText(true);
     }
 }

@@ -41,14 +41,25 @@ class EvaluationFormController extends Controller
     public function partial(Professional $professional)
     {
         $questions = $this->questions();
-        // Cargar historial de formularios para este professional, incluyendo el nombre del evaluador
+        
         $forms = EvaluationForm::leftJoin('users', 'evaluation_form.evaluator_user_id', '=', 'users.id')
             ->where('evaluation_form.professional_id', $professional->id)
             ->select('evaluation_form.*', 'users.name as evaluator_name')
             ->orderByDesc('evaluation_form.created_at')
             ->get();
+
+        // Obtener todos los IDs de formularios
+        $formIds = $forms->pluck('id');
         
-        return view('professional.partials._questionnaire', compact('professional', 'questions', 'forms'));
+        // Cargar todas las respuestas para estos formularios
+        $allAnswers = EvaluationFormAnswer::whereIn('evaluation_form_id', $formIds)->get();
+        
+        // Agrupar respuestas por formulario_id
+        $answersByForm = $allAnswers->groupBy('evaluation_form_id')->map(function($answers) {
+            return $answers->keyBy('question_key');
+        });
+
+        return view('professional.partials._questionnaire', compact('professional', 'questions', 'forms', 'answersByForm'));
     }
 
     // guarda la evaluación (form submit)

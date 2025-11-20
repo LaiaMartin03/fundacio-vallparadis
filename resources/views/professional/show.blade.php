@@ -73,14 +73,14 @@
                 </button>
                 <a href="{{ route('professional.uniformes', $professional) }}" 
                    data-turbo-frame="contenido"
-                   class="px-3 py-1 text-primary_color rounded-t-lg bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
+                   class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
                     Uniformes
                 </a>
             </div>
 
 
             <!-- CONTENEDOR donde se cargan los partials vía fetch -->
-            <div id="tab-container" class=" bg-white p-4 rounded shadow-sm"></div>
+            <div id="tab-container" class=" bg-white p-4 rounded shadow-sm z-50"></div>
 
             <script src="{{ asset('js/professional-tabs.js') }}" defer></script>
         </div>
