@@ -8,7 +8,22 @@
             </a>
         </div>
 
-        <div id="filters" class="p-5 border"></div>
+        <div id="filters" class="p-5 border rounded-lg bg-white shadow-sm">
+            <div class="flex items-center gap-4">
+                <div class="flex-1">
+                    <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">
+                        Cercar per nom
+                    </label>
+                    <input type="text" id="search-input" placeholder="Escriu el nom del professional..."class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent">
+                </div>
+                <button id="clear-search"  class="mt-6 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                    Netejar
+                </button>
+            </div>
+            <div id="search-results" class="text-sm text-gray-500 mt-2 hidden">
+                S'estan mostrant <span id="results-count">0</span> resultats
+            </div>
+        </div>
 
         <div class="flex flex-col gap-5">
             <button class="flex gap-4 items-center" onclick="collapseProfesionals()">
@@ -18,115 +33,33 @@
 
             <div class="grid grid-rows-auto grid-cols-5 gap-16 transition-all duration-300 ease-in-out" id="section">                
                 @if($professionals->isEmpty())
-                    <p>No hi ha professionals registrats.</p>
+                    <p class="col-span-5 text-center text-gray-500 py-8">No hi ha professionals registrats.</p>
                 @else
                     @foreach($professionals as $professional)
-                        <a class="items-center w-fit bg-white py-5 px-8 rounded-xl flex flex-col shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]" href="{{ route('professional.show', $professional->id)}}">
-                            <img class="rounded-full w-40 m-auto aspect-square object-cover" src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" alt="">
-                            <span class="mt-5 text-lg">{{ $professional->name }}</span>
-                            <span class="text-primary_color text-sm">Psícologo</span>
-                        </a>
+                        <div class="professional-card" data-name="{{ strtolower($professional->name) }} {{ strtolower($professional->surname) }}">
+                            <a class="items-center w-fit bg-white py-5 px-8 rounded-xl flex flex-col shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] hover:shadow-[5px_5px_20px_5px_rgba(0,0,0,0.15)] transition-shadow" 
+                               href="{{ route('professional.show', $professional->id)}}">
+                                <img class="rounded-full w-40 m-auto aspect-square object-cover" 
+                                     src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" 
+                                     alt="{{ $professional->name }}">
+                                <span class="mt-5 text-lg font-medium professional-name">{{ $professional->name }} {{ $professional->surname }}</span>
+                                <span class="text-primary_color text-sm">Psícologo</span>
+                            </a>
+                        </div>
                     @endforeach
                 @endif
             </div>
 
+            <!-- Mensaje cuando no hay resultados -->
+            <div id="no-results" class="hidden col-span-5 text-center text-gray-500 py-8">
+                <p class="text-lg">No s'han trobat professionals amb aquest nom.</p>
+                <p class="text-sm mt-2">Prova amb un altre nom o neteja la cerca.</p>
+            </div>
+
             <x-add-button href="{{ route('professional.create') }}"></x-add-button>
-
-            <!--<x-modal-form titulo="Nou Professional" id="modal" class="">
-                <form action="{{ route('professional.store') }}" method="POST" class="space-y-4">
-                    @csrf
-
-                    {{-- Nom --}}
-                    <x-text-input 
-                        id="name" 
-                        name="name" 
-                        type="text" 
-                        placeholder="Nom" 
-                        class="mt-1 block w-full"
-                        :value="old('name')" 
-                        required
-                    />
-                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
-
-                    {{-- Email --}}
-                    <x-text-input 
-                        id="email" 
-                        name="email" 
-                        type="email" 
-                        placeholder="Correu electrònic" 
-                        class="mt-1 block w-full" 
-                        :value="old('email')" 
-                        required
-                    />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
-
-                    {{-- Contrasenya --}}
-                    <x-text-input 
-                        id="password" 
-                        name="password" 
-                        type="password" 
-                        placeholder="Contrasenya" 
-                        class="mt-1 block w-full" 
-                        required
-                    />
-                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
-
-                    {{-- Número de taquilla --}}
-                    <x-text-input 
-                        id="locker" 
-                        name="locker" 
-                        type="text" 
-                        placeholder="Número de taquilla" 
-                        class="mt-1 block w-full" 
-                        :value="old('locker')" 
-                    />
-                    <x-input-error :messages="$errors->get('locker')" class="mt-2" />
-
-                    {{-- Codi de taquilla --}}
-                    <x-text-input 
-                        id="code" 
-                        name="code" 
-                        type="text" 
-                        placeholder="Codi de taquilla" 
-                        class="mt-1 block w-full" 
-                        :value="old('code')" 
-                    />
-                    <x-input-error :messages="$errors->get('code')" class="mt-2" />
-
-                    {{-- Actiu / Inactiu --}}
-                    <div class="flex items-center gap-6 mt-1">
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input 
-                                type="radio" 
-                                name="active" 
-                                value="1" 
-                                class="accent-blue-600 focus:ring-primary_color"
-                                {{ old('active', '1') === '1' ? 'checked' : '' }}
-                            >
-                            <span>Actiu</span>
-                        </label>
-                        
-                        <label class="flex items-center gap-2 cursor-pointer">
-                            <input 
-                                type="radio" 
-                                name="active" 
-                                value="0" 
-                                class="accent-blue-600 focus:ring-primary_color"
-                                {{ old('active') === '0' ? 'checked' : '' }}
-                            >
-                            <span>Inactiu</span>
-                        </label>
-                    </div>
-                    <x-input-error :messages="$errors->get('active')" class="mt-2" />
-
-                    {{-- Botó --}}
-                    <div class="flex justify-end mt-4">
-                        <x-primary-button>
-                            Aceptar
-                        </x-primary-button>
-                    </div>
-                </form>
-            </x-modal-form>-->
         </div>
     </div>  
-</x-app-layout>  
+
+    <!-- Incluir el archivo search.js -->
+    <script src="{{ asset('js/search.js') }}"></script>
+</x-app-layout>
