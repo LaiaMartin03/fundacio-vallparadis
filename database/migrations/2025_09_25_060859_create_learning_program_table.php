@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('curso_id'); 
             $table->unsignedBigInteger('center_id');
             $table->unsignedBigInteger('user_id');
+            $table->enum('certification', ['Entregat', 'Pendent'])->default('Pendent');; 
             $table->timestamps();
 
             // Foreign Keys

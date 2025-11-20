@@ -45,6 +45,7 @@
             </button>
         </div>
     </form>
+</div>  
 
     <div class="mt-6">
         <h4 class="text-md font-semibold mb-2">Historial d'avaluacions</h4>
