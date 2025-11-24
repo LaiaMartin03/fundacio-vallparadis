@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Exports\ResourcesExport;
 use App\Imports\ResourcesImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Professional;
 
 class ResourceController extends Controller
 {
@@ -114,5 +115,18 @@ class ResourceController extends Controller
         $file = $request->file('excel_file');
         Excel::import(new ResourcesImport, $file);
         return back()->with('success', 'Recursos importats correctament.');
+    }
+
+   // En app/Http/Controllers/ResourceController.php
+    public function partial(Professional $professional)
+    {
+        $uniformes = Resource::where('user_id', $professional->id)
+            ->with('givenBy')
+            ->latest()
+            ->get();
+
+        $newestUniform = $uniformes->sortByDesc('created_at')->first();
+
+        return view('professional.partials._uniformes', compact('professional', 'uniformes', 'newestUniform'));
     }
 }

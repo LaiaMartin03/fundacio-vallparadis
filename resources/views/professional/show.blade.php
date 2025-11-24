@@ -71,11 +71,12 @@
                     data-url="{{ route('professional.followups.partial', $professional) }}">
                     Seguiment
                 </button>
-                <a href="{{ route('professional.uniformes', $professional) }}" 
-                   data-turbo-frame="contenido"
-                   class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40">
+                <button type="button"
+                    class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40"
+                    data-tab="uniformes"
+                    data-url="{{ route('professional.uniformes.partial', $professional) }}">
                     Uniformes
-                </a>
+                </button>
             </div>
 
 
