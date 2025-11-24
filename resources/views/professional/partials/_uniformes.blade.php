@@ -16,11 +16,6 @@
                         Més recent
                     </span>
                     <div class="p-4 border-2 border-orange-300 rounded-xl bg-orange-50 shadow-md transform transition-all duration-200">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="flex items-center gap-2">
-                                <h3 class="font-semibold text-lg text-gray-800">Uniforme #{{ $uniforme->id }}</h3>
-                            </div>
-                        </div>
                         
                         <div class="grid grid-cols-2 gap-3 text-sm">
                             <div>
@@ -55,10 +50,6 @@
                     
                     <div class="p-4 border border-gray-200 rounded-xl bg-gray-50 opacity-60 shadow-sm">
 
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="font-semibold text-lg text-gray-600">Uniforme #{{ $uniforme->id }}</h3>
-                        </div>
-                        
                         <div class="grid grid-cols-2 gap-3 text-sm">
                             <div>
                                 <p class="text-gray-500"><strong>Camiseta:</strong> {{ $uniforme->shirt_size ?? 'No especificat' }}</p>
