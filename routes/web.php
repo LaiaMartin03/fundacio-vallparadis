@@ -84,9 +84,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('curso', CursoController::class);
     Route::view('curso/vista', 'cursos.curso')->name('cursos.curso');
     Route::get('/cursos/export', [CursoController::class, 'exportCursos'])->name('curso.export');
-
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
+    // Externos
+    Route::resource('curso', CursoController::class);
+    Route::view('curso/vista', 'cursos.curso')->name('cursos.curso');
+    Route::get('/cursos/export', [CursoController::class, 'exportCursos'])->name('curso.export');
+    Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 });
 
 require __DIR__.'/auth.php';
