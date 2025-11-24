@@ -14,6 +14,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <x-rich-text::styles theme="richtextlaravel" data-turbo-track="false" />
     </head>
     <body class="font-figtree antialiased bg-[#F7F7F7]">
         <div class="min-h-screen dark:bg-gray-900">

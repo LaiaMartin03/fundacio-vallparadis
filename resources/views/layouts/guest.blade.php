@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <x-rich-text::styles theme="richtextlaravel" data-turbo-track="false" />
     </head>
     <body class="flex flex-col relative min-h-screen font-poppins">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-tr from-[#FFDDC0] to-white dark:bg-gray-900">

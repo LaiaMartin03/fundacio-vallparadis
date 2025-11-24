@@ -1,3 +1,4 @@
+import "./libs/trix";
 // import { Turbo } from "@hotwired/turbo"
 import Alpine from 'alpinejs';
 
