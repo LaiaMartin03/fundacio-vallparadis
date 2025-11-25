@@ -1,7 +1,7 @@
 <x-app-layout>
     @vite('resources/js/programs.js')
 
-    <div class="ml-20 px-20 pb-10 flex flex-col gap-12">
+    <div class="px-20 pb-10 flex flex-col gap-12">
         <div class="flex gap-20 w-full" id="info">
             <div id="details" class="flex flex-col gap-5 w-full">
                 <div class="flex items-center gap-5 items-center">
