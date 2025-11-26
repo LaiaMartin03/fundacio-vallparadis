@@ -25,6 +25,11 @@
                     <use href="#course"></use>
                 </svg>
             </x-nav-link>
+            <x-nav-link :href="route('outsiders.index')" :active="request()->routeIs('outsiders.index')" title="Contactes externs">
+                <svg class="size-5">
+                    <use href="#course"></use>
+                </svg>
+            </x-nav-link>
         </div>  
         
         <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Settings" class="mt-auto">

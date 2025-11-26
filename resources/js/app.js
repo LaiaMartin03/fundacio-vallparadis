@@ -6,6 +6,7 @@ import './bootstrap';
 import '../css/app.css';
 
 import './professionals.js';
+import './toggle.js';
 import './modal';
 
 // window.Turbo = Turbo

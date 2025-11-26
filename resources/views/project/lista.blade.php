@@ -4,6 +4,10 @@
             <h1 class="font-mclaren text-primary_color text-4xl">Projectes</h1>
         </div>
 
+        <div>
+            <x-toggle slot1="Projectes" slot2="Comissions"/>
+        </div>
+
         @if($projects->isEmpty())
             <p>Ni hi han projectes registrats.</p>
         @else

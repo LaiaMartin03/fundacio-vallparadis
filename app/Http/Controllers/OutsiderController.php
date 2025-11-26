@@ -5,14 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\outsiders;
 use Illuminate\Http\Request;
 
-class OutsidersController extends Controller
+class OutsiderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $outsiders = Outsiders::all();
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Contactes externs' => route('outsiders.index'),
+        ];
+
+        return view('outsiders.index', compact('outsiders', 'breadcrumbs'));
     }
 
     /**
