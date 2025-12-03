@@ -1,45 +1,64 @@
 <x-app-layout>  
-    <div class="px-20 py-10 space-y-4">
-        <div id="header" class="flex justify-between items-center mb-12">
-            <h1 class="font-mclaren text-primary_color text-4xl mb-4">Contactes externs</h1>
+    <div class="px-20 py-10">
+        <div id="header" class="flex justify-between items-center mb-8">
+            <h1 class="font-mclaren text-primary_color text-4xl">Contactes externs</h1>
         </div>
 
-        <div>
-            <x-toggle slot1="Serveis generals" slot2="Assistencials"/>
-        </div>
-
-        @if($outsiders->isEmpty())
-            <p>Ni hi han contactes registrats.</p>
-
-            <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
-                <div class="mb-3 gap-16 flex items-center">
-                    <span>Antonia Lopez</span>
-                    <button class="">
-                        <svg class="size-5 text-gray-300">
-                            <use href="#new-tab" />
-                        </svg>
-                    </button>
+        <div class="flex gap-5 w-full h-[650px]">
+            <div class="flex flex-col gap-12 w-full">
+                <div>
+                    <x-toggle slot1="Serveis generals" slot2="Assistencials"/>
                 </div>
-                <span>antonia@gmail.com</span>
-                <span class="mb-3">666 66 66 66</span>
-                <span class="text-sm text-primary_color text-right">Limpieza</span>
+
+                @if($outsiders->isEmpty())
+                    <p>Ni hi han contactes registrats.</p>
+                @else
+                    @foreach($outsiders as $outsider)
+                        <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
+                            <div class="mb-3 gap-20 flex items-center">
+                                <span class="font-medium text-lg">Antonia Lopez</span>
+                                <button class="group" id="outsider-button">
+                                    <svg class="size-5 text-gray-300 group-hover:text-primary_color transition duration-300 ease-in-out">
+                                        <use href="#new-tab" />
+                                    </svg>
+                                </button>
+                            </div>
+                                <div class="flex gap-2 items-center">
+                                    <svg class="size-4 text-gray-400">
+                                        <use href="#email" />
+                                    </svg>
+                                    <span>{{ $outsider->email }}</span>
+                                </div>
+                                <div class="flex gap-2 items-center">
+                                    <svg class="size-4 text-gray-400">
+                                        <use href="#tlf" />
+                                    </svg>
+                                    <span>{{ $outsider->phone }}</span>
+                                </div>
+                            <span class="text-sm text-primary_color text-right mt-2">Limpieza</span>
+                        </div>
+                    @endforeach
+                @endif
             </div>
-        @else
-            <div class="grid grid-cols-5 grid-rows-auto gap-16">
-                @foreach($outsiders as $outsider)
-                    <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] gap-3">
-                        <span>Antonia Lopez</span>
-                        <a class="" href="{{ route('outsider.show', $outsider->id) }}">
-                            <svg class="size-5 text-gray-300">
-                                <use href="#new-tab" />
-                            </svg>
-                        </a>
-                        <span>antonia@gmail.com</span>
-                        <span>666 66 66 66</span>
-                        <span>Limpieza</span>
-                    </div>
-                @endforeach
+
+            <div class="bg-white rounded-xl p-4 flex flex-col gap-4 h-full hidden" id="outsider-info">
+                <span class="font-medium text-xl">Antonia López</span>
+                <div class="flex flex-col">
+                    <span>antonia@gmail.com</span>
+                    <span>666 66 66 66</span>
+                </div>
+
+                <span class="text-primary_color">Limpieza</span>
+
+                <div class="mt-4 h-full overflow-y-auto">
+                    <span class="text-sm text-gray_color text-right">Observacions:</span>
+                    <p class="text-justify text-charcoal_color w-[250px]">Observaciones varias, como por ejemplo:<br><br>Esto es una observación.<br>Esto es otra.</p>
+                </div>
+
+                <x-primary-button class="mt-auto ml-auto">Editar</x-primary-button>
             </div>
-        @endif
+        </div>
     </div>
+
+    <x-add-button href="{{ route('outsiders.create') }}"></x-add-button>
 </x-app-layout>

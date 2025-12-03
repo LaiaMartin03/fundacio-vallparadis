@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('outsiders', function (Blueprint $table) {
             $table->id();
+            $table->string('fullname');
+            $table->string('email')->unique();
+            $table->string('phone', 20);
+            $table->string('service');
+            $table->string('task');
+            $table->string('business')->nullable();
             $table->timestamps();
         });
     }
