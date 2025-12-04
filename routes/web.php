@@ -11,6 +11,8 @@ use App\Http\Controllers\CursoController;
 use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\CenterFollowupController;
 use App\Http\Controllers\EvaluationFormController;
+use App\Http\Controllers\OutsiderController;
+use App\Models\Resource;
 use App\Http\Controllers\HRController;
 
 Route::get('/', function () {
@@ -88,6 +90,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
+    //Contactes externs
+    Route::resource('outsiders', OutsiderController::class);
     // Human resources
     Route::resource('hr', HRController::class);
 
