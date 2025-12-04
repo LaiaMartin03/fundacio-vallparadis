@@ -10,16 +10,11 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\OutsiderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UniformController;
-use App\Http\Controllers\CenterController;
 use App\Http\Controllers\MantenimentController;
 use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Resource;
-use App\Http\Controllers\CursoController;
-use App\Http\Controllers\LearningProgramController;
-use App\Http\Controllers\CenterFollowupController;
-use App\Http\Controllers\EvaluationFormController;
 use App\Http\Controllers\HRController;
 
 Route::get('/', function () {
