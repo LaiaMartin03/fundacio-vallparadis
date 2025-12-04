@@ -4,7 +4,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfessionalController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CenterController;
-use App\Http\Controllers\UniformController;
 use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +11,8 @@ use App\Http\Controllers\CursoController;
 use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\CenterFollowupController;
 use App\Http\Controllers\EvaluationFormController;
-use App\Models\Resource;
+use App\Http\Controllers\HRController;
 
-// Ruta raíz: redirige según si el usuario está logueado
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('dashboard');
@@ -86,10 +84,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Cursos
     Route::resource('curso', CursoController::class);
-    // Route::view('curso/vista', 'cursos.curso')->name('cursos.curso');
     Route::get('/cursos/export', [CursoController::class, 'exportCursos'])->name('curso.export');
 
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
+
+    // Human resources
+    Route::resource('hr', HRController::class);
 
 });
 
