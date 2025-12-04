@@ -288,6 +288,7 @@
         </div>
     </div>
     <script src="{{ asset('js/search.js') }}" defer></script>
+<<<<<<< HEAD
 </x-app-layout><x-app-layout>
     <div class="ml-20 px-20 py-10 space-y-6">
         <!-- Header -->
@@ -575,4 +576,6 @@
     </div>
     
     <script src="{{ asset('js/search.js') }}" defer></script>
+=======
+>>>>>>> aa670da (RRHH #3)
 </x-app-layout>

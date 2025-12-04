@@ -21,7 +21,12 @@ use App\Http\Controllers\CursoController;
 use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\CenterFollowupController;
 use App\Http\Controllers\EvaluationFormController;
+<<<<<<< HEAD
 >>>>>>> 819eb37 (Revert "Merge branch 'main' into IvanTrias/RRHH")
+=======
+use App\Http\Controllers\OutsiderController;
+use App\Models\Resource;
+>>>>>>> aa670da (RRHH #3)
 use App\Http\Controllers\HRController;
 
 Route::get('/', function () {
@@ -99,6 +104,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
+<<<<<<< HEAD
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
 <<<<<<< HEAD
@@ -109,6 +115,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);
+=======
+    //Contactes externs
+    Route::resource('outsiders', OutsiderController::class);
+>>>>>>> aa670da (RRHH #3)
     // Human resources
     Route::resource('hr', HRController::class);
 

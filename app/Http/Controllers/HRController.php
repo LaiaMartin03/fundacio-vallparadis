@@ -156,6 +156,7 @@ class HRController extends Controller
      */
     public function show(HR $hr)
     {
+<<<<<<< HEAD
         $hr = HR::with(['affectedProfessional', 'assignedTo', 'derivatedTo'])
             ->findOrFail($id);
 
@@ -166,6 +167,9 @@ class HRController extends Controller
         ])->filter()->pluck('id');
 
         return view('hr.show', compact('hr'));
+=======
+        //
+>>>>>>> aa670da (RRHH #3)
     }
 
     /**
