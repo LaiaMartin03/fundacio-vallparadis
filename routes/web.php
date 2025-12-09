@@ -14,7 +14,14 @@ use App\Http\Controllers\MantenimentController;
 use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
 use App\Models\Resource;
+=======
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\LearningProgramController;
+use App\Http\Controllers\CenterFollowupController;
+use App\Http\Controllers\EvaluationFormController;
+>>>>>>> 819eb37 (Revert "Merge branch 'main' into IvanTrias/RRHH")
 use App\Http\Controllers\HRController;
 
 Route::get('/', function () {
@@ -94,6 +101,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
+<<<<<<< HEAD
     //Contactes externs
     Route::resource('outsiders', OutsiderController::class);
     Route::get('/outsiders/edit', [OutsiderController::class, 'edit'])
@@ -104,6 +112,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Human resources
     Route::resource('hr', HRController::class);
 
+=======
+>>>>>>> 819eb37 (Revert "Merge branch 'main' into IvanTrias/RRHH")
 });
 
 require __DIR__.'/auth.php';

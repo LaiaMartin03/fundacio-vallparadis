@@ -25,6 +25,7 @@
                     <use href="#course"></use>
                 </svg>
             </x-nav-link>
+<<<<<<< HEAD
             <x-nav-link :href="route('outsiders.index')" :active="request()->routeIs('outsiders.index')" title="Contactes externs">
                 <svg class="size-5">
                     <use href="#contacts"></use>
@@ -36,6 +37,8 @@
                     <use href="#puzzle"></use>
                 </svg>
             </x-nav-link>
+=======
+>>>>>>> 819eb37 (Revert "Merge branch 'main' into IvanTrias/RRHH")
         </div>  
         
         <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Settings" class="mt-auto">
