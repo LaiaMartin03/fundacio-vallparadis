@@ -57,9 +57,18 @@ class HRController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(HR $hr)
+    public function show($id)
     {
-        //
+        $hr = HR::with(['affectedProfessional', 'assignedTo', 'derivatedTo'])
+            ->findOrFail($id);
+
+        $professionalsInvolved = collect([
+            $hr->affectedProfessional,
+            $hr->assignedTo,
+            $hr->derivatedTo
+        ])->filter()->pluck('id');
+
+        return view('hr.show', compact('hr'));
     }
 
     /**
