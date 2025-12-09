@@ -94,6 +94,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Cursos
     Route::resource('curso', CursoController::class);
     Route::get('/cursos/export', [CursoController::class, 'exportCursos'])->name('curso.export');
+
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
     //Contactes externs

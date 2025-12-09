@@ -83,18 +83,6 @@ public function run(): void
         ]);
 
         User::create([
-            'surname'=> 'asd',
-            'name' => 'asd',
-            'email' => 'asd@gmail.com',
-            'password' => Hash::make('123456789'),
-            'address' => 'Carrer Muntaner, 234, 08021 Barcelona',
-            'phone' => '656789012',
-            'birthday' => '1993-09-12',
-            'curriculum' => 'curriculum_ana.pdf',
-            'active' => true,
-        ]);
-
-        User::create([
             'surname'=> 'Pérez',
             'name' => 'David',
             'email' => 'david.perez@gmail.com',

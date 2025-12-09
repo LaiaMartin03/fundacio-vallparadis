@@ -1,5 +1,5 @@
 <x-app-layout>  
-    <div class="px-20 py-10 space-y-10">
+    <div class="ml-20 px-20 py-10 space-y-10">
         <div id="header" class="flex justify-between items-center">
             <h1 class="font-mclaren text-primary_color text-4xl">Professionals</h1>
             
