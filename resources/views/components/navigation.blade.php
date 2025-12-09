@@ -27,7 +27,7 @@
             </x-nav-link>
             <x-nav-link :href="route('outsiders.index')" :active="request()->routeIs('outsiders.index')" title="Contactes externs">
                 <svg class="size-5">
-                    <use href="#course"></use>
+                    <use href="#contacts"></use>
                 </svg>
             </x-nav-link>
         </div>  

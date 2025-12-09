@@ -13,49 +13,131 @@
                 @if($outsiders->isEmpty())
                     <p>Ni hi han contactes registrats.</p>
                 @else
-                    @foreach($outsiders as $outsider)
-                        <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
-                            <div class="mb-3 gap-20 flex items-center">
-                                <span class="font-medium text-lg">Antonia Lopez</span>
-                                <button class="group" id="outsider-button">
-                                    <svg class="size-5 text-gray-300 group-hover:text-primary_color transition duration-300 ease-in-out">
-                                        <use href="#new-tab" />
-                                    </svg>
-                                </button>
-                            </div>
+                    <div class="w-full grid grid-cols-6" id="grid">
+                        @foreach($outsiders as $outsider)
+                            <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] outsider-card"
+                                data-fullname="{{ $outsider->fullname }}"
+                                data-email="{{ $outsider->email }}"
+                                data-phone="{{ $outsider->phone }}"
+                                data-task="{{ $outsider->task }}"
+                                data-description="{{ $outsider->description }}">
+                                
+                                <div class="mb-3 gap-20 justify-between flex items-center">
+                                    <span class="font-medium text-lg">{{ $outsider->fullname }}</span>
+                                    <button class="group outsider-button">
+                                        <svg class="size-5 text-gray-300 group-hover:text-primary_color transition duration-300 ease-in-out">
+                                            <use href="#new-tab" />
+                                        </svg>
+                                    </button>
+                                </div>
+
                                 <div class="flex gap-2 items-center">
                                     <svg class="size-4 text-gray-400">
                                         <use href="#email" />
                                     </svg>
                                     <span>{{ $outsider->email }}</span>
                                 </div>
+
                                 <div class="flex gap-2 items-center">
                                     <svg class="size-4 text-gray-400">
                                         <use href="#tlf" />
                                     </svg>
                                     <span>{{ $outsider->phone }}</span>
                                 </div>
-                            <span class="text-sm text-primary_color text-right mt-2">Limpieza</span>
-                        </div>
-                    @endforeach
+
+                                <span class="text-sm text-primary_color text-right mt-2">{{ $outsider->task }}</span>
+                            </div>
+
+                            <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] outsider-card"
+                                data-fullname="{{ $outsider->fullname }}"
+                                data-email="{{ $outsider->email }}"
+                                data-phone="{{ $outsider->phone }}"
+                                data-task="{{ $outsider->task }}"
+                                data-description="{{ $outsider->description }}">
+                                
+                                <div class="mb-3 gap-20 justify-between flex items-center">
+                                    <span class="font-medium text-lg">{{ $outsider->fullname }}</span>
+                                    <button class="group outsider-button">
+                                        <svg class="size-5 text-gray-300 group-hover:text-primary_color transition duration-300 ease-in-out">
+                                            <use href="#new-tab" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="flex gap-2 items-center">
+                                    <svg class="size-4 text-gray-400">
+                                        <use href="#email" />
+                                    </svg>
+                                    <span>{{ $outsider->email }}</span>
+                                </div>
+
+                                <div class="flex gap-2 items-center">
+                                    <svg class="size-4 text-gray-400">
+                                        <use href="#tlf" />
+                                    </svg>
+                                    <span>{{ $outsider->phone }}</span>
+                                </div>
+
+                                <span class="text-sm text-primary_color text-right mt-2">{{ $outsider->task }}</span>
+                            </div>
+
+                            <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] outsider-card"
+                                data-fullname="{{ $outsider->fullname }}"
+                                data-email="{{ $outsider->email }}"
+                                data-phone="{{ $outsider->phone }}"
+                                data-task="{{ $outsider->task }}"
+                                data-description="{{ $outsider->description }}">
+                                
+                                <div class="mb-3 gap-20 justify-between flex items-center">
+                                    <span class="font-medium text-lg">{{ $outsider->fullname }}</span>
+                                    <button class="group outsider-button">
+                                        <svg class="size-5 text-gray-300 group-hover:text-primary_color transition duration-300 ease-in-out">
+                                            <use href="#new-tab" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="flex gap-2 items-center">
+                                    <svg class="size-4 text-gray-400">
+                                        <use href="#email" />
+                                    </svg>
+                                    <span>{{ $outsider->email }}</span>
+                                </div>
+
+                                <div class="flex gap-2 items-center">
+                                    <svg class="size-4 text-gray-400">
+                                        <use href="#tlf" />
+                                    </svg>
+                                    <span>{{ $outsider->phone }}</span>
+                                </div>
+
+                                <span class="text-sm text-primary_color text-right mt-2">{{ $outsider->task }}</span>
+                            </div>
+                        @endforeach
+                    </div>
                 @endif
             </div>
 
             <div class="bg-white rounded-xl p-4 flex flex-col gap-4 h-full hidden" id="outsider-info">
-                <span class="font-medium text-xl">Antonia López</span>
+                <div class="flex w-full justify-between">
+                    <span class="font-medium text-xl" id="fullname"></span>
+                    <button>
+                        <svg class="size-5 text-primary_color">
+                            <use href="#edit" />
+                        </svg>
+                    </button>
+                </div>
                 <div class="flex flex-col">
-                    <span>antonia@gmail.com</span>
-                    <span>666 66 66 66</span>
+                    <span id="mail"></span>
+                    <span id="phone"></span>
                 </div>
 
-                <span class="text-primary_color">Limpieza</span>
+                <span class="text-primary_color" id="task"></span>
 
                 <div class="mt-4 h-full overflow-y-auto">
                     <span class="text-sm text-gray_color text-right">Observacions:</span>
-                    <p class="text-justify text-charcoal_color w-[250px]">Observaciones varias, como por ejemplo:<br><br>Esto es una observación.<br>Esto es otra.</p>
+                    <p class="text-justify text-charcoal_color w-[250px]" id="description"></p>
                 </div>
-
-                <x-primary-button class="mt-auto ml-auto">Editar</x-primary-button>
             </div>
         </div>
     </div>

@@ -38,6 +38,9 @@
                 <x-text-input id="business" name="business" type="text" 
                     placeholder="Empresa" class="mt-1 block w-full" :value="old('business')" />
 
+                <x-text-input id="description" name="description" type="text" 
+                    placeholder="Observacions" class="mt-1 block w-full" :value="old('description')" />
+
             <div class="flex justify-end mt-4">
                 <x-primary-button>
                     Crear

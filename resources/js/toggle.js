@@ -6,7 +6,7 @@ const over = document.getElementById("over")
 let selected = 0 // 0 = opt1, 1 = opt2
 
 toggle.addEventListener("click", () => {
-    selected = 1 - selected
+    selected = 0 + selected
     const target = selected === 0 ? opt1 : opt2
 
     over.style.transform = `translateX(${target.offsetLeft}px)`
