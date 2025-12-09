@@ -12,6 +12,8 @@ use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\CenterFollowupController;
 use App\Http\Controllers\EvaluationFormController;
 use App\Http\Controllers\HRController;
+use App\Http\Controllers\OutsiderController;
+use App\Models\Resource;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -85,12 +87,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Cursos
     Route::resource('curso', CursoController::class);
     Route::get('/cursos/export', [CursoController::class, 'exportCursos'])->name('curso.export');
-
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
     // Human resources
     Route::resource('hr', HRController::class);
 
+    //Contactes externs
+    Route::resource('outsiders', OutsiderController::class);
 });
 
 require __DIR__.'/auth.php';

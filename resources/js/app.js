@@ -6,7 +6,9 @@ import './bootstrap';
 import '../css/app.css';
 
 import './professionals.js';
+import './toggle.js';
 import './modal';
+import './outsiders';
 
 // window.Turbo = Turbo
 window.Alpine = Alpine;
