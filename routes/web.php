@@ -12,6 +12,7 @@ use App\Http\Controllers\CursoController;
 use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\CenterFollowupController;
 use App\Http\Controllers\EvaluationFormController;
+use App\Http\Controllers\OutsiderController;
 use App\Models\Resource;
 
 // Ruta raíz: redirige según si el usuario está logueado
@@ -88,9 +89,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('curso', CursoController::class);
     // Route::view('curso/vista', 'cursos.curso')->name('cursos.curso');
     Route::get('/cursos/export', [CursoController::class, 'exportCursos'])->name('curso.export');
-
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
+    //Contactes externs
+    Route::resource('outsiders', OutsiderController::class);
 });
 
 require __DIR__.'/auth.php';
