@@ -3,7 +3,6 @@ window.collapseProfesionals = () => {
     section.classList.toggle('hidden');
 }
 
-// Versión simplificada - asumiendo que el botón tiene el formId en data attribute
 document.addEventListener('click', function(e) {
     // Para el formulario principal
     if (e.target.matches('#toggle-questionnaire-btn')) {

@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Resource;
 use App\Models\Uniform;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -13,7 +14,7 @@ class UniformsExport implements FromCollection, WithHeadings, WithStyles
 {
     public function collection()
     {
-        return Uniform::select(
+        return Resource::select(
             'ID',
             'shirt_size',
             'pants_size',
