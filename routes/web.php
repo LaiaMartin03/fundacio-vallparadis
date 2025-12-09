@@ -92,6 +92,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
+    Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
+
     //Contactes externs
     Route::resource('outsiders', OutsiderController::class);
     Route::get('/outsiders/edit', [OutsiderController::class, 'edit'])
