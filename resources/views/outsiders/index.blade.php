@@ -13,74 +13,8 @@
                 @if($outsiders->isEmpty())
                     <p>Ni hi han contactes registrats.</p>
                 @else
-                    <div class="w-full grid grid-cols-6" id="grid">
+                    <div class="grid grid-cols-6 border">
                         @foreach($outsiders as $outsider)
-                            <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] outsider-card"
-                                data-fullname="{{ $outsider->fullname }}"
-                                data-email="{{ $outsider->email }}"
-                                data-phone="{{ $outsider->phone }}"
-                                data-task="{{ $outsider->task }}"
-                                data-description="{{ $outsider->description }}">
-                                
-                                <div class="mb-3 gap-20 justify-between flex items-center">
-                                    <span class="font-medium text-lg">{{ $outsider->fullname }}</span>
-                                    <button class="group outsider-button">
-                                        <svg class="size-5 text-gray-300 group-hover:text-primary_color transition duration-300 ease-in-out">
-                                            <use href="#new-tab" />
-                                        </svg>
-                                    </button>
-                                </div>
-
-                                <div class="flex gap-2 items-center">
-                                    <svg class="size-4 text-gray-400">
-                                        <use href="#email" />
-                                    </svg>
-                                    <span>{{ $outsider->email }}</span>
-                                </div>
-
-                                <div class="flex gap-2 items-center">
-                                    <svg class="size-4 text-gray-400">
-                                        <use href="#tlf" />
-                                    </svg>
-                                    <span>{{ $outsider->phone }}</span>
-                                </div>
-
-                                <span class="text-sm text-primary_color text-right mt-2">{{ $outsider->task }}</span>
-                            </div>
-
-                            <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] outsider-card"
-                                data-fullname="{{ $outsider->fullname }}"
-                                data-email="{{ $outsider->email }}"
-                                data-phone="{{ $outsider->phone }}"
-                                data-task="{{ $outsider->task }}"
-                                data-description="{{ $outsider->description }}">
-                                
-                                <div class="mb-3 gap-20 justify-between flex items-center">
-                                    <span class="font-medium text-lg">{{ $outsider->fullname }}</span>
-                                    <button class="group outsider-button">
-                                        <svg class="size-5 text-gray-300 group-hover:text-primary_color transition duration-300 ease-in-out">
-                                            <use href="#new-tab" />
-                                        </svg>
-                                    </button>
-                                </div>
-
-                                <div class="flex gap-2 items-center">
-                                    <svg class="size-4 text-gray-400">
-                                        <use href="#email" />
-                                    </svg>
-                                    <span>{{ $outsider->email }}</span>
-                                </div>
-
-                                <div class="flex gap-2 items-center">
-                                    <svg class="size-4 text-gray-400">
-                                        <use href="#tlf" />
-                                    </svg>
-                                    <span>{{ $outsider->phone }}</span>
-                                </div>
-
-                                <span class="text-sm text-primary_color text-right mt-2">{{ $outsider->task }}</span>
-                            </div>
-
                             <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] outsider-card"
                                 data-fullname="{{ $outsider->fullname }}"
                                 data-email="{{ $outsider->email }}"

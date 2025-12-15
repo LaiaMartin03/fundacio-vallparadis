@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LearningProgramController;
+use App\Http\Controllers\EvaluationFormController;
+use App\Http\Controllers\CenterFollowupController;
 use App\Http\Controllers\ProfessionalController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\CenterController;
-use App\Http\Controllers\UniformController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\OutsiderController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UniformController;
+use App\Http\Controllers\CenterController;
+use App\Http\Controllers\MantenimentController;
+use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\CursoController;
-use App\Http\Controllers\LearningProgramController;
-use App\Http\Controllers\CenterFollowupController;
-use App\Http\Controllers\EvaluationFormController;
-use App\Http\Controllers\OutsiderController;
 use App\Models\Resource;
 
 // Ruta raíz: redirige según si el usuario está logueado
@@ -93,6 +94,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Contactes externs
     Route::resource('outsiders', OutsiderController::class);
+    
+    //Manteniment
+    Route::resource('manteniment', MantenimentController::class);
 });
 
 require __DIR__.'/auth.php';
