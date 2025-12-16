@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('manteniment', function (Blueprint $table) {
             $table->id();
 
-            $table->enum('tipo', ['manteniment', 'seguiment']);
-            
-            $table->date('data');  
+            $table->date('title');  
             $table->text('descripcio');
             
-            $table->string('responsable');
+            $table->foreignId('responsable_id')
+                ->constrained('users')
+                ->onDelete('cascade');
             
             $table->json('docs_adjunts')->nullable();
 

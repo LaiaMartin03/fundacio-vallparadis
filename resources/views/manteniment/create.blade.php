@@ -18,9 +18,9 @@
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
         <h1 class="text-2xl font-bold mb-4">Crear manteniment</h1>
 
-        <form action="{{ route('outsiders.store') }}" method="POST" class="space-y-4">
+        <form action="{{ route('manteniments.store') }}" method="POST" class="space-y-4">
             @csrf
-                <x-text-input id="fullname" name="fullname" type="text" 
+                <x-text-input id="title" name="title" type="text" 
                     placeholder="Nombre completo" class="mt-1 block w-full" :value="old('fullname')" />
 
                 <x-text-input id="email" name="email" type="email" 
