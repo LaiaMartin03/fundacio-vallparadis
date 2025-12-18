@@ -16,6 +16,7 @@
                     <div class="grid grid-cols-6 border">
                         @foreach($outsiders as $outsider)
                             <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] outsider-card"
+                                data-id="3"
                                 data-fullname="{{ $outsider->fullname }}"
                                 data-email="{{ $outsider->email }}"
                                 data-phone="{{ $outsider->phone }}"
@@ -55,11 +56,11 @@
             <div class="bg-white rounded-xl p-4 flex flex-col gap-4 h-full hidden" id="outsider-info">
                 <div class="flex w-full justify-between">
                     <span class="font-medium text-xl" id="fullname"></span>
-                    <button>
+                    <a id="edit-link" href="#" data-base="{{ route('outsiders.edit.custom') }}">
                         <svg class="size-5 text-primary_color">
                             <use href="#edit" />
                         </svg>
-                    </button>
+                    </a>
                 </div>
                 <div class="flex flex-col">
                     <span id="mail"></span>

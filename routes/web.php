@@ -94,6 +94,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Contactes externs
     Route::resource('outsiders', OutsiderController::class);
+    Route::get('/outsiders/edit', [OutsiderController::class, 'edit'])
+    ->name('outsiders.edit.custom');
     
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);
