@@ -11,8 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('manteniments', function (Blueprint $table) {
+        Schema::create('manteniment', function (Blueprint $table) {
             $table->id();
+
+            $table->date('title');  
+            $table->text('descripcio');
+            
+            $table->foreignId('responsable_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+            
+            $table->json('docs_adjunts')->nullable();
+
             $table->timestamps();
         });
     }
@@ -22,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('manteniments');
+        Schema::dropIfExists('manteniment');
     }
 };

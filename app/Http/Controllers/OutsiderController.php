@@ -80,6 +80,8 @@ class OutsiderController extends Controller
             'Editar' => route('outsiders.edit', $outsider->id)
         ];
 
+        $outsider = Outsider::findOrFail($request->id);
+
         return view('outsiders.edit', compact('outsider', 'breadcrumbs'));
     }
 

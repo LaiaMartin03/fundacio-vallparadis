@@ -41,6 +41,8 @@
                 <x-text-input id="description" name="description" type="text" 
                     placeholder="Observacions" class="mt-1 block w-full" :value="old('description')" />
 
+                <x-trix-input id="description" name="description" :value="old('description')" autocomplete="off" class="border-0 border-b border-b-[#ff9740] placeholder-[#ff9740] py-2 px-0 focus:outline-none" />
+
             <div class="flex justify-end mt-4">
                 <x-primary-button>
                     Crear

@@ -2,64 +2,90 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\manteniment;
+use App\Models\Manteniment;
 use Illuminate\Http\Request;
 
 class MantenimentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $manteniments = Manteniment::latest()->get();
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Manteniment' => route('manteniment.index'),
+        ];
+
+        return view('manteniment.index', compact('manteniments', 'breadcrumbs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Manteniment' => route('manteniment.index'),
+            'Crear' => route('manteniment.create'),
+        ];
+
+        return view('manteniment.create', compact('breadcrumbs'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'tipo' => 'required|in:manteniment,seguiment',
+            'data' => 'required|date',
+            'responsable' => 'required|string|max:255',
+            'descripcio' => 'required|string',
+            'docs_adjunts' => 'nullable|array',
+        ]);
+
+        Manteniment::create($data);
+
+        return redirect()->route('manteniment.index')->with('success', 'Entrada creada correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(manteniment $manteniment)
+    public function show(Manteniment $manteniment)
     {
-        //
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Manteniment' => route('manteniment.index'),
+            $manteniment->tipo . ' - ' . $manteniment->responsable => route('manteniment.show', $manteniment->id),
+        ];
+
+        return view('manteniment.show', compact('manteniment', 'breadcrumbs'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(manteniment $manteniment)
+    public function edit(Manteniment $manteniment)
     {
-        //
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Manteniment' => route('manteniment.index'),
+            'Editar' => route('manteniment.edit', $manteniment->id),
+        ];
+
+        return view('manteniment.edit', compact('manteniment', 'breadcrumbs'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, manteniment $manteniment)
+    public function update(Request $request, Manteniment $manteniment)
     {
-        //
+        $data = $request->validate([
+            'tipo' => 'required|in:manteniment,seguiment',
+            'data' => 'required|date',
+            'responsable' => 'required|string|max:255',
+            'descripcio' => 'required|string',
+            'docs_adjunts' => 'nullable|array',
+        ]);
+
+        $manteniment->update($data);
+
+        return redirect()->route('manteniment.index')->with('success', 'Entrada actualizada correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(manteniment $manteniment)
+    public function destroy(Manteniment $manteniment)
     {
-        //
+        $manteniment->delete();
+
+        return redirect()->route('manteniment.index')->with('success', 'Entrada eliminada correctamente.');
     }
 }
