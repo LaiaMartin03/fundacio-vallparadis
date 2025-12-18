@@ -37,8 +37,6 @@
                     <use href="#puzzle"></use>
                 </svg>
             </x-nav-link>
-=======
->>>>>>> 819eb37 (Revert "Merge branch 'main' into IvanTrias/RRHH")
         </div>  
         
         <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Settings" class="mt-auto">
