@@ -30,12 +30,6 @@
                     <use href="#contacts"></use>
                 </svg>
             </x-nav-link>
-
-            <x-nav-link :href="route('manteniment.index')" :active="request()->routeIs('manteniment.index')" title="Manteniment">
-                <svg class="size-5">
-                    <use href="#puzzle"></use>
-                </svg>
-            </x-nav-link>
         </div>  
         
         <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Settings" class="mt-auto">
