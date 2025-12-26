@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Professional;
 use App\Exports\ProfessionalsExport;
 use App\Imports\ProfessionalsImport;
-use App\Models\CenterFollowup;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProfessionalController extends Controller

@@ -14,17 +14,21 @@ return new class extends Migration
         Schema::create('pending_hr_issues', function (Blueprint $table) {
             $table->id();
 
-            $table->string('affected_professional');
+            $table->unsignedBigInteger('affected_professional');
             $table->text('description');
-            $table->text('attached_docs');
+            $table->text('attached_docs')->nullable();
+            $table->boolean('active')->default(true);
             $table->unsignedBigInteger('center_id');
             $table->unsignedBigInteger('assigned_to');
-
+            $table->unsignedBigInteger('derivated_to')->nullable();
+ 
             $table->timestamps();
 
             //FK
             $table->foreign('center_id')->references('id')->on('center')->onDelete('cascade');
             $table->foreign('assigned_to')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('affected_professional')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('derivated_to')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -85,7 +85,7 @@
 
             <div class="flex justify-end mt-4">
                 <x-primary-button>
-                    Crear
+                    Acceptar
                 </x-primary-button>
             </div>
         </form>

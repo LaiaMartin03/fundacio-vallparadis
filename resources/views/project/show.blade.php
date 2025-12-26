@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="px-20 py-10 space-y-4">
+    <div class="mx-20 px-20 py-10 space-y-4">
         <div class="flex justify-between gap-16 max-w-screen">
             
             {{-- Izquierda --}}

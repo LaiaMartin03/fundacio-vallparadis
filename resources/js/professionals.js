@@ -12,10 +12,8 @@ document.addEventListener('click', function(e) {
             questionnaire.classList.toggle('hidden');
             e.target.textContent = questionnaire.classList.contains('hidden') ? 'Avaluar' : 'Cancel·lar';
         }
-    console.log('click detected');
 
     }
-    console.log('click detected');
     // Para los botones de mostrar evaluación
     if (e.target.matches('[data-form-id]')) {
         e.preventDefault();
