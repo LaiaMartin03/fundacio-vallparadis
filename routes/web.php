@@ -12,6 +12,7 @@ use App\Http\Controllers\UniformController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\MantenimentController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\BlackboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Resource;
@@ -99,6 +100,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);
+    Route::get('/blackboard', [BlackboardController::class, 'index'])->name('canvas');
+
 });
 
 require __DIR__.'/auth.php';
