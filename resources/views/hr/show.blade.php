@@ -2,7 +2,7 @@
     <div class="ml-20 px-20 py-10 space-y-6">
 
         <!-- Header del Caso -->
-        <div class="flex justify-between items-center p-6">
+        <div class="flex justify-between items-center p-2">
             <div>
                 <h1 class="font-mclaren text-primary_color text-3xl mb-2">Caso HR #{{ $hr->id }}</h1>
                 <div class="flex items-center gap-4">
@@ -30,13 +30,13 @@
             <!-- Información del Caso -->
             <div class="p-6">
                 <h2 class="font-semibold text-xl text-gray-800 mb-4 pb-2 border-b border-primary_color text-primary_color">
-                    Información del Caso
+                    Informació del cas
                 </h2>
                 
                 <div class="space-y-4">
                     <!-- Profesional Afectado -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-1">Profesional Afectado</label>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Profesional Afectat</label>
                         @if($hr->affectedProfessional)
                         <div class="bg-white p-4 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-full h-28 items-center">
                             <img class="rounded-full w-20 h-20 object-cover" 
@@ -60,14 +60,14 @@
                         </div>
                         @else
                         <div class="bg-gray-50 rounded-lg p-4 text-center">
-                            <p class="text-gray-400 italic">No hay profesional afectado asignado</p>
+                            <p class="text-gray-400">No hi ha profesional afectat</p>
                         </div>
                         @endif
                     </div>
                     
                     <!-- Asignado a -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-1">Asignado a</label>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Asignat a</label>
                         @if($hr->assignedTo)
                         <div class="bg-white p-4 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-full h-28 items-center">
                             <img class="rounded-full w-20 h-20 object-cover" 
@@ -91,14 +91,14 @@
                         </div>
                         @else
                         <div class="bg-gray-50 rounded-lg p-4 text-center">
-                            <p class="text-gray-400 italic">No hay profesional asignado</p>
+                            <p class="text-gray-400">No hi ha profesional asignat</p>
                         </div>
                         @endif
                     </div>
                     
                     <!-- Derivado a -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-1">Derivado a</label>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Derivat a</label>
                         @if($hr->derivatedTo)
                         <div class="bg-white p-4 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-full h-28 items-center">
                             <img class="rounded-full w-20 h-20 object-cover" 
@@ -123,7 +123,7 @@
                         </div>
                         @else
                         <div class="bg-gray-50 rounded-lg p-4 text-center">
-                            <p class="text-gray-400 italic">No hay profesional derivado</p>
+                            <p class="text-gray-400">No hi ha profesional derivat</p>
                         </div>
                         @endif
                     </div>
@@ -133,7 +133,7 @@
             <!-- Descripción y Documentos -->
             <div class="p-6">
                 <h2 class="font-semibold text-xl text-gray-800 mb-4 pb-2 border-b border-primary_color text-primary_color">
-                   Detalles
+                   Detalls
                 </h2>
                 
                 <div class="space-y-6">
@@ -143,7 +143,7 @@
                             @if($hr->description)
                                 <p class="whitespace-pre-line">{{ $hr->description }}</p>
                             @else
-                                <p class="text-gray-400 italic">Sin descripción</p>
+                                <p class="text-gray-400">Sin descripción</p>
                             @endif
                         </div>
                     </div>
@@ -161,12 +161,21 @@
                                     </div>
                                 </div>
                             @else
-                                <p class="text-gray-400 italic">No hay documentos adjuntos</p>
+                                <p class="text-gray-400">No hay documentos adjuntos</p>
                             @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+        <div class="mt-3">
+            <h2 class="font-semibold text-xl text-gray-800 mb-4 pb-2 border-b border-primary_color text-primary_color">
+                Seguiments
+            </h2>
+            @if (!$hr)
+                
+            @else
+                <span class="text-gray-400">No hay seguimientos disponibles</span>
+            @endif
+        </div>
 </x-app-layout>

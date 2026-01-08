@@ -24,6 +24,9 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// Ruta de prueba pública para testear la búsqueda (temporal)
+Route::get('/hr/test-search', [HRController::class, 'search'])->name('hr.test_search');
+
 // Dashboard protegido
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -103,7 +106,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('manteniment', MantenimentController::class);
     // Human resources
     Route::resource('hr', HRController::class);
-
+    Route::get('/hr/search', [HRController::class, 'search'])->name('hr.search');
+    
+    // Blackboard
+    Route::get('/blackboard', function () {
+        return view('blackboard');
+    })->name('blackboard');
 });
 
 require __DIR__.'/auth.php';

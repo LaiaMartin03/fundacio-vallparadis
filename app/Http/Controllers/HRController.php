@@ -108,17 +108,16 @@ class HRController extends Controller
         ]);
 
         $hr->update([
-            'affected_professional' => $request->affected_professional,
-            'description' => $request->description,
-            'attached_docs' => $request->attached_docs,
-            'assigned_to' => $request->assigned_to,
+            'affected_professional'=>request('affected_professional'),
+            'description'=>request('description'),
+            'attached_docs'=>request('attached_docs'),
+            'assigned_to'=>request('assigned_to'),
+            'center_id'=>1,
+            'active'=> request('active'),
             'derivated_to' => $request->derivated_to,
-            'active' => $request->has('active') ? (bool)$request->active : $hr->active,
         ]);
-
-        return redirect()->route('hr.index')->with('success', 'Cas HR actualitzat correctament');
+        return redirect()->route('hr.create')->with('success', 'Recurso creado correctamente');
     }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -131,4 +130,44 @@ class HRController extends Controller
         
         return redirect()->route('hr.index')->with('success', 'Cas HR marcat com a inactiu correctament');
     }
+
+    /**
+     * Search HR records (AJAX)
+     */
+    public function search(Request $request)
+    {
+        $q = trim($request->query('q', ''));
+
+        $query = HR::with(['affectedProfessional', 'assignedTo', 'derivatedTo']);
+
+        if ($q !== '') {
+            $query->where(function ($qr) use ($q) {
+                $qr->where('description', 'like', "%{$q}%")
+                    ->orWhereHas('affectedProfessional', function ($q2) use ($q) {
+                        $q2->where('name', 'like', "%{$q}%");
+                    })
+                    ->orWhereHas('assignedTo', function ($q2) use ($q) {
+                        $q2->where('name', 'like', "%{$q}%");
+                    })
+                    ->orWhereHas('derivatedTo', function ($q2) use ($q) {
+                        $q2->where('name', 'like', "%{$q}%");
+                    });
+            });
+        }
+
+        $results = $query->orderBy('created_at', 'desc')->limit(200)->get();
+
+        return response()->json($results->map(function ($hr) {
+            return [
+                'id' => $hr->id,
+                'created_at' => $hr->created_at ? $hr->created_at->format('Y-m-d') : null,
+                'affected_professional' => $hr->affectedProfessional?->name,
+                'description' => $hr->description,
+                'assigned_to' => $hr->assignedTo?->name,
+                'derivated_to' => $hr->derivatedTo?->name,
+                'active' => (bool) ($hr->active ?? false),
+            ];
+        }));
+    }
 }
+
