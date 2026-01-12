@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\HR;
 use App\Models\Professional;
 use Illuminate\Http\Request;
+use App\Models\HRFollowup;
 
 class HRController extends Controller
 {
@@ -69,16 +70,49 @@ class HRController extends Controller
      */
     public function show($id)
     {
-        $hr = HR::with(['affectedProfessional', 'assignedTo', 'derivatedTo'])
+        $hr = HR::with(['affectedProfessional', 'assignedTo', 'derivatedTo', 'followups.registrant'])
             ->findOrFail($id);
 
-        $professionalsInvolved = collect([
-            $hr->affectedProfessional,
-            $hr->assignedTo,
-            $hr->derivatedTo
-        ])->filter()->pluck('id');
-
         return view('hr.show', compact('hr'));
+    }
+
+    /**
+     * Store a followup for HR case
+     */
+    public function storeFollowup(Request $request, HR $hr)
+    {
+        $request->validate([
+            'type' => 'required|string',
+            'date' => 'required|date',
+            'topic' => 'nullable|string|max:255',
+            'description' => 'required|string',
+            'attached_docs' => 'nullable|string',
+        ]);
+
+        HRFollowup::create([
+            'hr_id' => $hr->id,
+            'type' => $request->type,
+            'date' => $request->date,
+            'topic' => $request->topic,
+            'description' => $request->description,
+            'attached_docs' => $request->attached_docs,
+            'registrant_id' => Auth::id(),
+        ]);
+
+        return redirect()->route('hr.show', $hr->id)
+            ->with('success', 'Seguiment afegit correctament');
+    }
+
+    /**
+     * Remove a followup
+     */
+    public function destroyFollowup(HRFollowup $followup)
+    {
+        $hrId = $followup->hr_id;
+        $followup->delete();
+
+        return redirect()->route('hr.show', $hrId)
+            ->with('success', 'Seguiment eliminat correctament');
     }
 
     /**
