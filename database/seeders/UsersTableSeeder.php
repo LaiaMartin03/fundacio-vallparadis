@@ -12,13 +12,13 @@ public function run(): void
     {
         User::create([
             'surname'=> 'Martínez',
-            'name' => 'Laura',
-            'email' => 'laura.martinez@gmail.com',
+            'name' => 'Jana',
+            'email' => 'jana@gmail.com',
             'password' => Hash::make('Test123!'),
             'address' => 'Avinguda Diagonal, 123, 08001 Barcelona',
             'phone' => '612345678',
             'birthday' => '1988-03-15',
-            'curriculum' => 'curriculum_laura.pdf',
+            'curriculum' => 'curriculum_jana.pdf',
             'active' => true,
         ]);
 

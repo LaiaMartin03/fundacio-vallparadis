@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             CenterSeeder::class,
             ProjectSeeder::class,
             CursoSeeder::class,
-            HrSeeder::class,
+            HRSeeder::class,
         ]);
     }
 }
