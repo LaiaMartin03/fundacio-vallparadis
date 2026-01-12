@@ -16,11 +16,12 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <x-rich-text::styles theme="richtextlaravel" data-turbo-track="false" />
     </head>
-    <body class="font-figtree antialiased bg-gradient-to-tr from-[#FFDDC0] to-white ">
-        <div class="min-h-screen dark:bg-gray-900 ml-20">
+    <body class="font-figtree antialiased bg-[#F7F7F7]">
+        <div class="min-h-screen dark:bg-gray-900">
             @include('components.icons')
             @include('components.navigation')
 
+            <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white dark:bg-gray-800 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -28,11 +29,12 @@
                     </div>
                 </header>
             @endisset
-                    
+            
             @if (!empty($breadcrumbs))
                 <x-breadcrumbs :links="$breadcrumbs" />
             @endif
 
+            <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>

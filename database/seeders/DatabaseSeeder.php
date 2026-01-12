@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             CenterSeeder::class,
             ProjectSeeder::class,
-            CursoSeeder::class
+            CursoSeeder::class,
+            HRSeeder::class
         ]);
     }
 }

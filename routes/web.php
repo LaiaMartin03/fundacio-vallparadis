@@ -4,25 +4,28 @@ use App\Http\Controllers\LearningProgramController;
 use App\Http\Controllers\EvaluationFormController;
 use App\Http\Controllers\CenterFollowupController;
 use App\Http\Controllers\ProfessionalController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\CenterController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\OutsiderController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UniformController;
-use App\Http\Controllers\CenterController;
 use App\Http\Controllers\MantenimentController;
 use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Resource;
+use App\Http\Controllers\HRController;
 
-// Ruta raíz: redirige según si el usuario está logueado
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('dashboard');
     }
     return redirect()->route('login');
 });
+
+// Ruta de prueba pública para testear la búsqueda (temporal)
+Route::get('/hr/test-search', [HRController::class, 'search'])->name('hr.test_search');
 
 // Dashboard protegido
 Route::get('/dashboard', function () {
@@ -88,8 +91,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Cursos
     Route::resource('curso', CursoController::class);
-    // Route::view('curso/vista', 'cursos.curso')->name('cursos.curso');
     Route::get('/cursos/export', [CursoController::class, 'exportCursos'])->name('curso.export');
+
+    Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
+
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
     //Contactes externs
@@ -99,6 +104,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);
+    // Human resources
+    Route::resource('hr', HRController::class);
+    Route::get('/hr/search', [HRController::class, 'search'])->name('hr.search');
+    
+    // Blackboard
+    Route::get('/blackboard', function () {
+        return view('blackboard');
+    })->name('blackboard');
 });
 
 require __DIR__.'/auth.php';

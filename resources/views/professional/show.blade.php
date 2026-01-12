@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="px-20 pb-10 flex flex-col gap-12">
+    <div class="ml-20 px-20 pb-10 flex flex-col gap-12">
         <div class="flex gap-20 w-full" id="info">
             <img class="rounded-full w-[200px] aspect-square object-cover" 
             src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?auto=format&q=80&w=300" 
