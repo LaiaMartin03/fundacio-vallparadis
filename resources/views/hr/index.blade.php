@@ -45,7 +45,7 @@
                                 {{ $hr->affectedProfessional->name ?? 'N/A' }} {{ $hr->affectedProfessional->surname ?? '' }}
                             </span>
                             <div class="flex flex-col items-end gap-1">
-                                @if ($hr->active)
+                                @if ($hr->active == 1)
                                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                         Actiu
                                     </span>
