@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('pending_hr_id');
             $table->date('date');
-            $table->unsignedBigInteger('professional_user_id'); // <--- obligatorio
+            $table->unsignedBigInteger('professional_user_id');
             $table->text('description');
             $table->text('attached_docs')->nullable();
             $table->timestamps();

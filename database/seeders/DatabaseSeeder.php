@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Termwind\Components\Hr;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,7 +18,8 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             CenterSeeder::class,
             ProjectSeeder::class,
-            CursoSeeder::class
+            CursoSeeder::class,
+            HrSeeder::class,
         ]);
     }
 }
