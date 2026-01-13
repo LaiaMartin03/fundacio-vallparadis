@@ -96,7 +96,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('outsiders', OutsiderController::class);
     Route::get('/outsiders/edit', [OutsiderController::class, 'edit'])
     ->name('outsiders.edit.custom');
-    
+
+    //Documentació interna
+    Route::resource('internal-docs', InternalDocController::class);
+
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);
 });
