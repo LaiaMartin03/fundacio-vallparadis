@@ -107,6 +107,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Human resources
     Route::resource('hr', HRController::class);
     Route::get('/hr/search', [HRController::class, 'search'])->name('hr.search');
+
+    // Rutas para seguimientos de HR
+    Route::post('/hr/{hr}/followups', [HRController::class, 'storeFollowup'])->name('hr.followups.store');
+    Route::delete('/hr/followups/{followup}', [HRController::class, 'destroyFollowup'])->name('hr.followups.destroy');
+    Route::put('hr/{hr}/activate', [HRController::class, 'activate'])->name('hr.activate');
+
+    // Blackboard
+    Route::get('/blackboard', function () {
+        return view('blackboard');
+    })->name('blackboard');
 });
 
 require __DIR__.'/auth.php';

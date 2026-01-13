@@ -13,7 +13,6 @@ class HRFollowup extends Model
 
     protected $fillable = [
         'hr_id',
-        'type',
         'date',
         'topic',
         'description',

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('hr_followups', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('hr_id');
-            $table->string('type')->default('seguiment');
             $table->date('date');
             $table->string('topic')->nullable();
             $table->text('description');
@@ -23,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign Keys
-            $table->foreign('hr_id')->references('id')->on('hr')->onDelete('cascade');
+            $table->foreign('hr_id')->references('id')->on('pending_hr_issues')->onDelete('cascade');
             $table->foreign('registrant_id')->references('id')->on('users')->onDelete('set null');
         });
     }

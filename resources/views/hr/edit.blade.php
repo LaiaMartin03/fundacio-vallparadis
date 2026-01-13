@@ -65,7 +65,6 @@
                     @enderror
                 </div>
 
-                {{-- Derivat a (nullable) --}}
                 <div>
                     <label for="derivated_to" class="block text-sm font-medium text-gray-700 mb-1">Derivat a (opcional)</label>
                     <select id="derivated_to" name="derivated_to" 
@@ -108,16 +107,7 @@
                 @enderror
             </div>
 
-            <div class="flex justify-between items-center pt-4 border-t border-gray-200">
-                <div>
-                    {{-- Botón para marcar como inactivo --}}
-                    <button type="button" 
-                        onclick="confirmDelete()"
-                        class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200 {{ $hr->active ? '' : 'opacity-50 cursor-not-allowed' }}"
-                        {{ $hr->active ? '' : 'disabled' }}>
-                        Desactivar Cas
-                    </button>
-                </div>
+            <div class="flex justify-between flex-row-reverse items-center pt-4 border-t border-gray-200">
                 
                 <div class="flex space-x-4">
                     <a href="{{ route('hr.index') }}" 
@@ -125,25 +115,39 @@
                         Tornar a la llista
                     </a>
                     <button type="submit" 
-                        class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
+                        class="px-6 py-2 bg-primary_color text-white rounded-lg  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200">
                         Actualitzar Cas
                     </button>
                 </div>
-            </div>
         </form>
+
+                <div>
+                    @if ($hr->active==1)
+                        {{-- Botón para marcar como inactivo --}}
+                        <form id="deleteForm" action="{{ route('hr.destroy', $hr->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" 
+                                class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 ">
+                                Desactivar Cas
+                            </button>
+                        </form>
+                        
+                    @else
+                        {{-- Botón para marcar como activo --}}
+                        <form id="activateForm" action="{{ route('hr.activate', $hr->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" 
+                                class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 ">
+                                Activar Cas
+                            </button>
+                        </form>
+                    @endif                    
+                </div>
+            </div>
     </div>
 
-    {{-- Formulario oculto para desactivar --}}
-    <form id="deleteForm" action="{{ route('hr.destroy', $hr->id) }}" method="POST" class="hidden">
-        @csrf
-        @method('DELETE')
-    </form>
 
-    <script>
-        function confirmDelete() {
-            if (confirm('¿Estàs segur que vols desactivar aquest cas? No s\'eliminarà, però es posarà com a inactiu.')) {
-                document.getElementById('deleteForm').submit();
-            }
-        }
-    </script>
+
 </x-app-layout>

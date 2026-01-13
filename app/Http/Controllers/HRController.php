@@ -14,16 +14,9 @@ class HRController extends Controller
      */
     public function index()
     {
-        // Mostrar solo los casos activos por defecto
-        $pending = HR::with(['affectedProfessional', 'assignedTo'])
-                    ->where('active', true)
-                    ->get();
+        $pending = HR::with(['affectedProfessional', 'assignedTo'])->orderBy('active', 'desc')->orderBy('id', 'asc')->get();
         
-        // Opcional: también puedes mostrar los inactivos con un parámetro
-        if (request()->has('show_inactive')) {
-            $pending = HR::with(['affectedProfessional', 'assignedTo'])->get();
-        }
-        
+
         return view('hr.index', compact('pending'));
     }
 
@@ -82,7 +75,6 @@ class HRController extends Controller
     public function storeFollowup(Request $request, HR $hr)
     {
         $request->validate([
-            'type' => 'required|string',
             'date' => 'required|date',
             'topic' => 'nullable|string|max:255',
             'description' => 'required|string',
@@ -91,16 +83,14 @@ class HRController extends Controller
 
         HRFollowup::create([
             'hr_id' => $hr->id,
-            'type' => $request->type,
             'date' => $request->date,
             'topic' => $request->topic,
             'description' => $request->description,
             'attached_docs' => $request->attached_docs,
-            'registrant_id' => Auth::id(),
+            'registrant_id' => $request->user()->id,
         ]);
 
-        return redirect()->route('hr.show', $hr->id)
-            ->with('success', 'Seguiment afegit correctament');
+        return redirect()->route('hr.show', $hr->id)->with('success', 'Seguiment afegit correctament');
     }
 
     /**
@@ -111,8 +101,7 @@ class HRController extends Controller
         $hrId = $followup->hr_id;
         $followup->delete();
 
-        return redirect()->route('hr.show', $hrId)
-            ->with('success', 'Seguiment eliminat correctament');
+        return redirect()->route('hr.show', $hrId)->with('success', 'Seguiment eliminat correctament');
     }
 
     /**
@@ -138,7 +127,6 @@ class HRController extends Controller
             'attached_docs' => 'nullable',
             'assigned_to' => 'required',
             'derivated_to' => 'nullable',
-            'active' => 'boolean',
         ]);
 
         $hr->update([
@@ -147,24 +135,27 @@ class HRController extends Controller
             'attached_docs'=>request('attached_docs'),
             'assigned_to'=>request('assigned_to'),
             'center_id'=>1,
-            'active'=> request('active'),
             'derivated_to' => $request->derivated_to,
         ]);
-        return redirect()->route('hr.create')->with('success', 'Recurso creado correctamente');
+        return redirect()->route('hr.show', $hr->id)->with('success', 'Recurso creado correctamente');
     }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(HR $hr)
     {
-        // En lugar de eliminar, ponemos el caso como inactivo
-        $hr->update([
-            'active' => false
-        ]);
-        
-        return redirect()->route('hr.index')->with('success', 'Cas HR marcat com a inactiu correctament');
-    }
+        $hr->active = 0;
+        $hr->save(); 
 
+        return redirect()->route('hr.show', $hr->id)->with('success', 'Cas HR marcat com a inactiu correctament');
+    }
+    public function activate(HR $hr)
+    {
+        $hr->active = 1;
+        $hr->save(); 
+
+        return redirect()->route('hr.show', $hr->id)->with('success', 'Cas HR marcat com a actiu correctament');
+    }
     /**
      * Search HR records (AJAX)
      */

@@ -168,19 +168,54 @@
             </div>
         </div>
 
-        <!-- SECCIÓN DE SEGUIMIENTOS -->
-        <div class="mt-8 bg-white rounded-xl shadow-sm p-6">
+        <div class="mt-8 p-6">
             <h2 class="font-semibold text-xl text-gray-800 mb-6 pb-2 border-b border-primary_color text-primary_color">
                 Seguiments
             </h2>
 
+            <div class="pt-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Afegeix seguiment</h3>
+
+                <form action="{{ route('hr.followups.store', $hr) }}" method="POST" class="space-y-4">
+                    @csrf
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data</label>
+                            <input type="date" name="date" value="{{ date('Y-m-d') }}" class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tema</label>
+                            <input type="text" name="topic" maxlength="255" placeholder="Títol del seguiment" class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Descripció</label>
+                        <textarea name="description" rows="4" required placeholder="Descripció detallada del seguiment..." class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Documentos adjunts (ruta o URL)</label>
+                        <input type="text" name="attached_docs" placeholder="ex: /documents/hr/seguiment1.pdf" class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-6 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors font-medium">
+                            Afegir seguiment
+                        </button>
+                    </div>
+                </form>
+            </div>
+
             {{-- Lista de seguimientos --}}
-            <div class="space-y-4 mb-8">
+            <div class="space-y-4 mb-8 mt-8">
                 @if($hr->followups->isEmpty())
                     <p class="text-gray-500 text-center py-4">No hi ha seguiments registrats.</p>
                 @else
                     @foreach($hr->followups as $followup)
-                        <div class="border rounded-lg p-4 bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <div class="border rounded-lg p-4 bg-white hover:bg-gray-100 transition-colors">
                             <div class="flex justify-between items-start mb-2">
                                 <div class="flex-1">
                                     <div class="font-semibold text-lg text-gray-900">
@@ -194,21 +229,11 @@
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <span class="inline-flex px-3 py-1 text-xs font-medium rounded-full 
-                                        @if($followup->type == 'obert') bg-blue-100 text-blue-800
-                                        @elseif($followup->type == 'restringit') bg-yellow-100 text-yellow-800
-                                        @elseif($followup->type == 'origen') bg-purple-100 text-purple-800
-                                        @elseif($followup->type == 'fi_vinculacio') bg-red-100 text-red-800
-                                        @else bg-gray-100 text-gray-800 @endif">
-                                        {{ strtoupper($followup->type) }}
-                                    </span>
                                     @can('delete', $followup)
                                     <form action="{{ route('hr.followups.destroy', $followup) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" 
-                                                onclick="return confirm('Estàs segur que vols eliminar aquest seguiment?')"
-                                                class="text-red-600 hover:text-red-800 text-sm">
+                                        <button type="submit" class="text-red-600 hover:text-red-800 text-sm">
                                             Eliminar
                                         </button>
                                     </form>
@@ -217,7 +242,7 @@
                             </div>
 
                             @if(!empty($followup->description))
-                                <div class="mt-3 text-gray-700 whitespace-pre-line bg-white p-3 rounded border">
+                                <div class="mt-2 text-gray-700">
                                     {{ $followup->description }}
                                 </div>
                             @endif
@@ -235,71 +260,7 @@
                         </div>
                     @endforeach
                 @endif
-            </div>
-
-            {{-- Formulario para añadir seguimiento --}}
-            <div class="pt-6 border-t">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Afegeix seguiment</h3>
-
-                <form action="{{ route('hr.followups.store', $hr) }}" method="POST" class="space-y-4">
-                    @csrf
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tipus</label>
-                            <select name="type" required 
-                                    class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
-                                <option value="seguiment">SEGUIMENT</option>
-                                <option value="obert">SEGUIMENT - OBERT</option>
-                                <option value="restringit">SEGUIMENT - RESTRINGIT</option>
-                                <option value="origen">ORIGEN</option>
-                                <option value="fi_vinculacio">FI DE LA VINCULACIÓ</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Data</label>
-                            <input type="date" 
-                                   name="date" 
-                                   value="{{ date('Y-m-d') }}"
-                                   class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tema</label>
-                            <input type="text" 
-                                   name="topic" 
-                                   maxlength="255"
-                                   placeholder="Títol del seguiment"
-                                   class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Descripció</label>
-                        <textarea name="description" 
-                                  rows="4"
-                                  required
-                                  placeholder="Descripció detallada del seguiment..."
-                                  class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent"></textarea>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Documentos adjunts (ruta o URL)</label>
-                        <input type="text" 
-                               name="attached_docs"
-                               placeholder="ex: /documents/hr/seguiment1.pdf"
-                               class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
-                    </div>
-
-                    <div class="flex justify-end">
-                        <button type="submit" 
-                                class="px-6 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors font-medium">
-                            Afegir seguiment
-                        </button>
-                    </div>
-                </form>
-            </div>
+            </div>            
         </div>
     </div>
 </x-app-layout>
