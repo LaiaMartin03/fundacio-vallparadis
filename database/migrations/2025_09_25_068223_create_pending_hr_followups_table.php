@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pending_hr_followups', function (Blueprint $table) {
+        Schema::create('hr_followups', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('pending_hr_id');
+            $table->unsignedBigInteger('hr_id');
+            $table->string('type')->default('seguiment');
             $table->date('date');
-            $table->unsignedBigInteger('professional_user_id'); // <--- obligatorio
+            $table->string('topic')->nullable();
             $table->text('description');
-            $table->text('attached_docs')->nullable();
+            $table->string('attached_docs')->nullable();
+            $table->unsignedBigInteger('registrant_id')->nullable();
             $table->timestamps();
 
             // Foreign Keys
-            $table->foreign('pending_hr_id')->references('id')->on('pending_hr_issues')->onDelete('cascade');
-            $table->foreign('professional_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('hr_id')->references('id')->on('hr')->onDelete('cascade');
+            $table->foreign('registrant_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pending_hr_followups');
+        Schema::dropIfExists('hr_followups');
     }
 };

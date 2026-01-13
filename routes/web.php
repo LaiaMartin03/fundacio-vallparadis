@@ -15,6 +15,7 @@ use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Resource;
+use App\Http\Controllers\HRController;
 
 // Ruta raíz: redirige según si el usuario está logueado
 Route::get('/', function () {
@@ -102,6 +103,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);
+
+    // Human resources
+    Route::resource('hr', HRController::class);
+    Route::get('/hr/search', [HRController::class, 'search'])->name('hr.search');
 });
 
 require __DIR__.'/auth.php';
