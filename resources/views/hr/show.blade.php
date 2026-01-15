@@ -173,7 +173,7 @@
                 Seguiments
             </h2>
 
-            <div class="pt-6">
+            <div class="pt-6 hidden" id="seguiments">
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Afegeix seguiment</h3>
 
                 <form action="{{ route('hr.followups.store', $hr) }}" method="POST" class="space-y-4">
@@ -263,4 +263,5 @@
             </div>            
         </div>
     </div>
+    <script src="{{ asset('js/seguiments.js') }}"></script>
 </x-app-layout>
