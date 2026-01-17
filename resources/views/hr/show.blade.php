@@ -169,13 +169,16 @@
         </div>
 
         <div class="mt-8 p-6">
-            <h2 class="font-semibold text-xl text-gray-800 mb-6 pb-2 border-b border-primary_color text-primary_color">
-                Seguiments
-            </h2>
+            <div class="flex justify-between items-center w-full border-b border-primary_color pb-4 mb-6">
+                <h2 class="font-semibold text-2xl text-primary_color">
+                    Seguiments
+                </h2>
+                <button id="seguiment-button" class="px-6 py-2 bg-primary_color text-white rounded-full hover:bg-primary_color/90 transition-colors font-medium shadow-sm hover:shadow-md">
+                    Fer Seguiment
+                </button>
+            </div>
 
             <div class="pt-6 hidden" id="seguiments">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Afegeix seguiment</h3>
-
                 <form action="{{ route('hr.followups.store', $hr) }}" method="POST" class="space-y-4">
                     @csrf
 
@@ -202,7 +205,7 @@
                     </div>
 
                     <div class="flex justify-end">
-                        <button type="submit" class="px-6 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors font-medium">
+                        <button type="submit" class="px-6 py-2 bg-primary_color text-white rounded-full hover:bg-primary_color/90 transition-colors font-medium">
                             Afegir seguiment
                         </button>
                     </div>
