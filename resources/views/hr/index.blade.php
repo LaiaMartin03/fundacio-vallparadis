@@ -34,7 +34,7 @@
                 </a>
             </div>
         @else
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="hr-cards-container">
                 @foreach($pending as $hr)
                     <a class="rounded-xl bg-white flex flex-col p-5 w-full shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] gap-3 hover:shadow-[5px_5px_20px_5px_rgba(0,0,0,0.15)] transition-shadow duration-300 {{ $hr->active == 0 ? 'opacity-60 hover:opacity-80' : '' }}" 
                        href="{{ route('hr.show', $hr->id) }}">
@@ -92,5 +92,5 @@
         
     </div>
     
-    <script src="{{ asset('js/search.js') }}" defer></script>
+    <script src="{{ asset('js/search-hr.js') }}" defer></script>
 </x-app-layout>

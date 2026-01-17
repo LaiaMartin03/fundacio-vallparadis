@@ -11,6 +11,21 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProfessionalController extends Controller
 {
+    // En ProfessionalController.php
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        
+        $professionals = Professional::where('name', 'LIKE', "%{$search}%")
+            ->orWhere('surname', 'LIKE', "%{$search}%")
+            ->get();
+        
+        // Siempre devolver JSON para las peticiones fetch
+        return response()->json([
+            'professionals' => $professionals,
+            'count' => $professionals->count()
+        ]);
+    }
     /**
      * Display a listing of the resource.
      */

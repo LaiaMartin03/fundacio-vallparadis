@@ -61,5 +61,5 @@
     </div>  
 
     <!-- Incluir el archivo search.js -->
-    <script src="{{ asset('js/search.js') }}"></script>
+    <script src="{{ asset('js/search-professional.js') }}"></script>
 </x-app-layout>
