@@ -2,21 +2,26 @@
     @vite('resources/js/programs.js')
 
     <div class="px-20 pb-10 flex flex-col gap-12">
-        <div class="flex gap-20 w-full" id="info">
-            <div id="details" class="flex flex-col gap-5 w-full">
-                <div class="flex items-center gap-5 items-center">
-                    <h1 class="font-mclaren text-primary_color text-4xl">{{ $curso->name }}</h1>
-
-                    <a href="{{ route('curso.edit', $curso->id) }}">
-                        <svg class="size-5 text-primary_color">
-                            <use href="#edit"></use>
-                        </svg>
-                    </a>
+        <div class="flex justify-between items-center p-2">
+            <div>
+                <h1 class="font-mclaren text-primary_color text-3xl mb-2">{{ $curso->name }}</h1>
+                <div class="flex items-center gap-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $curso->active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                        <span class="w-2 h-2 rounded-full {{ $curso->active ? 'bg-green-500' : 'bg-red-500' }} mr-2"></span>
+                        {{ $curso->active ? 'Activo' : 'Inactivo' }}
+                    </span>
+                    <span class="text-gray-500">
+                        {{ $curso->created_at->format('d/m/Y') }}
+                    </span>
                 </div>
-
-                <div>
-                    <p class="text-gray-600 mt-2">{{ $curso->info }}</p>
-                </div>
+            </div>
+            <div class="flex gap-2">
+                <a href="{{ route('curso.edit', $curso->id) }}" class="px-4 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors">
+                    Editar
+                </a>
+                <a href="{{ route('curso.index') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                    Volver
+                </a>
             </div>
         </div>
 
