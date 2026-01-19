@@ -56,6 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])->name('professionals.import');
     Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
     Route::get('/professional/{professional}/uniformes', [ProfessionalController::class, 'uniformes'])->name('professional.uniformes');
+    Route::get('/professional/{professional}/cv/download', [ProfessionalController::class, 'downloadCv'])->name('professional.cv.download');
     Route::post('/professionals/search', [ProfessionalController::class, 'search']);
 
     // formulario via fetch
@@ -107,6 +108,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);
+    Route::get('manteniment/{manteniment}/seguiment/partial', [MantenimentController::class, 'seguimentPartial'])
+        ->name('manteniment.seguiment.partial');
+    Route::get('manteniment/{manteniment}/documents/partial', [MantenimentController::class, 'documentsPartial'])
+        ->name('manteniment.documents.partial');
 
     // Human resources
     Route::resource('hr', HRController::class);

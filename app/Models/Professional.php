@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Professional extends Model
 {
     protected $table = 'users';
-    protected $fillable = ['email','name','password','locker','code','info_id','active'];
+    protected $fillable = ['email','name','password','locker','code','info_id','active','cv_file_path','cv_original_filename','profile_photo_path','profile_photo_original_filename'];
     
     public function resources()
     {

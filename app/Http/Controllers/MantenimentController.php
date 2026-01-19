@@ -54,7 +54,8 @@ class MantenimentController extends Controller
     // Mostrar una entrada específica
     public function show(Manteniment $manteniment)
     {
-        // $manteniment es un modelo, no una colección, así que podemos acceder a $manteniment->id
+        // Cargar la relación responsable para evitar N+1 queries
+        $manteniment->load('responsable');
         return view('manteniment.show', compact('manteniment'));
     }
 
@@ -96,5 +97,18 @@ class MantenimentController extends Controller
         $manteniment->delete();
         return redirect()->route('manteniment.index')
             ->with('success', 'Entrada eliminada correctamente.');
+    }
+
+    // Vista parcial de seguiment
+    public function seguimentPartial(Manteniment $manteniment)
+    {
+        $manteniment->load('responsable');
+        return view('manteniment.partials._seguiment', compact('manteniment'));
+    }
+
+    // Vista parcial de documentos
+    public function documentsPartial(Manteniment $manteniment)
+    {
+        return view('manteniment.partials._documents', compact('manteniment'));
     }
 }

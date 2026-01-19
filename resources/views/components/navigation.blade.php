@@ -31,7 +31,7 @@
                 </svg>
             </x-nav-link>
 
-            <x-nav-link :href="route('manteniment.index')" :active="request()->routeIs('manteniment.index')" title="Manteniment">
+            <x-nav-link :href="route('manteniment.index')" :active="request()->routeIs('manteniment.index')" title="Mantenimiento">
                 <svg class="size-5">
                     <use href="#puzzle"></use>
                 </svg>
@@ -66,7 +66,7 @@
 
 <div class="ml-20 p-5 flex justify-center items-center">
     <div id="calendar" class="flex items-center gap-3 ml-auto">
-        <x-dropdown align="right">
+        <x-dropdown align="right" width="64" contentClasses="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow p-3">
             <x-slot name="trigger">
                 <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                     <svg class="size-5">
@@ -81,7 +81,7 @@
                 </button>
             </x-slot>
 
-            <x-slot name="content" class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow p-3 w-64">
+            <x-slot name="content">
                     <div class="text-center text-sm font-medium mb-2">
                     Noviembre 2025
                     </div>

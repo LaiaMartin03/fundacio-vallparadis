@@ -1,0 +1,100 @@
+{
+  "name": "Fundació Vallparadís - Feature Development Tasks",
+  "tasks": [
+    {
+      "name": "Añadir campo de archivo CV para profesionales",
+      "subtasks": [
+        "Crear migración para añadir campos cv_file_path y cv_original_filename a la tabla users",
+        "Actualizar modelo Professional para incluir campos de CV en fillable",
+        "Añadir campo de archivo CV al formulario de creación de profesionales",
+        "Añadir campo de archivo CV al formulario de edición de profesionales",
+        "Implementar lógica de subida de archivo en ProfessionalController@store (similar a InternalDocController)",
+        "Implementar lógica de actualización de archivo en ProfessionalController@update",
+        "Añadir vista y descarga de CV en la vista show de profesionales",
+        "Añadir validación de archivo (máximo 10MB, formatos permitidos)"
+      ]
+    },
+    {
+      "name": "Crear componente breadcrumb con Tailwind",
+      "subtasks": [
+        "Crear componente blade breadcrumb reutilizable",
+        "Implementar estilos con Tailwind CSS",
+        "Hacer breadcrumb clicable para navegar al nivel anterior",
+        "Integrar breadcrumb en las vistas existentes que ya lo usan"
+      ]
+    },
+    {
+      "name": "Implementar CRUD completo para Serveis Generals y Complementaris",
+      "subtasks": [
+        "Revisar estructura actual de ServeiController y modelo Servei",
+        "Verificar que la migración de serveis tenga todos los campos necesarios",
+        "Crear/actualizar vista index.blade.php para listar servicios (similar a manteniment/index)",
+        "Crear/actualizar vista create.blade.php para crear servicios",
+        "Crear/actualizar vista edit.blade.php para editar servicios",
+        "Crear/actualizar vista show.blade.php para mostrar detalles del servicio",
+        "Añadir validación para que Serveis Generals solo sean 'Cuina' y 'Bugaderia/Neteja' por centro",
+        "Añadir breadcrumbs a todas las vistas de servicios",
+        "Añadir rutas necesarias en web.php si faltan",
+        "Implementar funcionalidad de eliminación con confirmación"
+      ]
+    },
+    {
+      "name": "Añadir campo de foto de perfil para profesionales",
+      "subtasks": [
+        "Crear migración para añadir campos profile_photo_path y profile_photo_original_filename a la tabla users",
+        "Actualizar modelo Professional para incluir campos de foto en fillable",
+        "Añadir campo de archivo de foto al formulario de creación de profesionales",
+        "Añadir campo de archivo de foto al formulario de edición de profesionales",
+        "Implementar lógica de subida de foto en ProfessionalController@store",
+        "Implementar lógica de actualización de foto en ProfessionalController@update",
+        "Mostrar foto de perfil en la vista show de profesionales",
+        "Añadir validación de imagen (formatos: jpg, jpeg, png, máximo 5MB)",
+        "Implementar redimensionamiento/optimización de imagen si es necesario",
+        "Asegurar que si no hay imagen se coloca una default"
+      ]
+    }
+  ],
+  "musts": [
+    "Seguir el mismo patrón de subida de archivos que InternalDocController",
+    "Usar Storage::disk('public') para almacenar archivos",
+    "Eliminar archivos antiguos al actualizar o eliminar registros",
+    "Validar tipos de archivo y tamaños máximos",
+    "Usar Tailwind CSS para todos los estilos",
+    "Mantener consistencia con el diseño existente de manteniment",
+    "Asegurar que los breadcrumbs sean clicables y naveguen correctamente",
+    "Los servicios generales deben limitarse a 'Cuina' y 'Bugaderia/Neteja' por centro"
+  ],
+  "output_format": {
+    "status": "completed",
+    "current_task": 3,
+    "current_subtask": 9,
+    "log": [
+      "Task 0 completed: CV file upload for professionals - all 8 subtasks done",
+      "Task 1 completed: Enhanced breadcrumb component with Tailwind styling",
+      "Task 2 completed: Full CRUD for Serveis Generals and Complementaris",
+      "Created migration add_profile_photo_fields_to_users_table.php",
+      "Updated Professional model: added profile_photo_path and profile_photo_original_filename to fillable",
+      "Updated ProfessionalController@store: added profile photo upload logic with validation",
+      "Updated ProfessionalController@update: added profile photo update logic with old file deletion",
+      "Added profile photo field to create form (formularioAlta.blade.php)",
+      "Added profile photo field to edit form (formulariEditar.blade.php) with preview",
+      "Updated show.blade.php: displays profile photo or default placeholder",
+      "Added image validation: max 5MB, formats jpg, jpeg, png",
+      "Implemented default placeholder when no profile photo exists"
+    ],
+    "command_output": "All profile photo functionality implemented. Migration created, model updated, controller logic added, forms updated, show view displays photo or default placeholder.",
+    "failed_command": "",
+    "next_action": "COMPLETED - All tasks finished",
+    "files_created": [
+      "database/migrations/2026_01_13_000001_add_cv_fields_to_users_table.php",
+      "database/migrations/2026_01_13_000002_add_profile_photo_fields_to_users_table.php",
+      "resources/views/serveis/index.blade.php",
+      "resources/views/serveis/create.blade.php",
+      "resources/views/serveis/edit.blade.php",
+      "resources/views/serveis/show.blade.php"
+    ],
+    "dirs_created": [],
+    "services_running": [],
+    "errors": []
+  }
+}
