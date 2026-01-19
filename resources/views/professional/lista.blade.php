@@ -8,7 +8,7 @@
             </a>
         </div>
 
-        <div id="filters" class="p-5 border rounded-lg bg-white shadow-sm">
+        <div id="filters" class="p-5 ">
             <div class="flex items-center gap-4">
                 <div class="flex-1">
                     <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">
@@ -61,5 +61,5 @@
     </div>  
 
     <!-- Incluir el archivo search.js -->
-    <script src="{{ asset('js/search.js') }}"></script>
+    <script src="{{ asset('js/search-professional.js') }}"></script>
 </x-app-layout>

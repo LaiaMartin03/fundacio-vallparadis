@@ -9,6 +9,53 @@ use App\Models\HRFollowup;
 
 class HRController extends Controller
 {
+public function search(Request $request)
+{
+    $search = $request->input('search');
+    
+    $hrCases = HR::with([
+        'affectedProfessional:id,name,surname',
+        'assignedTo:id,name,surname', 
+        'derivatedTo:id,name,surname'
+    ])
+    ->where(function($query) use ($search) {
+        $query->whereHas('affectedProfessional', function($q) use ($search) {
+            $q->where('name', 'LIKE', "%{$search}%")
+              ->orWhere('surname', 'LIKE', "%{$search}%");
+        })
+        ->orWhere('description', 'LIKE', "%{$search}%");
+    })
+    ->get()
+    ->map(function($hr) {
+        return [
+            'id' => $hr->id,
+            'description' => $hr->description,
+            'attached_docs' => $hr->attached_docs,
+            'active' => $hr->active,
+            'created_at' => $hr->created_at->toISOString(),
+            'affectedProfessional' => $hr->affectedProfessional ? [
+                'id' => $hr->affectedProfessional->id,
+                'name' => $hr->affectedProfessional->name,
+                'surname' => $hr->affectedProfessional->surname
+            ] : null,
+            'assignedTo' => $hr->assignedTo ? [
+                'id' => $hr->assignedTo->id,
+                'name' => $hr->assignedTo->name,
+                'surname' => $hr->assignedTo->surname
+            ] : null,
+            'derivatedTo' => $hr->derivatedTo ? [
+                'id' => $hr->derivatedTo->id,
+                'name' => $hr->derivatedTo->name,
+                'surname' => $hr->derivatedTo->surname
+            ] : null,
+        ];
+    });
+    
+    return response()->json([
+        'hrCases' => $hrCases,
+        'count' => $hrCases->count()
+    ]);
+}
     /**
      * Display a listing of the resource.
      */
@@ -155,44 +202,6 @@ class HRController extends Controller
         $hr->save(); 
 
         return redirect()->route('hr.show', $hr->id)->with('success', 'Cas HR marcat com a actiu correctament');
-    }
-    /**
-     * Search HR records (AJAX)
-     */
-    public function search(Request $request)
-    {
-        $q = trim($request->query('q', ''));
-
-        $query = HR::with(['affectedProfessional', 'assignedTo', 'derivatedTo']);
-
-        if ($q !== '') {
-            $query->where(function ($qr) use ($q) {
-                $qr->where('description', 'like', "%{$q}%")
-                    ->orWhereHas('affectedProfessional', function ($q2) use ($q) {
-                        $q2->where('name', 'like', "%{$q}%");
-                    })
-                    ->orWhereHas('assignedTo', function ($q2) use ($q) {
-                        $q2->where('name', 'like', "%{$q}%");
-                    })
-                    ->orWhereHas('derivatedTo', function ($q2) use ($q) {
-                        $q2->where('name', 'like', "%{$q}%");
-                    });
-            });
-        }
-
-        $results = $query->orderBy('created_at', 'desc')->limit(200)->get();
-
-        return response()->json($results->map(function ($hr) {
-            return [
-                'id' => $hr->id,
-                'created_at' => $hr->created_at ? $hr->created_at->format('Y-m-d') : null,
-                'affected_professional' => $hr->affectedProfessional?->name,
-                'description' => $hr->description,
-                'assigned_to' => $hr->assignedTo?->name,
-                'derivated_to' => $hr->derivatedTo?->name,
-                'active' => (bool) ($hr->active ?? false),
-            ];
-        }));
     }
 }
 

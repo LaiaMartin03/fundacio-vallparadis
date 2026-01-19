@@ -33,7 +33,6 @@ Route::get('/dashboard', function () {
 
 // Rutas protegidas por autenticación
 Route::middleware(['auth', 'verified'])->group(function () {
-
     // Perfil (Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -56,6 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])->name('professionals.import');
     Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
     Route::get('/professional/{professional}/uniformes', [ProfessionalController::class, 'uniformes'])->name('professional.uniformes');
+    Route::post('/professionals/search', [ProfessionalController::class, 'search']);
 
     // formulario via fetch
     Route::get('professional/{professional}/evaluation-form/partial', [EvaluationFormController::class, 'partial'])
@@ -107,7 +107,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Human resources
     Route::resource('hr', HRController::class);
-    Route::get('/hr/search', [HRController::class, 'search'])->name('hr.search');
 
     // Serveis
     Route::resource('serveis', ServeiController::class);
@@ -116,7 +115,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/hr/{hr}/followups', [HRController::class, 'storeFollowup'])->name('hr.followups.store');
     Route::delete('/hr/followups/{followup}', [HRController::class, 'destroyFollowup'])->name('hr.followups.destroy');
     Route::put('hr/{hr}/activate', [HRController::class, 'activate'])->name('hr.activate');
-
+    Route::post('/hr/search', [HRController::class, 'search'])->name('hr.search');
     // Blackboard
     Route::get('/blackboard', function () {
         return view('blackboard');
