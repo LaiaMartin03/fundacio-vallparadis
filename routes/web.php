@@ -98,7 +98,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('outsiders', OutsiderController::class);
     Route::get('/outsiders/edit', [OutsiderController::class, 'edit'])
     ->name('outsiders.edit.custom');
-    
+
+    //Documentació interna
+    Route::resource('internal-docs', InternalDocController::class);
+
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);
 
@@ -108,6 +111,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Serveis
     Route::resource('serveis', ServeiController::class);
+
+    // Rutas para seguimientos de HR
+    Route::post('/hr/{hr}/followups', [HRController::class, 'storeFollowup'])->name('hr.followups.store');
+    Route::delete('/hr/followups/{followup}', [HRController::class, 'destroyFollowup'])->name('hr.followups.destroy');
+    Route::put('hr/{hr}/activate', [HRController::class, 'activate'])->name('hr.activate');
+
+    // Blackboard
+    Route::get('/blackboard', function () {
+        return view('blackboard');
+    })->name('blackboard');
 });
 
 require __DIR__.'/auth.php';

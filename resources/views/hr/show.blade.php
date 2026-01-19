@@ -114,7 +114,6 @@
                                     <p class="text-sm text-primary_color mb-0 leading-none">
                                         {{ $hr->derivatedTo->position ?? 'Profesional' }}
                                     </p>
-
                                 </div>
                                 @if($hr->derivatedTo->email)
                                 <p class="text-sm text-gray-500 mt-1">{{ $hr->derivatedTo->email }}</p>
@@ -168,14 +167,100 @@
                 </div>
             </div>
         </div>
-        <div class="mt-3">
-            <h2 class="font-semibold text-xl text-gray-800 mb-4 pb-2 border-b border-primary_color text-primary_color">
+
+        <div class="mt-8 p-6">
+            <h2 class="font-semibold text-xl text-gray-800 mb-6 pb-2 border-b border-primary_color text-primary_color">
                 Seguiments
             </h2>
-            @if (!$hr)
-                
-            @else
-                <span class="text-gray-400">No hay seguimientos disponibles</span>
-            @endif
+
+            <div class="pt-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Afegeix seguiment</h3>
+
+                <form action="{{ route('hr.followups.store', $hr) }}" method="POST" class="space-y-4">
+                    @csrf
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data</label>
+                            <input type="date" name="date" value="{{ date('Y-m-d') }}" class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tema</label>
+                            <input type="text" name="topic" maxlength="255" placeholder="Títol del seguiment" class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Descripció</label>
+                        <textarea name="description" rows="4" required placeholder="Descripció detallada del seguiment..." class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Documentos adjunts (ruta o URL)</label>
+                        <input type="text" name="attached_docs" placeholder="ex: /documents/hr/seguiment1.pdf" class="mt-1 block w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary_color focus:border-transparent">
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-6 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors font-medium">
+                            Afegir seguiment
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            {{-- Lista de seguimientos --}}
+            <div class="space-y-4 mb-8 mt-8">
+                @if($hr->followups->isEmpty())
+                    <p class="text-gray-500 text-center py-4">No hi ha seguiments registrats.</p>
+                @else
+                    @foreach($hr->followups as $followup)
+                        <div class="border rounded-lg p-4 bg-white hover:bg-gray-100 transition-colors">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex-1">
+                                    <div class="font-semibold text-lg text-gray-900">
+                                        {{ $followup->topic ?? 'Seguiment #' . $followup->id }}
+                                    </div>
+                                    <div class="text-sm text-gray-600 mt-1">
+                                        <span class="font-medium">{{ $followup->date->format('d/m/Y') }}</span>
+                                        @if($followup->registrant)
+                                            · Registrat per: {{ $followup->registrant->name }}
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    @can('delete', $followup)
+                                    <form action="{{ route('hr.followups.destroy', $followup) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-800 text-sm">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                    @endcan
+                                </div>
+                            </div>
+
+                            @if(!empty($followup->description))
+                                <div class="mt-2 text-gray-700">
+                                    {{ $followup->description }}
+                                </div>
+                            @endif
+
+                            @if(!empty($followup->attached_docs))
+                                <div class="mt-3">
+                                    <span class="text-sm text-gray-600">Arxius adjunts:</span>
+                                    <a href="{{ $followup->attached_docs }}" 
+                                       target="_blank" 
+                                       class="text-primary_color hover:underline text-sm ml-2">
+                                        {{ basename($followup->attached_docs) }}
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                @endif
+            </div>            
         </div>
+    </div>
 </x-app-layout>

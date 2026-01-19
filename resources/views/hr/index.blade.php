@@ -36,32 +36,21 @@
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($pending as $hr)
-                    <a class="rounded-xl bg-white flex flex-col p-5 w-full shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] gap-3 hover:shadow-[5px_5px_20px_5px_rgba(0,0,0,0.15)] transition-shadow duration-300" 
+                    <a class="rounded-xl bg-white flex flex-col p-5 w-full shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] gap-3 hover:shadow-[5px_5px_20px_5px_rgba(0,0,0,0.15)] transition-shadow duration-300 {{ $hr->active == 0 ? 'opacity-60 hover:opacity-80' : '' }}" 
                        href="{{ route('hr.show', $hr->id) }}">
                         
-                        <!-- Header con ID y Estado -->
                         <div class="flex justify-between items-start">
                             <span class="font-medium text-lg line-clamp-1">
                                 {{ $hr->affectedProfessional->name ?? 'N/A' }} {{ $hr->affectedProfessional->surname ?? '' }}
                             </span>
                             <div class="flex flex-col items-end gap-1">
-                                @if ($hr->active)
-                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        Actiu
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 ">    
-                                        Inactiu
-                                    </span>
-                                @endif
-
                                 <span class="text-sm text-gray-500">#{{ $hr->id }}</span>
                             </div>
                         </div>
                         
-                        <div class="h-[1px] w-full bg-primary_color mb-2"></div>
+                        <div class="h-[1px] w-full bg-primary_color mb-2 {{ $hr->active == 0 ? 'opacity-50' : '' }}"></div>
                         
-                        <div class="text-gray-700 line-clamp-2 text-justify mb-4 flex-1">
+                        <div class="text-gray-700 line-clamp-2 text-justify mb-4 flex-1 {{ $hr->active == 0 ? 'opacity-70' : '' }}">
                             @if($hr->description)
                                 {{ $hr->description }}
                             @else
@@ -69,7 +58,7 @@
                             @endif
                         </div>
                         
-                        <div class="space-y-3 text-sm">
+                        <div class="space-y-3 text-sm {{ $hr->active == 0 ? 'opacity-70' : '' }}">
                             <div class="flex justify-between">
                                 <span class="text-gray-500">Assignat a:</span>
                                 <span class="font-medium">{{ $hr->assignedTo->name ?? 'N/A' }} {{ $hr->assignedTo->surname ?? '' }}</span>
@@ -80,7 +69,7 @@
                             </div>
                         </div>
                         
-                        <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center">
+                        <div class="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center {{ $hr->active == 0 ? 'opacity-70' : '' }}">
                             <span class="text-primary_color text-sm">
                                 {{ $hr->created_at->format('d/m/Y') }}
                             </span>

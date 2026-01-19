@@ -13,7 +13,7 @@
                 @if($outsiders->isEmpty())
                     <p>Ni hi han contactes registrats.</p>
                 @else
-                    <div class="grid grid-cols-6">
+                    <div class="grid grid-cols-6 border">
                         @foreach($outsiders as $outsider)
                             <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] outsider-card"
                                 data-id="3"

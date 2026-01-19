@@ -37,4 +37,9 @@ class HR extends Model
     {
         return $this->belongsTo(Center::class, 'center_id');
     }
+
+    public function followups()
+    {
+        return $this->hasMany(HRFollowup::class, 'hr_id')->orderBy('date', 'desc');
+    }
 }
