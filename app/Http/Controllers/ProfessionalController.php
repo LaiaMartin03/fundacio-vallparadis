@@ -11,20 +11,55 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProfessionalController extends Controller
 {
-    // En ProfessionalController.php
     public function search(Request $request)
     {
-        $search = $request->input('search');
-        
-        $professionals = Professional::where('name', 'LIKE', "%{$search}%")
-            ->orWhere('surname', 'LIKE', "%{$search}%")
-            ->get();
-        
-        // Siempre devolver JSON para las peticiones fetch
-        return response()->json([
-            'professionals' => $professionals,
-            'count' => $professionals->count()
-        ]);
+        try {
+            $searchTerm = $request->input('search', '');
+            
+            // Buscar profesionales - versión simplificada
+            $query = Professional::query();
+            
+            if (!empty($searchTerm)) {
+                $query->where(function($q) use ($searchTerm) {
+                    $q->where('name', 'LIKE', "%{$searchTerm}%")
+                      ->orWhere('surname', 'LIKE', "%{$searchTerm}%")
+                      ->orWhere('profession', 'LIKE', "%{$searchTerm}%");
+                });
+            }
+            
+            $professionals = $query->get();
+            
+            // Formatear respuesta
+            $formatted = $professionals->map(function($pro) {
+                return [
+                    'id' => $pro->id,
+                    'name' => $pro->name,
+                    'surname' => $pro->surname,
+                    'profession' => $pro->profession ?? 'Sense professió',
+                    'full_name' => $pro->name . ' ' . $pro->surname,
+                    'show_url' => route('professional.show', $pro->id),
+                ];
+            });
+            
+            // Agrupar por profesión
+            $grouped = $formatted->groupBy('profession');
+            
+            return response()->json([
+                'success' => true,
+                'professionals' => $formatted,
+                'grouped' => $grouped,
+                'total' => $professionals->count(),
+                'message' => 'OK'
+            ]);
+            
+        } catch (\Exception $e) {
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error interno del servidor',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
     /**
      * Display a listing of the resource.

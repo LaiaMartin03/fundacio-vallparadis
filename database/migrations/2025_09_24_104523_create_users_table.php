@@ -17,16 +17,16 @@ return new class extends Migration
             $table->string('password');
             $table->string('locker')->nullable();
             $table->string('code')->nullable();
-            $table->unsignedBigInteger('info_id')->nullable();
             //personal info
             $table->string('name');
             $table->string('surname');
+            $table->string('profession');
             $table->string('address', 500)->nullable();
             $table->string('phone', 20)->nullable();
             $table->date('birthday')->nullable();
             $table->string('curriculum')->nullable();
             //roles
-            $table->enum('role', ['Responsable/Equip Tecnic', 'Equip Directiu', 'Administració'])->default('Responsable/Equip Tecnic');
+            $table->enum('role', ['Responsable/Equip Tecnic', 'Equip Directiu', 'Administració','Treballador'])->default('Treballador');
             $table->boolean('active')->nullable();
             $table->timestamps();
 
