@@ -13,6 +13,7 @@ use App\Http\Controllers\CenterController;
 use App\Http\Controllers\MantenimentController;
 use App\Http\Controllers\ServeiController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\InternalDocController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Resource;
@@ -101,6 +102,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Documentació interna
     Route::resource('internal-docs', InternalDocController::class);
+    Route::post('/internal-docs/search', [InternalDocController::class, 'search'])->name('internal-docs.search');
+    Route::get('/internal-docs/{internalDoc}/download', [InternalDocController::class, 'download'])->name('internal-docs.download');
 
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);

@@ -14,13 +14,10 @@ return new class extends Migration
         Schema::create('internal_docs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('desc');
-            $table->string('type');
-
-            $table->foreignId('relatedDocs')
-                ->nullable()
-                ->constrained('internal_docs')
-                ->nullOnDelete();
+            $table->text('desc')->nullable();
+            $table->string('type')->nullable();
+            $table->string('file_path')->nullable();
+            $table->string('original_filename')->nullable();
 
             $table->foreignId('added_by')
                 ->constrained('users')
