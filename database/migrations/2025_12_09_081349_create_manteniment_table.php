@@ -6,32 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('manteniment', function (Blueprint $table) {
+        Schema::create('manteniments', function (Blueprint $table) {
             $table->id();
-
-            $table->date('title');  
+            $table->enum('tipo', ['manteniment', 'seguiment'])->default('manteniment');
+            $table->date('data'); // fecha de apertura o de seguimiento
+            $table->unsignedBigInteger('responsable_id'); // usuario responsable/profesional
             $table->text('descripcio');
-            
-            $table->foreignId('responsable_id')
-                ->constrained('users')
-                ->onDelete('cascade');
-            
-            $table->json('docs_adjunts')->nullable();
-
+            $table->json('docs_adjunts')->nullable(); // para archivos adjuntos
             $table->timestamps();
+
+            $table->foreign('responsable_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('manteniment');
+        Schema::dropIfExists('manteniments');
     }
 };

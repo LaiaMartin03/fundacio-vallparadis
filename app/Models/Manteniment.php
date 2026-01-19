@@ -2,44 +2,28 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Manteniment extends Model
 {
-    /**
-     * Tabla asociada (por si no sigue convención).
-     */
-    protected $table = 'manteniment';
+    use HasFactory;
 
-    /**
-     * Campos que se pueden asignar masivamente.
-     */
     protected $fillable = [
         'tipo',
         'data',
+        'responsable_id',
         'descripcio',
-        'responsable',
         'docs_adjunts',
     ];
 
-    /**
-     * Casteos automáticos.
-     */
     protected $casts = [
+        'docs_adjunts' => 'array', // convierte JSON a array automáticamente
         'data' => 'date',
-        'docs_adjunts' => 'array',
     ];
 
-    /**
-     * Scope para filtrar por tipo.
-     */
-    public function scopeManteniment($query)
+    public function responsable()
     {
-        return $query->where('tipo', 'manteniment');
-    }
-
-    public function scopeSeguiment($query)
-    {
-        return $query->where('tipo', 'seguiment');
+        return $this->belongsTo(User::class, 'responsable_id');
     }
 }

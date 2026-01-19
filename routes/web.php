@@ -11,6 +11,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UniformController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\MantenimentController;
+use App\Http\Controllers\ServeiController;
 use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -104,6 +105,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Human resources
     Route::resource('hr', HRController::class);
     Route::get('/hr/search', [HRController::class, 'search'])->name('hr.search');
+
+    // Serveis
+    Route::resource('serveis', ServeiController::class);
 });
 
 require __DIR__.'/auth.php';
