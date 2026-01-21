@@ -17,8 +17,20 @@
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
         <h1 class="text-2xl font-bold mb-4">Nou Professional</h1>
 
-        <form action="{{ route('professional.store') }}" method="POST" class="space-y-4">
+        <form action="{{ route('professional.store') }}" method="POST" class="space-y-4" enctype="multipart/form-data">
             @csrf
+
+            <!-- Profile Photo -->
+            <div class="mt-4">
+                <label for="profile_photo" class="block text-sm font-medium text-gray-700 mb-2">
+                    Foto de perfil (opcional)
+                </label>
+                <input type="file" id="profile_photo" name="profile_photo" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent"
+                    accept="image/jpeg,image/jpg,image/png">
+                <p class="text-sm text-gray-500 mt-1">Màxim 5MB. Formats: JPG, JPEG, PNG</p>
+                <x-input-error :messages="$errors->get('profile_photo')" class="mt-2" />
+            </div>
 
             <x-text-input id="name" name="name" type="text" placeholder="Nom" class="mt-1 block w-full" :value="old('name')" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
@@ -54,6 +66,18 @@
                 </div>
 
             <x-input-error :messages="$errors->get('active')" class="mt-2" />
+
+            <!-- CV File -->
+            <div class="mt-4">
+                <label for="cv_file" class="block text-sm font-medium text-gray-700 mb-2">
+                    Curriculum Vitae (opcional)
+                </label>
+                <input type="file" id="cv_file" name="cv_file" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent"
+                    accept=".pdf,.doc,.docx,.txt">
+                <p class="text-sm text-gray-500 mt-1">Màxim 10MB. Formats: PDF, DOC, DOCX, TXT</p>
+                <x-input-error :messages="$errors->get('cv_file')" class="mt-2" />
+            </div>
 
             <div class="flex justify-end mt-4">
                 <x-primary-button>

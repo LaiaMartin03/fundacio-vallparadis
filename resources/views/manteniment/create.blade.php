@@ -21,8 +21,8 @@
             {{-- Tipo --}}
             <select name="tipo" class="form-select w-full" required>
                 <option value="">— Selecciona tipo —</option>
-                <option value="manteniment" {{ old('tipo') == 'manteniment' ? 'selected' : '' }}>Manteniment</option>
-                <option value="seguiment" {{ old('tipo') == 'seguiment' ? 'selected' : '' }}>Seguiment</option>
+                <option value="manteniment" {{ old('tipo') == 'manteniment' ? 'selected' : '' }}>Mantenimiento</option>
+                <option value="seguiment" {{ old('tipo') == 'seguiment' ? 'selected' : '' }}>Seguimiento</option>
             </select>
 
             {{-- Fecha --}}

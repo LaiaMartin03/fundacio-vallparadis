@@ -14,7 +14,12 @@ class MantenimentController extends Controller
         // Trae todos los manteniments con su responsable, ordenados por fecha de creación
         $manteniments = Manteniment::with('responsable')->latest()->get();
 
-        return view('manteniment.index', compact('manteniments'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Mantenimiento' => route('manteniment.index'),
+        ];
+
+        return view('manteniment.index', compact('manteniments', 'breadcrumbs'));
     }
 
     // Mostrar formulario de creación
@@ -22,7 +27,14 @@ class MantenimentController extends Controller
     {
         // Traemos todos los usuarios como posibles responsables/profesionales
         $users = User::orderBy('name')->get();
-        return view('manteniment.create', compact('users'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Mantenimiento' => route('manteniment.index'),
+            'Crear entrada' => route('manteniment.create'),
+        ];
+
+        return view('manteniment.create', compact('users', 'breadcrumbs'));
     }
 
     // Guardar nueva entrada
@@ -54,15 +66,31 @@ class MantenimentController extends Controller
     // Mostrar una entrada específica
     public function show(Manteniment $manteniment)
     {
-        // $manteniment es un modelo, no una colección, así que podemos acceder a $manteniment->id
-        return view('manteniment.show', compact('manteniment'));
+        // Cargar la relación responsable para evitar N+1 queries
+        $manteniment->load('responsable');
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Mantenimiento' => route('manteniment.index'),
+            'Entrada #' . $manteniment->id => route('manteniment.show', $manteniment->id),
+        ];
+
+        return view('manteniment.show', compact('manteniment', 'breadcrumbs'));
     }
 
     // Mostrar formulario de edición
     public function edit(Manteniment $manteniment)
     {
         $users = User::orderBy('name')->get();
-        return view('manteniment.edit', compact('manteniment', 'users'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Mantenimiento' => route('manteniment.index'),
+            'Entrada #' . $manteniment->id => route('manteniment.show', $manteniment->id),
+            'Editar' => route('manteniment.edit', $manteniment->id),
+        ];
+
+        return view('manteniment.edit', compact('manteniment', 'users', 'breadcrumbs'));
     }
 
     // Actualizar entrada existente
@@ -96,5 +124,18 @@ class MantenimentController extends Controller
         $manteniment->delete();
         return redirect()->route('manteniment.index')
             ->with('success', 'Entrada eliminada correctamente.');
+    }
+
+    // Vista parcial de seguiment
+    public function seguimentPartial(Manteniment $manteniment)
+    {
+        $manteniment->load('responsable');
+        return view('manteniment.partials._seguiment', compact('manteniment'));
+    }
+
+    // Vista parcial de documentos
+    public function documentsPartial(Manteniment $manteniment)
+    {
+        return view('manteniment.partials._documents', compact('manteniment'));
     }
 }

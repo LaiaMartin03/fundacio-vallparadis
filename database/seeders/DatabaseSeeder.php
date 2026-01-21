@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ProjectSeeder::class,
             CursoSeeder::class,
             HRSeeder::class,
+            ServeisSeeder::class,
         ]);
     }
 }

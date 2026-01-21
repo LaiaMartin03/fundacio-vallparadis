@@ -1,42 +1,61 @@
-<x-app-layout>
-
-    {{-- Mensajes de éxito o errores --}}
-    @if (session('success'))
-        <div class="text-green-600 mb-4">
-            {{ session('success') }}
+<x-app-layout :breadcrumbs="$breadcrumbs">
+    <div class="px-20 py-10 space-y-4">
+        <div id="header" class="flex justify-between items-center mb-12">
+            <h1 class="font-mclaren text-primary_color text-4xl">Pujar nou document</h1>
         </div>
-    @elseif ($errors->any())
-        <div class="text-red-600 mb-4">
-            <ul class="list-disc pl-5">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
-    <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
-        <h1 class="text-2xl font-bold mb-4">Nou servei</h1>
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div class="px-6 pb-6 pt-6">
+                <form action="{{ route('internal-docs.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    @csrf
+                    <div>
+                        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                            Títol <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="title" name="title" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent"
+                            value="{{ old('title') }}">
+                        @error('title')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-        <form action="{{ route('serveis.store') }}" method="POST" class="space-y-4">
-            @csrf
-                <x-text-input id="name" name="name" type="text" 
-                    placeholder="Nom del document" class="mt-1 block w-full" :value="old('name')" />
+                    <div>
+                        <label for="desc" class="block text-sm font-medium text-gray-700 mb-2">
+                            Descripció (opcional)
+                        </label>
+                        <textarea id="desc" name="desc" rows="3"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent"
+                            placeholder="Descripció del document...">{{ old('desc') }}</textarea>
+                        @error('desc')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                <x-text-input id="tipus" name="tipus" type="text" 
-                    placeholder="Tipus" class="mt-1 block w-full" :value="old('tipus')" />
+                    <div>
+                        <label for="file" class="block text-sm font-medium text-gray-700 mb-2">
+                            Fitxer <span class="text-red-500">*</span>
+                        </label>
+                        <input type="file" id="file" name="file" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent"
+                            accept=".pdf,.doc,.docx,.txt,.xls,.xlsx">
+                        <p class="text-sm text-gray-500 mt-1">Màxim 10MB. Formats: PDF, DOC, DOCX, TXT, XLS, XLSX</p>
+                        @error('file')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                <label for="observacions" class="text-orange-400 -mb-1 mt-3">Observacions</label>
-                <x-trix-input id="observacions" name="observacions" :value="old('observacions')" autocomplete="off" class="border-0 border-b border-b-[#ff9740] placeholder-[#ff9740] py-2 px-0 focus:outline-none" />
-
-                <label for="description" class="text-orange-400 -mb-1 mt-3">Descripció</label>
-                <x-trix-input id="description" name="description" :value="old('description')" autocomplete="off" class="border-0 border-b border-b-[#ff9740] placeholder-[#ff9740] py-2 px-0 focus:outline-none" />
-
-            <div class="flex justify-end mt-4">
-                <x-primary-button>
-                    Crear
-                </x-primary-button>
+                    <div class="flex justify-end mt-4 gap-4">
+                        <a href="{{ route('internal-docs.index') }}" 
+                           class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                            Cancel·lar
+                        </a>
+                        <x-primary-button type="submit">
+                            Pujar document
+                        </x-primary-button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </x-app-layout>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Servei;
 use App\Models\InternalDoc;
 use App\Models\User;
+use App\Models\Center;
 use Illuminate\Http\Request;
 
 class ServeiController extends Controller
@@ -15,7 +16,15 @@ class ServeiController extends Controller
     public function index()
     {
         $serveis = Servei::with(['user', 'internalDoc'])->get();
-        return view('serveis.index', compact('serveis'));
+        $serveisGenerals = $serveis->where('tipus', 'general');
+        $serveisComplementaris = $serveis->where('tipus', 'complementari');
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Serveis' => route('serveis.index'),
+        ];
+
+        return view('serveis.index', compact('serveisGenerals', 'serveisComplementaris', 'breadcrumbs'));
     }
 
     /**
@@ -25,8 +34,15 @@ class ServeiController extends Controller
     {
         $users = User::all();
         $internalDocs = InternalDoc::all();
+        $centers = Center::all();
 
-        return view('serveis.create', compact('users', 'internalDocs'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Serveis' => route('serveis.index'),
+            'Crear servei' => route('serveis.create'),
+        ];
+
+        return view('serveis.create', compact('users', 'internalDocs', 'centers', 'breadcrumbs'));
     }
 
     /**
@@ -35,18 +51,20 @@ class ServeiController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'tipus' => 'required|string|max:255',
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'desc' => 'required|string',
             'observacions' => 'nullable|string',
             'user_id' => 'nullable|exists:users,id',
             'internal_doc_id' => 'nullable|exists:internal_docs,id',
         ]);
 
+        // All new services are complementari by default
+        $validated['tipus'] = 'complementari';
+
         Servei::create($validated);
 
         return redirect()->route('serveis.index')
-            ->with('success', 'Servei creado correctamente');
+            ->with('success', 'Servei creat correctament.');
     }
 
     /**
@@ -54,7 +72,15 @@ class ServeiController extends Controller
      */
     public function show(Servei $servei)
     {
-        return view('serveis.show', compact('servei'));
+        $servei->load(['user', 'internalDoc']);
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Serveis' => route('serveis.index'),
+            $servei->name => route('serveis.show', $servei->id),
+        ];
+
+        return view('serveis.show', compact('servei', 'breadcrumbs'));
     }
 
     /**
@@ -64,8 +90,16 @@ class ServeiController extends Controller
     {
         $users = User::all();
         $internalDocs = InternalDoc::all();
+        $centers = Center::all();
 
-        return view('serveis.edit', compact('servei', 'users', 'internalDocs'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Serveis' => route('serveis.index'),
+            $servei->name => route('serveis.show', $servei->id),
+            'Editar' => route('serveis.edit', $servei->id),
+        ];
+
+        return view('serveis.edit', compact('servei', 'users', 'internalDocs', 'centers', 'breadcrumbs'));
     }
 
     /**
@@ -74,18 +108,26 @@ class ServeiController extends Controller
     public function update(Request $request, Servei $servei)
     {
         $validated = $request->validate([
-            'tipus' => 'required|string|max:255',
+            'tipus' => 'required|in:general,complementari',
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'desc' => 'required|string',
             'observacions' => 'nullable|string',
             'user_id' => 'nullable|exists:users,id',
             'internal_doc_id' => 'nullable|exists:internal_docs,id',
         ]);
 
+        // Validar que los servicios generales solo sean 'Cuina' o 'Bugaderia/Neteja'
+        if ($validated['tipus'] === 'general') {
+            $allowedNames = ['Cuina', 'Bugaderia/Neteja', 'Neteja i Bugaderia'];
+            if (!in_array($validated['name'], $allowedNames)) {
+                return back()->withErrors(['name' => 'Los servicios generales solo pueden ser "Cuina" o "Bugaderia/Neteja"'])->withInput();
+            }
+        }
+
         $servei->update($validated);
 
-        return redirect()->route('serveis.index')
-            ->with('success', 'Servei actualizado correctamente');
+        return redirect()->route('serveis.show', $servei->id)
+            ->with('success', 'Servei actualitzat correctament.');
     }
 
     /**
@@ -96,6 +138,6 @@ class ServeiController extends Controller
         $servei->delete();
 
         return redirect()->route('serveis.index')
-            ->with('success', 'Servei eliminado correctamente');
+            ->with('success', 'Servei eliminat correctament.');
     }
 }

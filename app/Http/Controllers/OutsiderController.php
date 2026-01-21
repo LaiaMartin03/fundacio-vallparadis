@@ -46,8 +46,9 @@ class OutsiderController extends Controller
             'email' => 'required|email|unique:outsiders,email',
             'phone' => 'required|string|max:20',
             'service' => 'required|string|max:255',
-            'task' => 'required|string|max:255',
+            'task' => 'required|string|in:General,Assistencial',
             'business' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
         Outsider::create($data);
@@ -72,15 +73,21 @@ class OutsiderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Outsider $outsider)
+    public function edit(Request $request)
     {
+        $id = $request->input('id') ?? $request->route('outsider');
+        
+        if (is_object($id)) {
+            $outsider = $id;
+        } else {
+            $outsider = Outsider::findOrFail($id);
+        }
+        
         $breadcrumbs = [
             'Inicio' => route('dashboard'),
             'Contactes externs' => route('outsiders.index'),
-            'Editar' => route('outsiders.edit', $outsider->id)
+            'Editar' => route('outsiders.edit', ['id' => $outsider->id])
         ];
-
-        $outsider = Outsider::findOrFail($request->id);
 
         return view('outsiders.edit', compact('outsider', 'breadcrumbs'));
     }
@@ -95,8 +102,9 @@ class OutsiderController extends Controller
             'email' => 'required|email|unique:outsiders,email,' . $outsider->id,
             'phone' => 'required|string|max:20',
             'service' => 'required|string|max:255',
-            'task' => 'required|string|max:255',
+            'task' => 'required|string|in:General,Assistencial',
             'business' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
         ]);
 
         $outsider->update($data);

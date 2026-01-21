@@ -14,7 +14,7 @@ class Servei extends Model
     protected $fillable = [
         'tipus',
         'name',
-        'description',
+        'desc',
         'observacions',
         'internal_doc_id',
         'user_id',

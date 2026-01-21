@@ -4,6 +4,11 @@
             <h1 class="font-mclaren text-primary_color text-4xl">Contactes externs</h1>
         </div>
 
+        <x-buscador 
+            label="Cercar contactes" 
+            placeholder="Escriu el nom, email o tasca..." 
+        />
+
         <div class="flex gap-5 w-full h-[650px]">
             <div class="flex flex-col gap-12 w-full">
                 <div>
@@ -13,7 +18,7 @@
                 @if($outsiders->isEmpty())
                     <p>Ni hi han contactes registrats.</p>
                 @else
-                    <div class="grid grid-cols-6 border">
+                    <div class="grid grid-cols-6 border" id="outsiders-grid">
                         @foreach($outsiders as $outsider)
                             <div class="rounded-xl bg-white flex flex-col p-5 w-fit shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] outsider-card"
                                 data-id="3"
@@ -56,7 +61,7 @@
             <div class="bg-white rounded-xl p-4 flex flex-col gap-4 h-full hidden" id="outsider-info">
                 <div class="flex w-full justify-between">
                     <span class="font-medium text-xl" id="fullname"></span>
-                    <a id="edit-link" href="#" data-base="{{ route('outsiders.edit.custom') }}">
+                    <a id="edit-link" href="#" data-base="{{ route('outsiders.edit') }}">
                         <svg class="size-5 text-primary_color">
                             <use href="#edit" />
                         </svg>
@@ -78,4 +83,35 @@
     </div>
 
     <x-add-button href="{{ route('outsiders.create') }}"></x-add-button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const grid = document.getElementById('outsiders-grid');
+            
+            if (!searchInput || !grid) return;
+            
+            const cards = Array.from(grid.querySelectorAll('.outsider-card'));
+            
+            searchInput.addEventListener('input', function() {
+                const term = this.value.trim().toLowerCase();
+                
+                cards.forEach(card => {
+                    const fullname = card.dataset.fullname?.toLowerCase() || '';
+                    const email = card.dataset.email?.toLowerCase() || '';
+                    const phone = card.dataset.phone?.toLowerCase() || '';
+                    const task = card.dataset.task?.toLowerCase() || '';
+                    const description = card.dataset.description?.toLowerCase() || '';
+                    
+                    const matches = fullname.includes(term) || 
+                                   email.includes(term) || 
+                                   phone.includes(term) || 
+                                   task.includes(term) || 
+                                   description.includes(term);
+                    
+                    card.style.display = matches ? '' : 'none';
+                });
+            });
+        });
+    </script>
 </x-app-layout>

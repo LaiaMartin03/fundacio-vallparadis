@@ -12,7 +12,13 @@ class LearningProgramController extends Controller
     public function index()
     {
         $cursos = LearningProgram::all();
-        return view('learningprogram.index', compact('cursos'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Programas de Aprendizaje' => route('learningprogram.index'),
+        ];
+
+        return view('learningprogram.index', compact('cursos', 'breadcrumbs'));
     }
 
     public function create()
@@ -21,8 +27,14 @@ class LearningProgramController extends Controller
         $centers = \App\Models\Center::all();
         $cursos = \App\Models\Curso::all();
         $professionals = Professional::all(); // Usa el modelo correcto
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Programas de Aprendizaje' => route('learningprogram.index'),
+            'Crear programa' => route('learningprogram.create'),
+        ];
         
-        return view('learningprogram.create', compact('learningprogram','centers','cursos','professionals'));
+        return view('learningprogram.create', compact('learningprogram','centers','cursos','professionals', 'breadcrumbs'));
     }
 
     public function store(Request $request)

@@ -1,11 +1,18 @@
 <x-app-layout>  
+    <div class="px-20 py-10">
+        <div id="header" class="flex justify-between items-center mb-8">
+            <h1 class="font-mclaren text-primary_color text-4xl">Centres</h1>
+        </div>
 
-    <h1>Listado de Centers</h1>
+        <x-buscador 
+            label="Cercar centres" 
+            placeholder="Escriu per cercar..." 
+        />
 
-    @if($centers->isEmpty())
-        <p>Ni hi han centres registrats.</p>
-    @else
-        <table border="1">
+        @if($centers->isEmpty())
+            <p>Ni hi han centres registrats.</p>
+        @else
+            <table border="1" id="centers-table">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -45,5 +52,26 @@
                 @endforeach
             </tbody>
         </table>
-    @endif
+        @endif
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('search-input');
+                const table = document.getElementById('centers-table');
+                
+                if (!searchInput || !table) return;
+                
+                const rows = Array.from(table.querySelectorAll('tbody tr'));
+                
+                searchInput.addEventListener('input', function() {
+                    const term = this.value.trim().toLowerCase();
+                    
+                    rows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        row.style.display = text.includes(term) ? '' : 'none';
+                    });
+                });
+            });
+        </script>
+    </div>
 </x-app-layout>  

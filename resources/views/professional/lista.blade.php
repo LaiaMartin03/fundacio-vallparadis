@@ -7,23 +7,10 @@
             </a>
         </div>
 
-        <!-- BUSCADOR -->
-        <div id="filters" class="p-5">
-            <div class="flex items-center gap-4">
-                <div class="flex-1">
-                    <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">
-                        Cercar per nom o professió
-                    </label>
-                    <input type="text" id="search-input" placeholder="Escriu el nom o professió del professional..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent">
-                </div>
-                <button id="clear-search" class="mt-6 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                    Netejar
-                </button>
-            </div>
-            <div id="search-results" class="text-sm text-gray-500 mt-2 hidden">
-                S'estan mostrant <span id="results-count">0</span> resultats
-            </div>
-        </div>
+        <x-buscador 
+            label="Cercar per nom" 
+            placeholder="Escriu el nom del professional..." 
+        />
 
         <!-- CONTENEDOR PRINCIPAL PARA LAS SECCIONES -->
         <div id="professionals-container">

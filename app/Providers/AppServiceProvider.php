@@ -20,7 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('breadcrumbs', []);
-        $this->app['router']->aliasMiddleware('role', \App\Http\Middleware\CheckRole::class);
+        // Share breadcrumbs with all views if they exist in view data
+        View::composer('*', function ($view) {
+            if (isset($view->getData()['breadcrumbs'])) {
+                View::share('breadcrumbs', $view->getData()['breadcrumbs']);
+            }
+        });
     }
 }

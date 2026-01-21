@@ -143,7 +143,14 @@ class ProjectController extends Controller
         // Obtener sólo los profesionales que NO están asignados
         $professionals = Professional::whereNotIn('id', $assigned)->get();
 
-        return view('project.addProfessional', compact('project', 'professionals'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Proyectos' => route('project.index'),
+            $project->name => route('project.show', $project->id),
+            'Añadir profesional' => route('project.addProfessional', $project->id),
+        ];
+
+        return view('project.addProfessional', compact('project', 'professionals', 'breadcrumbs'));
     }
     
 

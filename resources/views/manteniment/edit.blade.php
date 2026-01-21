@@ -1,119 +1,95 @@
 <x-app-layout>
-
-    {{-- Mensajes de éxito o errores --}}
-    @if (session('success'))
-        <div class="text-green-600 mb-4">
-            {{ session('success') }}
-        </div>
-    @elseif ($errors->any())
-        <div class="text-red-600 mb-4">
-            <ul class="list-disc pl-5">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
-        <h1 class="text-2xl font-bold mb-4">Editar Curs</h1>
 
-        <form action="{{ route('curso.update', $curso) }}" method="POST" class="space-y-4">
+        @if (session('success'))
+            <div class="text-green-600 mb-4">{{ session('success') }}</div>
+        @elseif ($errors->any())
+            <div class="text-red-600 mb-4">
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <h1 class="text-2xl font-bold mb-4">Editar entrada</h1>
+
+        <form action="{{ route('manteniment.update', $manteniment->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             @method('PUT')
-            
-            {{-- Campo active hidden --}}
-            <input type="hidden" name="active" value="{{ old('active', $curso->active ?? 1) }}">
 
-            {{-- Name --}}
+            {{-- Tipo --}}
             <div>
-                <x-input-label for="name" :value="__('Nom del curs')" />
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" 
-                    :value="old('name', $curso->name)" required autofocus />
-                <x-input-error :messages="$errors->get('name')" class="mt-2" /> 
-            </div>
-
-            {{-- Forcem --}}
-            <div>   
-                <label for="forcem" class="block text-sm font-medium text-gray-700">Forcem</label>
-                <x-text-input id="forcem" name="forcem" type="number" step="1" class="mt-1 block w-full" 
-                    :value="old('forcem', $curso->forcem)" />
-                <x-input-error :messages="$errors->get('forcem')" class="mt-2" />
-            </div>
-
-            {{-- Hours --}}
-            <div>
-                <label for="hours" class="block text-sm font-medium text-gray-700">Hores</label>
-                <x-text-input id="hours" name="hours" type="number" step="0.1" placeholder="Hores" class="mt-1 block w-full" 
-                    :value="old('hours', $curso->hours)" />
-                <x-input-error :messages="$errors->get('hours')" class="mt-2" />
-            </div>
-
-            {{-- Type --}}
-            <div>
-                <label for="type" class="block text-sm font-medium text-gray-700">Tipus</label>
-                <select id="type" name="type" required class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none">
-                    <option value="">-- Selecciona un tipus --</option>
-                    <option value="Formació Interna" {{ old('type', $curso->type) == 'Formació Interna' ? 'selected' : '' }}>Formació Interna</option>
-                    <option value="Formació Externa" {{ old('type', $curso->type) == 'Formació Externa' ? 'selected' : '' }}>Formació Externa</option>
-                    <option value="Formació Salut laboral" {{ old('type', $curso->type) == 'Formació Salut laboral' ? 'selected' : '' }}>Formació Salut laboral</option>
-                    <option value="Jorn/Taller/Seminari/Congrès" {{ old('type', $curso->type) == 'Jorn/Taller/Seminari/Congrès' ? 'selected' : '' }}>Jorn/Taller/Seminari/Congrès</option>
+                <label for="tipo" class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                <select name="tipo" id="tipo" class="form-select w-full" required>
+                    <option value="">— Selecciona tipo —</option>
+                    <option value="manteniment" {{ old('tipo', $manteniment->tipo) == 'manteniment' ? 'selected' : '' }}>Mantenimiento</option>
+                    <option value="seguiment" {{ old('tipo', $manteniment->tipo) == 'seguiment' ? 'selected' : '' }}>Seguimiento</option>
                 </select>
-                <x-input-error :messages="$errors->get('type')" class="mt-2" />
+                <x-input-error :messages="$errors->get('tipo')" class="mt-2" />
             </div>
 
-            {{-- Modality --}}
+            {{-- Fecha --}}
             <div>
-                <label for="modality" class="block text-sm font-medium text-gray-700">Modalitat</label>
-                <select id="modality" name="modality" required class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none">
-                    <option value="">-- Selecciona una modalitat --</option>
-                    <option value="Presencial" {{ old('modality', $curso->modality) == 'Presencial' ? 'selected' : '' }}>Presencial</option>
-                    <option value="Online" {{ old('modality', $curso->modality) == 'Online' ? 'selected' : '' }}>Online</option>
-                    <option value="Híbrid" {{ old('modality', $curso->modality) == 'Híbrid' ? 'selected' : '' }}>Mixte</option>
+                <label for="data" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+                <x-text-input id="data" name="data" type="date" class="mt-1 block w-full" :value="old('data', $manteniment->data->format('Y-m-d'))" required />
+                <x-input-error :messages="$errors->get('data')" class="mt-2" />
+            </div>
+
+            {{-- Descripción --}}
+            <div>
+                <label for="descripcio" class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                <textarea id="descripcio" name="descripcio" rows="4" placeholder="Descripción" class="mt-1 block w-full border-gray-300 focus:border-primary_color focus:ring-primary_color rounded-md shadow-sm" required>{{ old('descripcio', $manteniment->descripcio) }}</textarea>
+                <x-input-error :messages="$errors->get('descripcio')" class="mt-2" />
+            </div>
+
+            {{-- Responsable / Profesional --}}
+            <div>
+                <label for="responsable_id" class="block text-sm font-medium text-gray-700 mb-1">Responsable</label>
+                <select name="responsable_id" id="responsable_id" class="form-select w-full" required>
+                    <option value="">— Selecciona responsable —</option>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}" {{ old('responsable_id', $manteniment->responsable_id) == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }} {{ $user->surname ?? '' }} ({{ $user->email }})
+                        </option>
+                    @endforeach
                 </select>
-                <x-input-error :messages="$errors->get('modality')" class="mt-2" />
-            </div>
-            
-            {{-- Info --}}
-            <div>
-                <label for="info" class="block text-sm font-medium text-gray-700">Informació</label>
-                <textarea id="info" name="info" rows="3" placeholder="Informació addicional" class="mt-1 block w-full border-gray-300 focus:border-primary_color focus:ring-primary_color rounded-md shadow-sm">{{ old('info', $curso->info) }}</textarea>
-                <x-input-error :messages="$errors->get('info')" class="mt-2" />
+                <x-input-error :messages="$errors->get('responsable_id')" class="mt-2" />
             </div>
 
-            {{-- Start Date --}}
+            {{-- Archivos adjuntos actuales --}}
+            @if($manteniment->docs_adjunts && count($manteniment->docs_adjunts) > 0)
             <div>
-                <label for="start_date" class="block text-sm font-medium text-gray-700">Data d'Inici</label>
-                <x-text-input id="start_date" name="start_date" type="date" class="mt-1 block w-full" 
-                    :value="old('start_date', $curso->start_date)" />
-                <x-input-error :messages="$errors->get('start_date')" class="mt-2" />
+                <label class="block text-sm font-medium text-gray-700 mb-1">Documentos adjuntos actuales</label>
+                <div class="bg-gray-50 p-3 rounded-lg space-y-2">
+                    @foreach($manteniment->docs_adjunts as $doc)
+                        <div class="flex items-center justify-between p-2 bg-white rounded border">
+                            <span class="text-sm text-gray-700">{{ basename($doc) }}</span>
+                            <a href="{{ asset('storage/' . $doc) }}" target="_blank" class="text-primary_color hover:text-primary_color/80 text-sm font-medium">
+                                Ver documento
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+                <p class="text-sm text-gray-500 mt-1">Los nuevos archivos reemplazarán los existentes</p>
+            </div>
+            @endif
+
+            {{-- Archivos adjuntos nuevos --}}
+            <div>
+                <label for="docs_adjunts" class="block text-sm font-medium text-gray-700 mb-1">Nuevos archivos adjuntos (opcional)</label>
+                <input type="file" name="docs_adjunts[]" id="docs_adjunts" multiple class="mt-2 block w-full" />
+                <p class="text-sm text-gray-500 mt-1">Puedes seleccionar múltiples archivos. Máximo 10MB por archivo.</p>
+                <x-input-error :messages="$errors->get('docs_adjunts.*')" class="mt-2" />
             </div>
 
-            {{-- Finish Date --}}
-            <div>
-                <label for="finish_date" class="block text-sm font-medium text-gray-700">Data de Finalització</label>
-                <x-text-input id="finish_date" name="finish_date" type="date" class="mt-1 block w-full" 
-                    :value="old('finish_date', $curso->finish_date)" />
-                <x-input-error :messages="$errors->get('finish_date')" class="mt-2" />
-            </div>
-
-            {{-- Certification --}}
-            <div>
-                <label for="certification" class="block text-sm font-medium text-gray-700">Certificat</label>
-                <select id="certification" name="certification" class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none">
-                    <option value="Pendent" {{ old('certification', $curso->certification) == 'Pendent' ? 'selected' : '' }}>Pendent</option>
-                    <option value="Entregat" {{ old('certification', $curso->certification) == 'Entregat' ? 'selected' : '' }}>Entregat</option>
-                </select>
-                <x-input-error :messages="$errors->get('certification')" class="mt-2" />
-            </div>
-
-            {{-- Botones --}}
             <div class="flex justify-end gap-4 mt-6">
-                <a href="{{ route('curso.index') }}" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg transition">
-                    Cancel·lar
+                <a href="{{ route('manteniment.index') }}" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg transition">
+                    Cancelar
                 </a>
                 <x-primary-button>
-                    Actualitzar
+                    Actualizar
                 </x-primary-button>
             </div>
         </form>

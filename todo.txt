@@ -1,0 +1,7 @@
+De la misma manera que la documentación interna sube documentos. Haz que los profesionales tengan en la migración un campo de archivo para que sea posibole subir su curriculum
+* Añade que el formulario de subida y edición la posibilidad de adjuntar un archivo
+* Añade en la vista de profesionales la posibilidad de ver y descargar el cv
+Añade utilizando tailwind un componente bredcrumb, que sea clicable para volver al anterior.
+Añade parecido a mantenimiento todo el crud de Serveis Generals y Serveis Complementaris, dentro de 'http://127.0.0.1:8000/serveis
+* Los servicios Generales sólo son 2 por centro, 'Cuina' y 'Bugaderia/Neteja'
+Añade a los profesionales un campo para su foto de pefil cual archivo, edita en consecuencia el formulario de edición alta y show

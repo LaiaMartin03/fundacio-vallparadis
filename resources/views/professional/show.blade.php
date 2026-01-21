@@ -3,12 +3,27 @@
         <!-- Encabezado similar al de cursos -->
         <div class="flex justify-between items-start p-2">
             <div class="flex gap-5">
-                <img class="rounded-full w-[200px] aspect-square object-cover" 
-                     src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?auto=format&q=80&w=300" 
-                     alt="{{ $professional->name }}">
+                @if($professional->profile_photo_path)
+                    <img class="rounded-full w-[200px] aspect-square object-cover border-4 border-primary_color" 
+                         src="{{ asset('storage/' . $professional->profile_photo_path) }}" 
+                         alt="{{ $professional->name }}">
+                @else
+                    <div class="rounded-full w-[200px] aspect-square bg-gray-200 flex items-center justify-center border-4 border-primary_color">
+                        <svg class="w-24 h-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                @endif
                 
                 <div class="flex flex-col gap-2">
-                    <h1 class="font-mclaren text-primary_color text-3xl mb-2">{{ $professional->name }} {{ $professional->surname }}</h1>
+                    <div class="flex items-center gap-3 mb-2">
+                        <h1 class="font-mclaren text-primary_color text-3xl">{{ $professional->name }} {{ $professional->surname }}</h1>
+                        <a href="{{ route('professional.edit', $professional->id) }}" class="flex items-center">
+                            <svg class="size-5 text-primary_color hover:opacity-80 transition-opacity">
+                                <use href="#edit" />
+                            </svg>
+                        </a>
+                    </div>
                     
                     <div class="flex items-center gap-4">
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $professional->active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
@@ -42,19 +57,19 @@
                             {{ $professional->birthday }}
                         </p>
                         @endif
+                        @if($professional->cv_file_path)
+                        <p class="flex items-center gap-2 mt-2">
+                            <a href="{{ route('professional.cv.download', $professional->id) }}" 
+                               class="text-blue-600 hover:underline flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                {{ $professional->cv_original_filename ?: 'Descargar CV' }}
+                            </a>
+                        </p>
+                        @endif
                     </div>
                 </div>
-            </div>
-            
-            <div class="flex gap-2">
-                <a href="{{ route('professional.edit', $professional->id) }}" class="flex items-center gap-2 px-4 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors">
-                    Editar
-                </a>
-                
-                <a href="{{ route('professional.index') }}" 
-                   class="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                    Tornar
-                </a>
             </div>
         </div>
 

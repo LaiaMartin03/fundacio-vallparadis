@@ -1,18 +1,31 @@
 <x-app-layout>  
+    <div class="px-20 py-10">
+        <div id="header" class="flex justify-between items-center mb-8">
+            <h1 class="font-mclaren text-primary_color text-4xl">Recursos</h1>
+        </div>
 
-    <h1>Listado de Recursos</h1>
+        @if (session('success'))
+            <p style="color: green;">{{ session('success') }}</p>
+        @endif
 
-    @if (session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
-    @endif
+        <div class="flex gap-4 mb-4">
+            <a href="{{ route('resources.create') }}">
+                <x-primary-button>Crear nuevo recurso</x-primary-button>
+            </a>
+            <a href="{{ route('resources.export') }}">
+                <x-primary-button>Exportar a Excel</x-primary-button>
+            </a>
+        </div>
 
-    <a href="{{ route('resources.create') }}">Crear nuevo recurso</a>
-    <a href="{{ route('resources.export') }}">Exportar a Excel</a>
+        <x-buscador 
+            label="Cercar recursos" 
+            placeholder="Escriu per cercar..." 
+        />
 
-    @if ($resources->isEmpty())
-        <p>Ni hi han recursos registrats.</p>
-    @else
-        <table border="1" cellpadding="5">
+        @if ($resources->isEmpty())
+            <p>Ni hi han recursos registrats.</p>
+        @else
+            <table border="1" cellpadding="5" id="resources-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -44,5 +57,26 @@
                 @endforeach
             </tbody>
         </table>
-    @endif
+        @endif
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('search-input');
+                const table = document.getElementById('resources-table');
+                
+                if (!searchInput || !table) return;
+                
+                const rows = Array.from(table.querySelectorAll('tbody tr'));
+                
+                searchInput.addEventListener('input', function() {
+                    const term = this.value.trim().toLowerCase();
+                    
+                    rows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        row.style.display = text.includes(term) ? '' : 'none';
+                    });
+                });
+            });
+        </script>
+    </div>
 </x-app-layout>  

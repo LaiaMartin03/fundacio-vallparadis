@@ -30,18 +30,24 @@
                     placeholder="123456789" class="mt-1 block w-full" :value="old('phone')" />
 
                 <x-text-input id="service" name="service" type="text" 
-                    placeholder="Servicio" class="mt-1 block w-full" :value="old('service')" />
+                    placeholder="Servei" class="mt-1 block w-full" :value="old('service')" />
 
-                <x-text-input id="task" name="task" type="text" 
-                    placeholder="Tarea" class="mt-1 block w-full" :value="old('task')" />
+                <div>
+                    <label for="task" class="block text-sm font-medium text-gray-700 mb-1">Tasca</label>
+                    <select id="task" name="task" class="mt-1 block w-full border-gray-300 focus:border-primary_color focus:ring-primary_color rounded-md shadow-sm" required>
+                        <option value="">Selecciona una tasca</option>
+                        <option value="General" {{ old('task') == 'General' ? 'selected' : '' }}>General</option>
+                        <option value="Assistencial" {{ old('task') == 'Assistencial' ? 'selected' : '' }}>Assistencial</option>
+                    </select>
+                </div>
 
                 <x-text-input id="business" name="business" type="text" 
                     placeholder="Empresa" class="mt-1 block w-full" :value="old('business')" />
 
-                <x-text-input id="description" name="description" type="text" 
-                    placeholder="Observacions" class="mt-1 block w-full" :value="old('description')" />
-
-                <x-trix-input id="description" name="description" :value="old('description')" autocomplete="off" class="border-0 border-b border-b-[#ff9740] placeholder-[#ff9740] py-2 px-0 focus:outline-none" />
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Observacions</label>
+                    <x-trix-input id="description" name="description" :value="old('description')" autocomplete="off" class="border-0 border-b border-b-[#ff9740] placeholder-[#ff9740] py-2 px-0 focus:outline-none" />
+                </div>
 
             <div class="flex justify-end mt-4">
                 <x-primary-button>

@@ -1,3 +1,5 @@
+@props(['breadcrumbs' => []])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -28,10 +30,6 @@
                     </div>
                 </header>
             @endisset
-                    
-            @if (!empty($breadcrumbs))
-                <x-breadcrumbs :links="$breadcrumbs" />
-            @endif
 
             <main>
                 {{ $slot }}

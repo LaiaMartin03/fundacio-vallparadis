@@ -8,6 +8,7 @@ use App\Exports\ProfessionalsExport;
 use App\Imports\ProfessionalsImport;
 use App\Models\CenterFollowup;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class ProfessionalController extends Controller
 {
@@ -108,9 +109,12 @@ class ProfessionalController extends Controller
             'address'=>'required',
             'phone'=>'required',
             'birthday'=>'required|date',
-            'curriculum'=>'nullable'
+            'curriculum'=>'nullable',
+            'cv_file' => 'nullable|file|max:10240|mimes:pdf,doc,docx,txt',
+            'profile_photo' => 'nullable|image|max:5120|mimes:jpg,jpeg,png'
         ]);
-        Professional::create([
+
+        $data = [
             'email'=>request('email'),
             'name'=>request('name'),
             'password'=>request('password'),
@@ -122,7 +126,21 @@ class ProfessionalController extends Controller
             'birthday'=>request('birthday'),
             'curriculum'=>request('curriculum'),
             'active'=>request('active')
-        ]);
+        ];
+
+        if ($request->hasFile('cv_file')) {
+            $file = $request->file('cv_file');
+            $data['cv_original_filename'] = $file->getClientOriginalName();
+            $data['cv_file_path'] = $file->store('professional-cvs', 'public');
+        }
+
+        if ($request->hasFile('profile_photo')) {
+            $file = $request->file('profile_photo');
+            $data['profile_photo_original_filename'] = $file->getClientOriginalName();
+            $data['profile_photo_path'] = $file->store('professional-photos', 'public');
+        }
+
+        Professional::create($data);
         return redirect()->route('professional.create')->with('success', 'Professional creat correctament.');
     }
 
@@ -170,9 +188,12 @@ class ProfessionalController extends Controller
             'name'=>'required|min:3|max:20',
             'password'=>'required|min:8|max:255',
             'locker'=>'required',
-            'code'=>'required'
+            'code'=>'required',
+            'cv_file' => 'nullable|file|max:10240|mimes:pdf,doc,docx,txt',
+            'profile_photo' => 'nullable|image|max:5120|mimes:jpg,jpeg,png'
         ]);
-        $professional->update([
+
+        $data = [
             'email'=>request('email'),
             'name'=>request('name'),
             'password'=>request('password'),
@@ -180,7 +201,29 @@ class ProfessionalController extends Controller
             'code'=>request('code'),
             'info_id'=>null,
             'active'=>request('active')
-        ]);
+        ];
+
+        if ($request->hasFile('cv_file')) {
+            // Delete old file if exists
+            if ($professional->cv_file_path && Storage::disk('public')->exists($professional->cv_file_path)) {
+                Storage::disk('public')->delete($professional->cv_file_path);
+            }
+            $file = $request->file('cv_file');
+            $data['cv_file_path'] = $file->store('professional-cvs', 'public');
+            $data['cv_original_filename'] = $file->getClientOriginalName();
+        }
+
+        if ($request->hasFile('profile_photo')) {
+            // Delete old file if exists
+            if ($professional->profile_photo_path && Storage::disk('public')->exists($professional->profile_photo_path)) {
+                Storage::disk('public')->delete($professional->profile_photo_path);
+            }
+            $file = $request->file('profile_photo');
+            $data['profile_photo_path'] = $file->store('professional-photos', 'public');
+            $data['profile_photo_original_filename'] = $file->getClientOriginalName();
+        }
+
+        $professional->update($data);
 
         return redirect()->route('professional.show', $professional->id) ->with('success', 'Professional actualitzat correctament.');
     }
@@ -229,6 +272,19 @@ class ProfessionalController extends Controller
 
         // Si no es Turbo Frame, devolver vista completa
         return view('professional.show', compact('professional', 'uniformes'));
+    }
+
+    /**
+     * Download the CV file
+     */
+    public function downloadCv(Professional $professional)
+    {
+        if (!$professional->cv_file_path || !Storage::disk('public')->exists($professional->cv_file_path)) {
+            abort(404, 'CV not found');
+        }
+
+        $downloadName = $professional->cv_original_filename ?: 'cv_' . $professional->name . '.pdf';
+        return Storage::disk('public')->download($professional->cv_file_path, $downloadName);
     }
 
 }

@@ -17,7 +17,13 @@ class ResourceController extends Controller
     public function index()
     {
         $resources = Resource::all();
-        return view('resources.index', compact('resources'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Recursos' => route('resources.index'),
+        ];
+
+        return view('resources.index', compact('resources', 'breadcrumbs'));
     }
 
     /**
@@ -26,7 +32,14 @@ class ResourceController extends Controller
     public function create()
     {
         $users = \App\Models\User::all();
-        return view('resources.create', compact( 'users'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Recursos' => route('resources.index'),
+            'Crear recurso' => route('resources.create'),
+        ];
+
+        return view('resources.create', compact('users', 'breadcrumbs'));
     }
 
     /**
@@ -61,7 +74,14 @@ class ResourceController extends Controller
     public function edit(Resource $resource)
     {
         $users = \App\Models\User::all();
-        return view('resources.edit', compact('resource', 'uniforms', 'users'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Recursos' => route('resources.index'),
+            'Editar recurso' => route('resources.edit', $resource->id),
+        ];
+
+        return view('resources.edit', compact('resource', 'uniforms', 'users', 'breadcrumbs'));
     }
 
     /**
