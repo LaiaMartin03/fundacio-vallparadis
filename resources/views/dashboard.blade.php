@@ -3,7 +3,7 @@
         <div class="w-2/3 space-y-8">
             <div class="bg-white p-8 rounded-lg relative">
                 <div class="flex flex-col gap-3">
-                    <span class="text-2xl text-gray_color">Bon dia, Yolanda!</span>
+                    <span class="text-2xl text-gray_color">Bon dia, {{ auth()->user()->name ?? 'Usuari' }}!</span>
                     @php
                         date_default_timezone_set('Europe/Madrid');
                         $hora_actual = date("H:i");
@@ -14,10 +14,10 @@
             </div>
             <hr class="border-primary_color">
             <div class="grid grid-cols-2 grid-rows-2 gap-8">
-                <a href="{{ route('curso.index') }}" class="bg-white p-5 rounded-lg relative h-44 overflow-hidden group ">
-                    <span class="text-3xl font-medium text-gray-300 group-hover:text-charcoal_color transition duration-300 ease-in-out">Cursos</span>
+                <a href="{{ route('hr.index') }}" class="bg-white p-5 rounded-lg relative h-44 overflow-hidden group ">
+                    <span class="text-3xl font-medium text-gray-300 group-hover:text-charcoal_color transition duration-300 ease-in-out">Temes pendents RRHH</span>
                     <svg class="size-44 group-hover:opacity-50 absolute -bottom-8 text-primary_color opacity-25 -right-5 transition duration-300 ease-in-out">
-                        <use href="#course" />
+                        <use href="#folder" />
                     </svg>
                 </a>
                 <a href="{{ route('professional.index') }}" class="bg-white p-5 rounded-lg relative h-44 overflow-hidden group ">
@@ -32,8 +32,45 @@
                         <use href="#project" />
                     </svg>
                 </a>
+                <a href="{{ route('outsiders.index') }}" class="bg-white p-5 rounded-lg relative h-44 overflow-hidden group ">
+                    <span class="text-3xl font-medium text-gray-300 group-hover:text-charcoal_color transition duration-300 ease-in-out">Outsiders</span>
+                    <svg class="size-44 group-hover:opacity-50 absolute -bottom-8 text-primary_color opacity-25 -right-5 transition duration-300 ease-in-out">
+                        <use href="#contacts" />
+                    </svg>
+                </a>
             </div>
         </div>
-        <div class="rounded-lg bg-white p-5 w-1/3"></div>
+        <div class="rounded-lg bg-white p-5 w-1/3">
+            @php
+            $user = auth()->user();
+            $cursos = collect();
+
+            if ($user) {
+                if (isset($user->cursos)) {
+                $cursos = $user->cursos;
+                } elseif (isset($user->courses)) {
+                $cursos = $user->courses;
+                }
+            }
+
+            $cursos = collect($cursos);
+            @endphp
+
+            <div class="flex flex-col gap-4">
+            <span class="text-2xl text-gray_color">Els teus cursos</span>
+
+            @if($cursos->isEmpty())
+                <div class="text-gray-500">No t'has apuntat a cap curs!</div>
+            @else
+                <ul class="space-y-3">
+                @foreach($cursos as $curso)
+                    <li class="p-3 bg-gray-50 rounded-md">
+                    {{ $curso->name ?? $curso->titol ?? $curso->title ?? 'Curs sense nom' }}
+                    </li>
+                @endforeach
+                </ul>
+            @endif
+            </div>
+        </div>
     </div>
 </x-app-layout>

@@ -14,12 +14,16 @@ class OutsiderController extends Controller
     {
         $outsiders = Outsider::all();
 
+        // Get distinct services and businesses for the filters
+        $services = Outsider::select('service')->distinct()->pluck('service')->filter()->values();
+        $businesses = Outsider::select('business')->distinct()->pluck('business')->filter()->values();
+
         $breadcrumbs = [
             'Inicio' => route('dashboard'),
             'Contactes externs' => route('outsiders.index'),
         ];
 
-        return view('outsiders.index', compact('outsiders', 'breadcrumbs'));
+        return view('outsiders.index', compact('outsiders', 'breadcrumbs', 'services', 'businesses'));
     }
 
     /**
@@ -86,7 +90,7 @@ class OutsiderController extends Controller
         $breadcrumbs = [
             'Inicio' => route('dashboard'),
             'Contactes externs' => route('outsiders.index'),
-            'Editar' => route('outsiders.edit', ['id' => $outsider->id])
+            'Editar' => route('outsiders.edit.custom', ['id' => $outsider->id])
         ];
 
         return view('outsiders.edit', compact('outsider', 'breadcrumbs'));

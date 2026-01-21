@@ -11,6 +11,26 @@
                 <div class="flex items-center gap-4">
                     <x-buscador label="Cercar contactes" placeholder="Escriu el nom, email o tasca..." />
                     <x-toggle slot1="Serveis generals" slot2="Assistencials"/>
+
+                    <div class="flex items-center gap-4 ml-auto">
+                        <div>
+                            <select id="service-filter" class="block mt-1 w-52 rounded-md border-none">
+                                <option value="">Serveis</option>
+                                @foreach($services as $service)
+                                    <option value="{{ $service }}">{{ $service }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div>
+                            <select id="business-filter" class="block mt-1 w-52 rounded-md border-none">
+                                <option value="">Empresa</option>
+                                @foreach($businesses as $business)
+                                    <option value="{{ $business }}">{{ $business }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 @if($outsiders->isEmpty())
@@ -25,6 +45,7 @@
                                 data-phone="{{ $outsider->phone }}"
                                 data-task="{{ $outsider->task }}"
                                 data-service="{{ $outsider->service }}"
+                                data-business="{{ $outsider->business }}"
                                 data-description="{{ $outsider->description }}">
                                 
                                 <div class="mb-3 gap-20 justify-between flex items-center">
@@ -57,10 +78,10 @@
                 @endif
             </div>
 
-            <div class="bg-white rounded-xl p-4 flex flex-col gap-4 h-full hidden" id="outsider-info">
+            <div class="bg-white rounded-xl p-4 flex-col gap-4 h-full hidden" id="outsider-info">
                 <div class="flex w-full justify-between">
                     <span class="font-medium text-xl" id="fullname"></span>
-                    <a id="edit-link" href="#" data-base="{{ route('outsiders.edit') }}">
+                    <a id="edit-link" href="#" data-base="{{ route('outsiders.edit.custom') }}">
                         <svg class="size-5 text-primary_color">
                             <use href="#edit" />
                         </svg>
@@ -88,11 +109,15 @@
             const searchInput = document.getElementById('search-input');
             const grid = document.getElementById('outsiders-grid');
             const toggle = document.getElementById('toggle');
+            const serviceSelect = document.getElementById('service-filter');
+            const businessSelect = document.getElementById('business-filter');
             
             if (!grid) return;
             
             const cards = Array.from(grid.querySelectorAll('.outsider-card'));
             let currentTaskFilter = null; // null = show all, no filter applied initially
+            let currentServiceFilter = '';
+            let currentBusinessFilter = '';
             
             // Map toggle values to task values
             const taskMap = {
@@ -112,10 +137,18 @@
                     const phone = card.dataset.phone?.toLowerCase() || '';
                     const task = card.dataset.task?.toLowerCase() || '';
                     const description = card.dataset.description?.toLowerCase() || '';
+                    const cardService = (card.dataset.service || '').toLowerCase();
+                    const cardBusiness = (card.dataset.business || '').toLowerCase();
                     
                     // Check task filter (if taskValue is null, show all)
                     // Match exact task value
                     const taskMatch = !taskValue || cardTask === taskValue.toLowerCase();
+
+                    // Check service filter (empty = all)
+                    const serviceMatch = !currentServiceFilter || cardService === currentServiceFilter.toLowerCase();
+
+                    // Check business filter (empty = all)
+                    const businessMatch = !currentBusinessFilter || cardBusiness === currentBusinessFilter.toLowerCase();
                     
                     // Check search filter
                     const searchMatch = !searchTerm || 
@@ -126,7 +159,8 @@
                                        description.includes(searchTerm);
                     
                     // Show card only if both filters match
-                    card.style.display = (taskMatch && searchMatch) ? '' : 'none';
+                    // Show card only if all filters match
+                    card.style.display = (taskMatch && serviceMatch && businessMatch && searchMatch) ? '' : 'none';
                 });
             }
             
@@ -141,6 +175,22 @@
                 // Don't apply initial filter - show all items by default
                 toggle.addEventListener('toggleChange', function(event) {
                     currentTaskFilter = event.detail.value;
+                    applyFilters();
+                });
+            }
+
+            // Service select listener
+            if (serviceSelect) {
+                serviceSelect.addEventListener('change', function(e) {
+                    currentServiceFilter = e.target.value;
+                    applyFilters();
+                });
+            }
+
+            // Business select listener
+            if (businessSelect) {
+                businessSelect.addEventListener('change', function(e) {
+                    currentBusinessFilter = e.target.value;
                     applyFilters();
                 });
             }

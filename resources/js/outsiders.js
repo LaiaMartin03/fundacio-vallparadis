@@ -11,6 +11,13 @@ document.querySelectorAll(".outsider-button").forEach(button => {
         const editLink = document.getElementById("edit-link");
         editLink.href = `${editLink.dataset.base}?id=${div.dataset.id}`;
 
-        document.getElementById("outsider-info").classList.toggle("hidden");
+        const info = document.getElementById("outsider-info");
+        if (info.classList.contains('hidden')) {
+            info.classList.remove('hidden');
+            info.classList.add('flex');
+        } else {
+            info.classList.add('hidden');
+            info.classList.remove('flex');
+        }
     });
 });
