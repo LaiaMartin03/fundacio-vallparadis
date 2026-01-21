@@ -258,20 +258,13 @@ class ProfessionalController extends Controller
         return back()->with('success', 'Profesionales importados correctamente.');
     }
 
-    public function uniformes(Professional $professional)
+    public function uniformesPartial(Professional $professional)
     {
         // Cargar los uniformes
         $uniformes = $professional->resources()->with('givenBy')->latest()->get();
+        $newestUniform = $uniformes->first();
 
-        // Verificar si es una petición Turbo Frame
-        $isTurboFrame = request()->header('Turbo-Frame') === 'contenido';
-
-        if ($isTurboFrame) {
-            return view('professional.partials._uniformes', compact('uniformes', 'professional'));
-        }
-
-        // Si no es Turbo Frame, devolver vista completa
-        return view('professional.show', compact('professional', 'uniformes'));
+        return view('professional.partials._uniformes', compact('uniformes', 'professional', 'newestUniform'));
     }
 
     /**
