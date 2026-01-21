@@ -1,33 +1,56 @@
 <?php
 
-use App\Http\Controllers\LearningProgramController;
-use App\Http\Controllers\EvaluationFormController;
-use App\Http\Controllers\CenterFollowupController;
-use App\Http\Controllers\ProfessionalController;
-use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\OutsiderController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\UniformController;
-use App\Http\Controllers\CenterController;
-use App\Http\Controllers\MantenimentController;
-use App\Http\Controllers\ServeiController;
-use App\Http\Controllers\CursoController;
-use App\Http\Controllers\InternalDocController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Resource;
-use App\Http\Controllers\HRController;
 
-// Ruta raíz: redirige según si el usuario está logueado
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CenterController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProfessionalController;
+use App\Http\Controllers\EvaluationFormController;
+use App\Http\Controllers\CenterFollowupController;
+use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\LearningProgramController;
+use App\Http\Controllers\CursoController;
+use App\Http\Controllers\OutsiderController;
+use App\Http\Controllers\InternalDocController;
+use App\Http\Controllers\MantenimentController;
+use App\Http\Controllers\HRController;
+use App\Http\Controllers\ServeiController;
+
+/*
+|--------------------------------------------------------------------------
+| Ruta raíz
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect()->route('dashboard');
-    }
-    return redirect()->route('login');
+    return Auth::check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
 });
 
-// Dashboard protegido
+/*
+|--------------------------------------------------------------------------
+| Debug usuario
+|--------------------------------------------------------------------------
+*/
+Route::get('/debug-user', function () {
+    $user = Auth::user();
+    return [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'role' => $user->role,
+        'professio' => $user->professio,
+        'active' => $user->active,
+    ];
+})->middleware('auth');
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard
+|--------------------------------------------------------------------------
+*/
 Route::get('/dashboard', function () {
     $breadcrumbs = [
         'Inicio' => route('dashboard'),
@@ -35,100 +58,204 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact('breadcrumbs'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Rutas protegidas por autenticación
+/*
+|--------------------------------------------------------------------------
+| Rutas autenticadas
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Perfil (Breeze)
+
+    /*
+    |========== PERFIL (TODOS) ==========
+    */
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Center
-    Route::resource('center', CenterController::class);
-    Route::put('center/{center}/activate', [CenterController::class, 'activate'])->name('center.activate');
+    /*
+    |========== CENTRO (Equip Directiu, Administració) ==========
+    */
+    Route::resource('center', CenterController::class)
+        ->middleware(['role:Equip Directiu,Administració']);
 
-    // Project
-    Route::resource('project', ProjectController::class);
-    Route::put('project/{project}/activate', [ProjectController::class, 'activate'])->name('project.activate');
-    Route::get('project/{project}/addProfessional', [ProjectController::class, 'addProfessional'])->name('project.addProfessional');
-    Route::post('project/{project}/storeProfessional', [ProjectController::class, 'storeProfessional'])->name('project.storeProfessional');
-    Route::delete('project/{project}/removeProfessional/{professional}', [ProjectController::class, 'removeProfessional'])->name('project.removeProfessional');
+    Route::put('center/{center}/activate', [CenterController::class, 'activate'])
+        ->name('center.activate')
+        ->middleware(['role:Equip Directiu,Administració']);
 
-    // Professional
-    Route::resource('professional', ProfessionalController::class);
-    Route::put('professional/{professional}/activate', [ProfessionalController::class, 'activate'])->name('professional.activate');
-    Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])->name('professionals.import');
-    Route::get('/professionals/export', [ProfessionalController::class, 'exportProfessionals'])->name('professionals.export');
-    Route::get('/professional/{professional}/uniformes', [ProfessionalController::class, 'uniformes'])->name('professional.uniformes');
-    Route::get('/professional/{professional}/cv/download', [ProfessionalController::class, 'downloadCv'])->name('professional.cv.download');
-    Route::post('/professionals/search', [ProfessionalController::class, 'search']);
+    /*
+    |========== PROYECTOS ==========
+    */
+    Route::resource('project', ProjectController::class)
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // formulario via fetch
+    Route::put('project/{project}/activate', [ProjectController::class, 'activate'])
+        ->name('project.activate')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    Route::get('project/{project}/addProfessional', [ProjectController::class, 'addProfessional'])
+        ->name('project.addProfessional')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    Route::post('project/{project}/storeProfessional', [ProjectController::class, 'storeProfessional'])
+        ->name('project.storeProfessional')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    Route::delete('project/{project}/removeProfessional/{professional}', [ProjectController::class, 'removeProfessional'])
+        ->name('project.removeProfessional')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    /*
+    |========== PROFESIONALES ==========
+    */
+    Route::resource('professional', ProfessionalController::class)
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    Route::put('professional/{professional}/activate', [ProfessionalController::class, 'activate'])
+        ->name('professional.activate')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    Route::post('professionals/import', [ProfessionalController::class, 'importProfessionals'])
+        ->name('professionals.import')
+        ->middleware(['role:Equip Directiu,Administració']);
+
+    Route::get('professionals/export', [ProfessionalController::class, 'exportProfessionals'])
+        ->name('professionals.export')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    Route::get('professional/{professional}/uniformes', [ProfessionalController::class, 'uniformes'])
+        ->name('professional.uniformes')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    Route::post('professionals/search', [ProfessionalController::class, 'search'])
+        ->name('professionals.search')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    /*
+    |========== EVALUACIONES ==========
+    */
     Route::get('professional/{professional}/evaluation-form/partial', [EvaluationFormController::class, 'partial'])
-        ->name('professional.evaluation_form.partial');
+        ->name('professional.evaluation_form.partial')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // guardar
     Route::post('professional/{professional}/evaluation-form', [EvaluationFormController::class, 'store'])
-        ->name('professional.evaluation_form.store');
+        ->name('professional.evaluation_form.store')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // sumatori
     Route::get('professional/{professional}/evaluation-form/sum_partial', [EvaluationFormController::class, 'sumPartial'])
-        ->name('professional.evaluation_form.sum_partial');
+        ->name('professional.evaluation_form.sum_partial')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // listado parcial (fetch)
+    /*
+    |========== SEGUIMIENTOS (SOLO Equip Directiu) ==========
+    */
     Route::get('professional/{professional}/followups/partial', [CenterFollowupController::class, 'partial'])
-        ->name('professional.followups.partial');
+        ->name('professional.followups.partial')
+        ->middleware(['role:Equip Directiu']);
 
-    // guardar followup (form)
     Route::post('professional/{professional}/followups', [CenterFollowupController::class, 'store'])
-        ->name('professional.followups.store');
+        ->name('professional.followups.store')
+        ->middleware(['role:Equip Directiu']);
 
-    // listado uniformes
-    Route::get('professional/{professional}/uniformes-partial', [ResourceController::class, 'partial'])->name('professional.uniformes.partial');
+    /*
+    |========== RECURSOS ==========
+    */
+    Route::resource('resources', ResourceController::class)
+        ->except(['show'])
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // Resources
-    Route::resource('resources', ResourceController::class)->except(['show']);
-    Route::get('resources/export', [ResourceController::class, 'exportResources'])->name('resources.export');
-    Route::post('resources/import', [ResourceController::class, 'importResources'])->name('resources.import');
+    Route::get('resources/export', [ResourceController::class, 'exportResources'])
+        ->name('resources.export')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // Learning Programs
-    Route::resource('learningprogram', LearningProgramController::class);
+    Route::post('resources/import', [ResourceController::class, 'importResources'])
+        ->name('resources.import')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // Cursos
-    Route::resource('curso', CursoController::class);
-    // Route::view('curso/vista', 'cursos.curso')->name('cursos.curso');
-    Route::get('/cursos/export', [CursoController::class, 'exportCursos'])->name('curso.export');
-    Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
+    /*
+    |========== PROGRAMAS FORMATIVOS ==========
+    */
+    Route::resource('learningprogram', LearningProgramController::class)
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    //Contactes externs
-    Route::get('/outsiders/edit', [OutsiderController::class, 'edit'])->name('outsiders.edit');
-    Route::resource('outsiders', OutsiderController::class)->except(['edit']);  
+    /*
+    |========== CURSOS ==========
+    */
+    Route::resource('curso', CursoController::class)
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    //Documentació interna
-    Route::resource('internal-docs', InternalDocController::class);
-    Route::post('/internal-docs/search', [InternalDocController::class, 'search'])->name('internal-docs.search');
-    Route::get('/internal-docs/{internalDoc}/download', [InternalDocController::class, 'download'])->name('internal-docs.download');
-    Route::post('/internal-docs/bulk-download', [InternalDocController::class, 'bulkDownload'])->name('internal-docs.bulk-download');
+    Route::get('cursos/export', [CursoController::class, 'exportCursos'])
+        ->name('curso.export')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    //Manteniment
-    Route::resource('manteniment', MantenimentController::class);
-    Route::get('manteniment/{manteniment}/seguiment/partial', [MantenimentController::class, 'seguimentPartial'])
-        ->name('manteniment.seguiment.partial');
-    Route::get('manteniment/{manteniment}/documents/partial', [MantenimentController::class, 'documentsPartial'])
-        ->name('manteniment.documents.partial');
+    Route::post('save-drag-drops', [LearningProgramController::class, 'saveDragDrops'])
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // Human resources
-    Route::resource('hr', HRController::class);
+    /*
+    |========== CONTACTES EXTERNS ==========
+    */
+    Route::resource('outsiders', OutsiderController::class)
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // Serveis
-    Route::resource('serveis', ServeiController::class);
+    Route::get('outsiders/edit', [OutsiderController::class, 'edit'])
+        ->name('outsiders.edit.custom')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
-    // Rutas para seguimientos de HR
-    Route::post('/hr/{hr}/followups', [HRController::class, 'storeFollowup'])->name('hr.followups.store');
-    Route::delete('/hr/followups/{followup}', [HRController::class, 'destroyFollowup'])->name('hr.followups.destroy');
-    Route::put('hr/{hr}/activate', [HRController::class, 'activate'])->name('hr.activate');
-    Route::post('/hr/search', [HRController::class, 'search'])->name('hr.search');
-    // Blackboard
-    Route::get('/blackboard', function () {
+    /*
+    |========== DOCUMENTACIÓ INTERNA (SOLO Equip Directiu) ==========
+    */
+    Route::resource('internal-docs', InternalDocController::class)
+        ->middleware(['role:Equip Directiu']);
+
+    Route::post('internal-docs/search', [InternalDocController::class, 'search'])
+        ->name('internal-docs.search')
+        ->middleware(['role:Equip Directiu']);
+
+    Route::get('internal-docs/{internalDoc}/download', [InternalDocController::class, 'download'])
+        ->name('internal-docs.download')
+        ->middleware(['role:Equip Directiu']);
+
+    Route::post('internal-docs/bulk-download', [InternalDocController::class, 'bulkDownload'])
+        ->name('internal-docs.bulk-download')
+        ->middleware(['role:Equip Directiu']);
+
+    /*
+    |========== MANTENIMENT ==========
+    */
+    Route::resource('manteniment', MantenimentController::class)
+        ->middleware(['role:Equip Directiu,Administració']);
+
+    /*
+    |========== HUMAN RESOURCES (SOLO Equip Directiu) ==========
+    */
+    Route::resource('hr', HRController::class)
+        ->middleware(['role:Equip Directiu']);
+
+    Route::post('hr/{hr}/followups', [HRController::class, 'storeFollowup'])
+        ->name('hr.followups.store')
+        ->middleware(['role:Equip Directiu']);
+
+    Route::delete('hr/followups/{followup}', [HRController::class, 'destroyFollowup'])
+        ->name('hr.followups.destroy')
+        ->middleware(['role:Equip Directiu']);
+
+    Route::put('hr/{hr}/activate', [HRController::class, 'activate'])
+        ->name('hr.activate')
+        ->middleware(['role:Equip Directiu']);
+
+    Route::post('hr/search', [HRController::class, 'search'])
+        ->name('hr.search')
+        ->middleware(['role:Equip Directiu']);
+
+    /*
+    |========== SERVEIS ==========
+    */
+    Route::resource('serveis', ServeiController::class)
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    /*
+    |========== BLACKBOARD ==========
+    */
+    Route::get('blackboard', function () {
         $breadcrumbs = [
             'Inicio' => route('dashboard'),
             'Pizarra' => route('blackboard'),
@@ -137,4 +264,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('blackboard');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
