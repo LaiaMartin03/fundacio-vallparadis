@@ -88,7 +88,7 @@
                 <button type="button" class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40"data-tab="questionnaires"data-url="{{ route('professional.followups.partial', $professional) }}"> Seguiment
                 </button>
                 
-                <button type="button"class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40" data-tab="uniformes"data-url="{{ route('professional.uniformes', $professional) }}">
+                <button type="button"class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40" data-tab="uniformes"data-url="{{ route('professional.uniformes.partial', $professional) }}">
                     Uniformes
                 </button>
             </div>
