@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CursoSeeder::class,
             HRSeeder::class,
             ServeisSeeder::class,
+            ResourceSeeder::class,
         ]);
     }
 }
