@@ -228,6 +228,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('manteniment', MantenimentController::class)
         ->middleware(['role:Equip Directiu,Administració']);
 
+    Route::get('manteniment/{manteniment}/seguiment/partial', [MantenimentController::class, 'seguimentPartial'])
+        ->name('manteniment.seguiment.partial')
+        ->middleware(['role:Equip Directiu,Administració']);
+
+    Route::get('manteniment/{manteniment}/documents/partial', [MantenimentController::class, 'documentsPartial'])
+        ->name('manteniment.documents.partial')
+        ->middleware(['role:Equip Directiu,Administració']);
+
     /*
     |========== HUMAN RESOURCES (SOLO Equip Directiu) ==========
     */
