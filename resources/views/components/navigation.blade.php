@@ -43,7 +43,7 @@
                 </svg>
             </x-nav-link>
 
-            <x-nav-link :href="route('hr.index')" :active="request()->routeIs('hr.index')" title="Manteniment">
+            <x-nav-link :href="route('hr.index')" :active="request()->routeIs('hr.index')" title="Temes pendents RRHH">
                 <svg class="size-5">
                     <use href="#folder"></use>
                 </svg>
