@@ -126,6 +126,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('professional.uniformes')
         ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
+    Route::get('professional/{professional}/uniformes/partial', [ProfessionalController::class, 'uniformesPartial'])
+        ->name('professional.uniformes.partial')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
     Route::post('professionals/search', [ProfessionalController::class, 'search'])
         ->name('professionals.search')
         ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);

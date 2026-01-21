@@ -1,6 +1,5 @@
 <x-app-layout>
     <div class="px-20 pb-10 flex flex-col gap-12">
-        <!-- Encabezado similar al de cursos -->
         <div class="flex justify-between items-start p-2">
             <div class="flex gap-5">
                 @if($professional->profile_photo_path)
@@ -36,7 +35,6 @@
                         </span>
                     </div>
                     
-                    <!-- Información del profesional -->
                     <div class="mt-3 space-y-1 text-gray-600">
                         <p class="flex items-center gap-2">
 
@@ -95,7 +93,6 @@
                 </button>
             </div>
 
-            <!-- CONTENEDOR donde se cargan los partials vía fetch -->
             <div id="tab-container" class="bg-white p-4 rounded shadow-sm z-50"></div>
 
             <script src="{{ asset('js/professional-tabs.js') }}" defer></script>
