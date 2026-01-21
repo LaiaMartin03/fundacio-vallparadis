@@ -1,7 +1,14 @@
 <x-app-layout>  
     <div class="px-20 py-10">
         <div id="header" class="flex justify-between items-center mb-8">
-            <h1 class="font-mclaren text-primary_color text-4xl">Mantenimiento</h1>
+            <h1 class="font-mclaren text-primary_color text-4xl">Manteniment</h1>
+        </div>
+
+        <div class="flex items-center gap-4 pb-12">
+            <x-buscador 
+                label="Cercar manteniments" 
+                placeholder="Escriu per cercar..." 
+            />
         </div>
 
         <div class="flex gap-5 w-full h-[650px]">
@@ -9,7 +16,7 @@
                 @if($manteniments->isEmpty())
                     <p>No hay mantenimientos.</p>
                 @else
-                    <div class="w-full grid grid-cols-6" id="grid">
+                    <div class="w-full grid grid-cols-5 gap-6" id="manteniment-grid">
                         @foreach($manteniments as $manteniment)
                             <a class="rounded-xl bg-white flex flex-col p-5 w-full shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] gap-3" href="{{ route('manteniment.show', $manteniment->id) }}">
                                 <span class="font-medium">{{ $manteniment->tipo === 'manteniment' ? 'Mantenimiento' : 'Seguimiento' }}</span>
@@ -25,4 +32,24 @@
     </div>
 
     <x-add-button href="{{ route('manteniment.create') }}"></x-add-button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const grid = document.getElementById('manteniment-grid');
+            
+            if (!searchInput || !grid) return;
+            
+            const cards = Array.from(grid.querySelectorAll('a'));
+            
+            searchInput.addEventListener('input', function() {
+                const term = this.value.trim().toLowerCase();
+                
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = text.includes(term) ? '' : 'none';
+                });
+            });
+        });
+    </script>
 </x-app-layout>

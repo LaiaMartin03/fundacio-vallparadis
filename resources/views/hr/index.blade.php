@@ -1,29 +1,12 @@
 <x-app-layout>  
-    <div class="mx-20 px-20 py-10 space-y-4">
-        <div id="header" class="flex justify-between items-center mb-12">
-            <h1 class="font-mclaren text-primary_color text-4xl mb-4">Temes pendents RRHH</h1>
+    <div class="px-20 py-10 space-y-4">
+        <h1 class="font-mclaren text-primary_color text-4xl mb-4">Temes pendents RRHH</h1>
 
-            <a href="{{ route('hr.create') }}">
-                <x-primary-button>Nou Cas</x-primary-button>
-            </a>
-        </div>
-
-        <!-- Buscador -->
-        <div id="filters" class="mb-8">
-            <div class="flex items-center gap-4">
-                <div class="flex-1">
-                    <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">
-                        Cercar per nom
-                    </label>
-                    <input type="text" id="search-input" placeholder="Escriu el nom del professional..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent">
-                </div>
-                <button id="clear-search" class="mt-6 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                    Netejar
-                </button>
-            </div>
-            <div id="search-results" class="text-sm text-gray-500 mt-2 hidden">
-                S'estan mostrant <span id="results-count">0</span> resultats
-            </div>
+        <div class="flex items-center gap-4 pt-4 pb-12">
+            <x-buscador 
+                label="Cercar per nom" 
+                placeholder="Escriu el nom del professional..." 
+            />
         </div>
 
         @if($pending->isEmpty())
@@ -89,6 +72,8 @@
                 @endforeach
             </div>
         @endif
+
+        <x-add-button href="{{ route('hr.create') }}"></x-add-button>
         
     </div>
     

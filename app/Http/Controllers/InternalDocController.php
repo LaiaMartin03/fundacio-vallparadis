@@ -6,6 +6,7 @@ use App\Models\InternalDoc;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use ZipArchive;
 
 class InternalDocController extends Controller
 {
@@ -31,8 +32,13 @@ class InternalDocController extends Controller
      */
     public function create()
     {
-        $relatedDocs = InternalDoc::all();
-        return view('internalDocs.create', compact('relatedDocs'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Documentació interna' => route('internal-docs.index'),
+            'Pujar nou document' => route('internal-docs.create')
+        ];
+
+        return view('internalDocs.create', compact('breadcrumbs'));
     }
 
     /**
@@ -43,22 +49,27 @@ class InternalDocController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'desc' => 'nullable|string',
-            'type' => 'nullable|string|max:255',
             'file' => 'required|file|max:10240', // max 10MB
         ]);
 
         $filePath = null;
         $originalFilename = null;
+        $fileType = null;
+        
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $originalFilename = $file->getClientOriginalName();
             $filePath = $file->store('internal-docs', 'public');
+            
+            // Get file extension from original filename
+            $extension = strtoupper($file->getClientOriginalExtension());
+            $fileType = $extension ?: null;
         }
 
         InternalDoc::create([
             'title' => $request->title,
             'desc' => $request->desc,
-            'type' => $request->type,
+            'type' => $fileType,
             'file_path' => $filePath,
             'original_filename' => $originalFilename,
             'added_by' => Auth::id(),
@@ -121,14 +132,12 @@ class InternalDocController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'desc' => 'nullable|string',
-            'type' => 'nullable|string|max:255',
             'file' => 'nullable|file|max:10240',
         ]);
 
         $data = [
             'title' => $request->title,
             'desc' => $request->desc,
-            'type' => $request->type,
         ];
 
         if ($request->hasFile('file')) {
@@ -139,6 +148,10 @@ class InternalDocController extends Controller
             $file = $request->file('file');
             $data['file_path'] = $file->store('internal-docs', 'public');
             $data['original_filename'] = $file->getClientOriginalName();
+            
+            // Get file extension from original filename
+            $extension = strtoupper($file->getClientOriginalExtension());
+            $data['type'] = $extension ?: null;
         }
 
         $internalDoc->update($data);
@@ -164,6 +177,72 @@ class InternalDocController extends Controller
     }
 
     /**
+     * Download multiple documents as a ZIP file
+     */
+    public function bulkDownload(Request $request)
+    {
+        $request->validate([
+            'document_ids' => 'required|array',
+            'document_ids.*' => 'exists:internal_docs,id',
+        ]);
+
+        $documentIds = $request->input('document_ids');
+        $documents = InternalDoc::whereIn('id', $documentIds)->get();
+
+        if ($documents->isEmpty()) {
+            return redirect()->route('internal-docs.index')
+                ->with('error', 'No s\'han trobat documents per descarregar.');
+        }
+
+        // Create a temporary ZIP file
+        $zipFileName = 'documents_' . date('Y-m-d_His') . '.zip';
+        $zipPath = storage_path('app/temp/' . $zipFileName);
+        
+        // Ensure temp directory exists
+        if (!file_exists(storage_path('app/temp'))) {
+            mkdir(storage_path('app/temp'), 0755, true);
+        }
+
+        $zip = new ZipArchive();
+        
+        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
+            return redirect()->route('internal-docs.index')
+                ->with('error', 'No s\'ha pogut crear l\'arxiu ZIP.');
+        }
+
+        $filesAdded = 0;
+        foreach ($documents as $document) {
+            if ($document->file_path && Storage::disk('public')->exists($document->file_path)) {
+                $filePath = Storage::disk('public')->path($document->file_path);
+                $fileName = $document->original_filename ?: ($document->title . '.' . pathinfo($filePath, PATHINFO_EXTENSION));
+                
+                // Avoid duplicate filenames
+                $counter = 1;
+                $originalFileName = $fileName;
+                while ($zip->locateName($fileName) !== false) {
+                    $pathInfo = pathinfo($originalFileName);
+                    $fileName = $pathInfo['filename'] . '_' . $counter . '.' . ($pathInfo['extension'] ?? '');
+                    $counter++;
+                }
+                
+                $zip->addFile($filePath, $fileName);
+                $filesAdded++;
+            }
+        }
+
+        $zip->close();
+
+        if ($filesAdded === 0) {
+            @unlink($zipPath);
+            return redirect()->route('internal-docs.index')
+                ->with('error', 'No s\'han trobat fitxers vàlids per descarregar.');
+        }
+
+        // Return the ZIP file as download
+        return response()->download($zipPath, $zipFileName)->deleteFileAfterSend(true);
+    }
+
+    /**
      * Search documents
      */
     public function search(Request $request)
@@ -185,6 +264,8 @@ class InternalDocController extends Controller
                     'desc' => $doc->desc,
                     'type' => $doc->type,
                     'file_path' => $doc->file_path,
+                    'file_extension' => $doc->file_extension,
+                    'badge_color_classes' => $doc->badge_color_classes,
                     'created_at' => $doc->created_at->toISOString(),
                     'added_by' => $doc->addedBy ? [
                         'id' => $doc->addedBy->id,

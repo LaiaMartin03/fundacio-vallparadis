@@ -77,4 +77,50 @@ class InternalDoc extends Model
 
         return $mimeToExtension[$mimeType] ?? null;
     }
+
+    /**
+     * Get file extension for badge display
+     */
+    public function getFileExtensionAttribute(): ?string
+    {
+        if ($this->original_filename) {
+            $extension = pathinfo($this->original_filename, PATHINFO_EXTENSION);
+            return strtoupper($extension ?: '');
+        }
+
+        if ($this->file_path) {
+            $extension = pathinfo($this->file_path, PATHINFO_EXTENSION);
+            if ($extension) {
+                return strtoupper($extension);
+            }
+            
+            // Try to get from MIME type
+            if (Storage::disk('public')->exists($this->file_path)) {
+                $mimeType = Storage::disk('public')->mimeType($this->file_path);
+                $extension = $this->getExtensionFromMimeType($mimeType);
+                return $extension ? strtoupper($extension) : null;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get badge color classes based on file extension
+     */
+    public function getBadgeColorClassesAttribute(): string
+    {
+        $extension = $this->file_extension;
+        
+        $colorMap = [
+            'PDF' => 'bg-red-100 text-red-400',
+            'TXT' => 'bg-blue-100 text-blue-400',
+            'DOC' => 'bg-blue-100 text-blue-400',
+            'DOCX' => 'bg-blue-100 text-blue-400',
+            'XLS' => 'bg-green-100 text-green-400',
+            'XLSX' => 'bg-green-100 text-green-400',
+        ];
+
+        return $colorMap[$extension] ?? 'bg-gray-100 text-gray-400';
+    }
 }

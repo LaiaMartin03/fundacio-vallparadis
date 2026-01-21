@@ -12,8 +12,14 @@ class CenterController extends Controller
      */
     public function index()
     {
-        $centers = Center::all(); 
-        return view('center.lista', compact('centers'));
+        $centers = Center::all();
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Centros' => route('center.index'),
+        ];
+
+        return view('center.lista', compact('centers', 'breadcrumbs'));
     }
 
     /**
@@ -21,7 +27,13 @@ class CenterController extends Controller
      */
     public function create()
     {
-        return view("center.formularioAlta");
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Centros' => route('center.index'),
+            'Crear centro' => route('center.create'),
+        ];
+
+        return view("center.formularioAlta", compact('breadcrumbs'));
     }
 
     /**
@@ -57,8 +69,15 @@ class CenterController extends Controller
      */
     public function edit(Center $center)
     {
-        $centers = Center::all(); 
-        return view('center.formulariEditar', compact('center'));
+        $centers = Center::all();
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Centros' => route('center.index'),
+            'Editar centro' => route('center.edit', $center->id),
+        ];
+
+        return view('center.formulariEditar', compact('center', 'breadcrumbs'));
     }
 
     /**

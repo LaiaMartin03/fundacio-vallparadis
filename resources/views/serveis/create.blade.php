@@ -18,24 +18,12 @@
         <form action="{{ route('serveis.store') }}" method="POST" class="space-y-4">
             @csrf
 
-            {{-- Tipus --}}
-            <div>
-                <label for="tipus" class="block text-sm font-medium text-gray-700 mb-1">Tipus <span class="text-red-500">*</span></label>
-                <select name="tipus" id="tipus" class="form-select w-full border-gray-300 focus:border-primary_color focus:ring-primary_color rounded-md shadow-sm" required>
-                    <option value="">— Selecciona tipus —</option>
-                    <option value="general" {{ old('tipus') == 'general' ? 'selected' : '' }}>General</option>
-                    <option value="complementari" {{ old('tipus') == 'complementari' ? 'selected' : '' }}>Complementari</option>
-                </select>
-                <x-input-error :messages="$errors->get('tipus')" class="mt-2" />
-            </div>
-
             {{-- Nom --}}
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nom <span class="text-red-500">*</span></label>
                 <input type="text" id="name" name="name" 
                     class="mt-1 block w-full border-gray-300 focus:border-primary_color focus:ring-primary_color rounded-md shadow-sm" 
                     value="{{ old('name') }}" required>
-                <p class="text-sm text-gray-500 mt-1" id="name-hint">Per a serveis generals, només es permeten: "Cuina" o "Bugaderia/Neteja"</p>
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
 

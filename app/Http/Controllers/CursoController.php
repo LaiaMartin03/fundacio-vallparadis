@@ -82,7 +82,9 @@ class CursoController extends Controller
             ->get();
 
         $usuariosInscritos = $learningProgram->pluck('user')->filter();
-        $usuariosNoInscritos = \App\Models\User::whereNotIn('id', $usuariosInscritos->pluck('id'))->get();
+        $usuariosNoInscritos = \App\Models\User::whereNotIn('id', $usuariosInscritos->pluck('id'))
+            ->where('active', 1)
+            ->get();
 
         $breadcrumbs = [
             'Inicio' => route('dashboard'),

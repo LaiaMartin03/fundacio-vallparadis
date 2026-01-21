@@ -17,5 +17,6 @@ class Outsider extends Model
         'service',
         'task',
         'business',
+        'description',
     ];
 }

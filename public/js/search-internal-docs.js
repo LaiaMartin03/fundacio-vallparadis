@@ -33,27 +33,28 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.documents && data.documents.length > 0) {
                 container.innerHTML = data.documents.map(doc => `
-                    <a class="bg-white shadow-lg rounded-lg p-4 mb-4 hover:bg-gray-100 flex justify-between items-center" 
-                       href="/internal-docs/${doc.id}">
-                        <div class="flex gap-10 items-center">
-                            <span class="font-medium text-lg">${doc.display_filename || doc.title}</span>
-                            ${doc.desc ? `<span class="text-gray-700">${doc.desc.substring(0, 100)}${doc.desc.length > 100 ? '...' : ''}</span>` : ''}
-                            ${doc.type ? `<span class="text-blue-600 bg-blue-100 px-3 py-1 rounded-full text-sm">${doc.type}</span>` : ''}
+                    <a href="/internal-docs/${doc.id}" 
+                       class="grid cursor-pointer grid-cols-5 items-center gap-4 border-t border-gray-200 p-4 transition duration-300 ease-in-out hover:bg-orange-50">
+                        <div class="space-x-4">
+                            <input type="checkbox" 
+                                   name="document_${doc.id}" 
+                                   id="document_${doc.id}" 
+                                   value="${doc.id}"
+                                   class="document-checkbox"
+                                   data-document-id="${doc.id}" />
+                            <span>${doc.title || ''}</span>
                         </div>
-                        <div class="flex items-center gap-4">
-                            <span class="text-sm text-gray-500">
-                                ${new Date(doc.created_at).toLocaleDateString('es-ES')}
-                            </span>
-                            ${doc.file_path ? `
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                </svg>
-                            ` : ''}
-                        </div>
+                        <span class="truncate text-gray-400">${doc.desc ? (doc.desc.length > 50 ? doc.desc.substring(0, 50) + '...' : doc.desc) : '-'}</span>
+                        <span class="truncate text-sm">${doc.added_by ? doc.added_by.name : '-'}</span>
+                        ${doc.file_extension ? 
+                            `<span class="w-fit rounded-full ${doc.badge_color_classes || 'bg-gray-100 text-gray-400'} px-3 pt-1 pb-[3px] text-xs font-semibold">${doc.file_extension}</span>` :
+                            '<span class="w-fit rounded-full bg-gray-100 text-gray-400 px-3 pt-1 pb-[3px] text-xs font-semibold">-</span>'
+                        }
+                        <span class="text-sm font-semibold text-gray-400">${new Date(doc.created_at).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
                     </a>
                 `).join('');
             } else {
-                container.innerHTML = '<p class="text-center text-gray-500 py-8">No s\'han trobat resultats</p>';
+                container.innerHTML = '<div class="text-center py-12"><p class="text-gray-500 text-lg">No s\'han trobat resultats</p></div>';
             }
         })
         .catch(() => {

@@ -29,7 +29,10 @@ Route::get('/', function () {
 
 // Dashboard protegido
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $breadcrumbs = [
+        'Inicio' => route('dashboard'),
+    ];
+    return view('dashboard', compact('breadcrumbs'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Rutas protegidas por autenticación
@@ -97,14 +100,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/save-drag-drops', [LearningProgramController::class, 'saveDragDrops']);
 
     //Contactes externs
-    Route::resource('outsiders', OutsiderController::class);
-    Route::get('/outsiders/edit', [OutsiderController::class, 'edit'])
-    ->name('outsiders.edit.custom');
+    Route::get('/outsiders/edit', [OutsiderController::class, 'edit'])->name('outsiders.edit');
+    Route::resource('outsiders', OutsiderController::class)->except(['edit']);  
 
     //Documentació interna
     Route::resource('internal-docs', InternalDocController::class);
     Route::post('/internal-docs/search', [InternalDocController::class, 'search'])->name('internal-docs.search');
     Route::get('/internal-docs/{internalDoc}/download', [InternalDocController::class, 'download'])->name('internal-docs.download');
+    Route::post('/internal-docs/bulk-download', [InternalDocController::class, 'bulkDownload'])->name('internal-docs.bulk-download');
 
     //Manteniment
     Route::resource('manteniment', MantenimentController::class);
@@ -126,7 +129,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/hr/search', [HRController::class, 'search'])->name('hr.search');
     // Blackboard
     Route::get('/blackboard', function () {
-        return view('blackboard');
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Pizarra' => route('blackboard'),
+        ];
+        return view('blackboard', compact('breadcrumbs'));
     })->name('blackboard');
 });
 

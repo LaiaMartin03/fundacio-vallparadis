@@ -62,9 +62,13 @@ public function search(Request $request)
     public function index()
     {
         $pending = HR::with(['affectedProfessional', 'assignedTo'])->orderBy('active', 'desc')->orderBy('id', 'asc')->get();
-        
 
-        return view('hr.index', compact('pending'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Recursos Humanos' => route('hr.index'),
+        ];
+
+        return view('hr.index', compact('pending', 'breadcrumbs'));
     }
 
     /**
@@ -76,7 +80,13 @@ public function search(Request $request)
         $assigned_to = Professional::all();
         $derivated_to = Professional::all();
 
-        return view('hr.new', compact('affected_professional', 'assigned_to', 'derivated_to'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Recursos Humanos' => route('hr.index'),
+            'Crear caso HR' => route('hr.create'),
+        ];
+
+        return view('hr.new', compact('affected_professional', 'assigned_to', 'derivated_to', 'breadcrumbs'));
     }
 
     /**
@@ -113,7 +123,13 @@ public function search(Request $request)
         $hr = HR::with(['affectedProfessional', 'assignedTo', 'derivatedTo', 'followups.registrant'])
             ->findOrFail($id);
 
-        return view('hr.show', compact('hr'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Recursos Humanos' => route('hr.index'),
+            'Caso HR #' . $hr->id => route('hr.show', $hr->id),
+        ];
+
+        return view('hr.show', compact('hr', 'breadcrumbs'));
     }
 
     /**
@@ -160,7 +176,14 @@ public function search(Request $request)
         $assigned_to = Professional::all();
         $derivated_to = Professional::all();
 
-        return view('hr.edit', compact('hr', 'affected_professional', 'assigned_to', 'derivated_to'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Recursos Humanos' => route('hr.index'),
+            'Caso HR #' . $hr->id => route('hr.show', $hr->id),
+            'Editar' => route('hr.edit', $hr->id),
+        ];
+
+        return view('hr.edit', compact('hr', 'affected_professional', 'assigned_to', 'derivated_to', 'breadcrumbs'));
     }
 
     /**

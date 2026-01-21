@@ -4,7 +4,14 @@
         <!-- Header del Caso -->
         <div class="flex justify-between items-center p-2">
             <div>
-                <h1 class="font-mclaren text-primary_color text-3xl mb-2">Caso HR #{{ $hr->id }}</h1>
+                <div class="flex items-center gap-3 mb-2">
+                    <h1 class="font-mclaren text-primary_color text-3xl">Caso HR #{{ $hr->id }}</h1>
+                    <a href="{{ route('hr.edit', $hr->id) }}" class="flex items-center">
+                        <svg class="size-5 text-primary_color hover:opacity-80 transition-opacity">
+                            <use href="#edit" />
+                        </svg>
+                    </a>
+                </div>
                 <div class="flex items-center gap-4">
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $hr->active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                         <span class="w-2 h-2 rounded-full {{ $hr->active ? 'bg-green-500' : 'bg-red-500' }} mr-2"></span>
@@ -14,14 +21,6 @@
                         {{ $hr->created_at->format('d/m/Y H:i') }}
                     </span>
                 </div>
-            </div>
-            <div class="flex gap-2">
-                <a href="{{ route('hr.edit', $hr->id) }}" class="px-4 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors">
-                    Editar
-                </a>
-                <a href="{{ route('hr.index') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                    Volver
-                </a>
             </div>
         </div>
 

@@ -2,152 +2,173 @@
     <div class="px-20 py-10 space-y-4">
         <div id="header" class="flex justify-between items-center mb-12">
             <h1 class="font-mclaren text-primary_color text-4xl">Documentació interna</h1>
+            
         </div>
 
-        <!-- Buscador -->
-        <div id="filters" class="mb-8">
-            <div class="flex items-center gap-4">
-                <div class="flex-1">
-                    <label for="search-input" class="block text-sm font-medium text-gray-700 mb-2">
-                        Cercar documents
-                    </label>
-                    <input type="text" id="search-input" placeholder="Escriu el títol, descripció o tipus..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent">
-                </div>
-                <button id="clear-search" class="mt-6 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                    Netejar
-                </button>
-            </div>
-            <div id="search-results" class="text-sm text-gray-500 mt-2 hidden">
-                S'estan mostrant <span id="results-count">0</span> resultats
-            </div>
-        </div>
+        <div class="flex items-center gap-4 pb-12">
+            <x-buscador 
+            label="Cercar documents" 
+            placeholder="Escriu el títol, descripció o tipus..." 
+            />
 
-        <!-- Upload block section -->
-        <div class="bg-white shadow-lg rounded-lg mb-8 overflow-hidden">
-            <button 
-                id="toggle-upload-form"
-                class="w-full flex justify-between items-center p-6 hover:bg-gray-50 transition-colors cursor-pointer rounded-t-lg"
-                type="button">
-                <h2 class="font-mclaren text-primary_color text-2xl">Pujar nou document</h2>
-                <svg id="toggle-upload-icon" class="w-6 h-6 text-primary_color transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
+            <button id="download-selected-btn" 
+                    class="hidden px-4 py-2 bg-primary_color text-white rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled>
+                Descarregar seleccionats
             </button>
-            <div id="upload-form-container" 
-                 style="display: none;"
-                 class="px-6 pb-6 rounded-b-lg">
-                <form action="{{ route('internal-docs.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                @csrf
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
-                            Títol <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" id="title" name="title" required
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent"
-                            value="{{ old('title') }}">
-                        @error('title')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="type" class="block text-sm font-medium text-gray-700 mb-2">
-                            Tipus (opcional)
-                        </label>
-                        <input type="text" id="type" name="type"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent"
-                            placeholder="Ex: Manual, Política, Procediment..."
-                            value="{{ old('type') }}">
-                        @error('type')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <div>
-                    <label for="desc" class="block text-sm font-medium text-gray-700 mb-2">
-                        Descripció (opcional)
-                    </label>
-                    <textarea id="desc" name="desc" rows="3"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent"
-                        placeholder="Descripció del document...">{{ old('desc') }}</textarea>
-                    @error('desc')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="file" class="block text-sm font-medium text-gray-700 mb-2">
-                        Fitxer <span class="text-red-500">*</span>
-                    </label>
-                    <input type="file" id="file" name="file" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary_color focus:border-transparent"
-                        accept=".pdf,.doc,.docx,.txt,.xls,.xlsx">
-                    <p class="text-sm text-gray-500 mt-1">Màxim 10MB. Formats: PDF, DOC, DOCX, TXT, XLS, XLSX</p>
-                    @error('file')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="flex justify-end mt-4">
-                    <x-primary-button type="submit">
-                        Pujar document
-                    </x-primary-button>
-                </div>
-                </form>
-            </div>
         </div>
 
         <!-- Documents list -->
-        @if($documents->isEmpty())
-            <div class="text-center py-12 bg-white rounded-xl shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
-                <p class="text-gray-500 text-lg mb-4">No hi ha documents registrats.</p>
+        <div class="h-full w-full rounded-xl bg-white">
+            <div class="grid w-full grid-cols-5 items-center gap-4 p-4 pb-2 text-xs font-semibold text-gray-400">
+                <div class="space-x-4">
+                    <input type="checkbox" name="all" id="select-all" class="select-all-checkbox" />
+                    <span>Nom</span>
+                </div>
+                <span>Descripció</span>
+                <span>Responsable</span>
+                <span>Tipus</span>
+                <span>Data</span>
             </div>
-        @else
-            <div id="documents-container">
-                @foreach($documents as $document)
-                    <a href="{{ route('internal-docs.show', $document->id) }}" 
-                       class="bg-white shadow-lg rounded-lg p-4 mb-4 hover:bg-gray-100 flex justify-between items-center transition-colors">
-                        <div class="flex gap-10 items-center">
-                            <span class="font-medium text-lg">{{ $document->display_filename }}</span>
-                            @if($document->desc)
-                                <span class="text-gray-700">{{ Str::limit($document->desc, 100) }}</span>
+            <div class="flex flex-col" id="documents-container">
+                @if($documents->isEmpty())
+                    <div class="text-center py-12">
+                        <p class="text-gray-500 text-lg mb-4">No hi ha documents registrats.</p>
+                    </div>
+                @else
+                    @foreach($documents as $document)
+                        <a href="{{ route('internal-docs.show', $document->id) }}" 
+                           class="grid cursor-pointer grid-cols-5 items-center gap-4 border-t border-gray-200 p-4 transition duration-300 ease-in-out hover:bg-orange-50">
+                            <div class="space-x-4">
+                                <input type="checkbox" 
+                                       name="document_{{ $document->id }}" 
+                                       id="document_{{ $document->id }}" 
+                                       value="{{ $document->id }}"
+                                       class="document-checkbox"
+                                       data-document-id="{{ $document->id }}" />
+                                <span>{{ $document->title }}</span>
+                            </div>
+                            <span class="truncate text-gray-400">{{ $document->desc ? Str::limit($document->desc, 50) : '-' }}</span>
+                            <span class="truncate text-sm">{{ $document->addedBy ? $document->addedBy->name : '-' }}</span>
+                            @if($document->file_extension)
+                                <span class="w-fit rounded-full {{ $document->badge_color_classes }} px-3 pt-1 pb-[3px] text-xs font-semibold">{{ $document->file_extension }}</span>
+                            @else
+                                <span class="w-fit rounded-full bg-gray-100 text-gray-400 px-3 pt-1 pb-[3px] text-xs font-semibold">-</span>
                             @endif
-                            @if($document->type)
-                                <span class="text-blue-600 bg-blue-100 px-3 py-1 rounded-full text-sm">{{ $document->type }}</span>
-                            @endif
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <span class="text-sm text-gray-500">
-                                {{ $document->created_at->format('d/m/Y') }}
-                            </span>
-                            @if($document->file_path)
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                </svg>
-                            @endif
-                        </div>
-                    </a>
-                @endforeach
+                            <span class="text-sm font-semibold text-gray-400">{{ $document->created_at->format('d/m/Y') }}</span>
+                        </a>
+                    @endforeach
+                @endif
             </div>
-        @endif
+        </div>
     </div>
+
+    <x-add-button href="{{ route('internal-docs.create') }}"></x-add-button>
 
     <script src="{{ asset('js/search-internal-docs.js') }}" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const toggleButton = document.getElementById('toggle-upload-form');
-            const formContainer = document.getElementById('upload-form-container');
-            const toggleIcon = document.getElementById('toggle-upload-icon');
+            const selectAllCheckbox = document.getElementById('select-all');
+            const downloadBtn = document.getElementById('download-selected-btn');
+            const container = document.getElementById('documents-container');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
             
-            if (toggleButton && formContainer && toggleIcon) {
-                toggleButton.addEventListener('click', function() {
-                    const isHidden = formContainer.style.display === 'none';
-                    formContainer.style.display = isHidden ? 'block' : 'none';
-                    toggleIcon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+            // Function to update download button state
+            function updateDownloadButton() {
+                const checkedBoxes = container.querySelectorAll('.document-checkbox:checked');
+                if (checkedBoxes.length > 0) {
+                    downloadBtn.classList.remove('hidden');
+                    downloadBtn.disabled = false;
+                    downloadBtn.textContent = `Descarregar seleccionats (${checkedBoxes.length})`;
+                } else {
+                    downloadBtn.classList.add('hidden');
+                    downloadBtn.disabled = true;
+                }
+            }
+            
+            // Select all functionality
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function() {
+                    const checkboxes = container.querySelectorAll('.document-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    updateDownloadButton();
                 });
             }
+            
+            // Prevent checkbox clicks from triggering link navigation
+            container.addEventListener('click', function(e) {
+                const checkbox = e.target.closest('.document-checkbox');
+                if (checkbox) {
+                    e.stopPropagation();
+                }
+            });
+            
+            // Individual checkbox change
+            container.addEventListener('change', function(e) {
+                if (e.target.classList.contains('document-checkbox')) {
+                    updateSelectAllState();
+                    updateDownloadButton();
+                }
+            });
+            
+            // Update select all checkbox state
+            function updateSelectAllState() {
+                if (!selectAllCheckbox) return;
+                const checkboxes = container.querySelectorAll('.document-checkbox');
+                const checkedBoxes = container.querySelectorAll('.document-checkbox:checked');
+                selectAllCheckbox.checked = checkboxes.length > 0 && checkboxes.length === checkedBoxes.length;
+                selectAllCheckbox.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < checkboxes.length;
+            }
+            
+            // Download selected documents
+            downloadBtn.addEventListener('click', function() {
+                const checkedBoxes = container.querySelectorAll('.document-checkbox:checked');
+                const documentIds = Array.from(checkedBoxes).map(cb => cb.value);
+                
+                if (documentIds.length === 0) {
+                    return;
+                }
+                
+                // Disable button during download
+                downloadBtn.disabled = true;
+                downloadBtn.textContent = 'Descarregant...';
+                
+                // Create form and submit
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '{{ route("internal-docs.bulk-download") }}';
+                
+                // Add CSRF token
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_token';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+                
+                // Add document IDs
+                documentIds.forEach(id => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'document_ids[]';
+                    input.value = id;
+                    form.appendChild(input);
+                });
+                
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+                
+                // Re-enable button after a delay
+                setTimeout(() => {
+                    downloadBtn.disabled = false;
+                    updateDownloadButton();
+                }, 2000);
+            });
+            
+            // Initial state
+            updateDownloadButton();
         });
     </script>
 </x-app-layout>

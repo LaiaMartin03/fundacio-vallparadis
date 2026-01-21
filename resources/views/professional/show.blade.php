@@ -16,7 +16,14 @@
                 @endif
                 
                 <div class="flex flex-col gap-2">
-                    <h1 class="font-mclaren text-primary_color text-3xl mb-2">{{ $professional->name }} {{ $professional->surname }}</h1>
+                    <div class="flex items-center gap-3 mb-2">
+                        <h1 class="font-mclaren text-primary_color text-3xl">{{ $professional->name }} {{ $professional->surname }}</h1>
+                        <a href="{{ route('professional.edit', $professional->id) }}" class="flex items-center">
+                            <svg class="size-5 text-primary_color hover:opacity-80 transition-opacity">
+                                <use href="#edit" />
+                            </svg>
+                        </a>
+                    </div>
                     
                     <div class="flex items-center gap-4">
                         <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $professional->active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
@@ -63,17 +70,6 @@
                         @endif
                     </div>
                 </div>
-            </div>
-            
-            <div class="flex gap-2">
-                <a href="{{ route('professional.edit', $professional->id) }}" class="flex items-center gap-2 px-4 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors">
-                    Editar
-                </a>
-                
-                <a href="{{ route('professional.index') }}" 
-                   class="flex items-center gap-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                    Tornar
-                </a>
             </div>
         </div>
 

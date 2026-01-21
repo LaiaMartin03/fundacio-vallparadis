@@ -10,7 +10,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h1 class="text-2xl font-bold mb-4">Learning Programs</h1>
-                    <table class="min-w-full bg-white">
+                    
+                    <x-buscador 
+                        label="Cercar cursos" 
+                        placeholder="Escriu per cercar..." 
+                    />
+                    
+                    <table class="min-w-full bg-white" id="learningprogram-table">
                         <thead>
                             <tr>
                                 <th class="py-2 px-4 border-b">ID</th>
@@ -30,6 +36,26 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const searchInput = document.getElementById('search-input');
+                            const table = document.getElementById('learningprogram-table');
+                            
+                            if (!searchInput || !table) return;
+                            
+                            const rows = Array.from(table.querySelectorAll('tbody tr'));
+                            
+                            searchInput.addEventListener('input', function() {
+                                const term = this.value.trim().toLowerCase();
+                                
+                                rows.forEach(row => {
+                                    const text = row.textContent.toLowerCase();
+                                    row.style.display = text.includes(term) ? '' : 'none';
+                                });
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>

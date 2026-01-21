@@ -2,9 +2,16 @@
     <div class="ml-20 px-20 py-10 space-y-6">
         <!-- Header -->
         <div class="flex flex-col gap-2 p-2">
-            <h1 class="font-mclaren text-primary_color text-4xl">
-                {{ $manteniment->tipo === 'manteniment' ? 'Mantenimiento' : 'Seguimiento' }}
-            </h1>
+            <div class="flex items-center gap-3">
+                <h1 class="font-mclaren text-primary_color text-4xl">
+                    {{ $manteniment->tipo === 'manteniment' ? 'Mantenimiento' : 'Seguimiento' }}
+                </h1>
+                <a href="{{ route('manteniment.edit', $manteniment->id) }}" class="flex items-center">
+                    <svg class="size-5 text-primary_color hover:opacity-80 transition-opacity">
+                        <use href="#edit" />
+                    </svg>
+                </a>
+            </div>
             <div class="flex flex-col gap-1 text-gray-600">
                 <p class="text-lg">{{ $manteniment->descripcio ? Str::limit($manteniment->descripcio, 100) : 'Sin descripción' }}</p>
                 <p class="text-base">{{ $manteniment->data->format('d/m/Y') }}</p>
@@ -56,18 +63,6 @@
             <div id="tab-container" class="bg-white p-4 rounded shadow-sm z-50"></div>
 
             <script src="{{ asset('js/professional-tabs.js') }}" defer></script>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="flex justify-end gap-2">
-            <a href="{{ route('manteniment.edit', $manteniment->id) }}" 
-               class="px-4 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors">
-                Editar
-            </a>
-            <a href="{{ route('manteniment.index') }}" 
-               class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                Volver
-            </a>
         </div>
     </div>
 </x-app-layout>

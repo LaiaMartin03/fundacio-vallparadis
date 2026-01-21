@@ -16,43 +16,43 @@
     @endif
 
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white rounded-xl">
-        <h1 class="text-2xl font-bold mb-4">Editar Curs</h1>
+        <h1 class="text-2xl font-bold mb-4">Editar contacte extern</h1>
 
-        <form action="{{ route('curso.update', $curso) }}" method="POST" class="space-y-4">
+        <form action="{{ route('outsiders.update', $outsider) }}" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
             
-            {{-- Campo active hidden --}}
-            <input type="hidden" name="active" value="{{ old('active', $curso->active ?? 1) }}">
+            <x-text-input id="fullname" name="fullname" type="text" 
+                placeholder="Nombre completo" class="mt-1 block w-full" :value="old('fullname', $outsider->fullname)" />
 
-            {{-- Name --}}
-            <div>
-                <x-input-label for="name" :value="__('Nom del curs')" />
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" 
-                    :value="old('name', $curso->name)" required autofocus />
-                <x-input-error :messages="$errors->get('name')" class="mt-2" /> 
-            </div>
-            
-            {{-- Info --}}
-            <div>
-                <label for="info" class="block text-sm font-medium text-gray-700">Informació</label>
-                <textarea id="info" name="info" rows="3" placeholder="Informació addicional" class="mt-1 block w-full border-gray-300 focus:border-primary_color focus:ring-primary_color rounded-md shadow-sm">{{ old('info', $curso->info) }}</textarea>
-                <x-input-error :messages="$errors->get('info')" class="mt-2" />
-            </div>
+            <x-text-input id="email" name="email" type="email" 
+                placeholder="correo@ejemplo.com" class="mt-1 block w-full" :value="old('email', $outsider->email)" />
 
-            {{-- Certification --}}
+            <x-text-input id="phone" name="phone" type="text" 
+                placeholder="123456789" class="mt-1 block w-full" :value="old('phone', $outsider->phone)" />
+
+            <x-text-input id="service" name="service" type="text" 
+                placeholder="Servei" class="mt-1 block w-full" :value="old('service', $outsider->service)" />
+
             <div>
-                <label for="certification" class="block text-sm font-medium text-gray-700">Certificat</label>
-                <select id="certification" name="certification" class="mt-1 block w-full border rounded px-3 py-2 focus:outline-none">
-                    <option value="Pendent" {{ old('certification', $curso->certification) == 'Pendent' ? 'selected' : '' }}>Pendent</option>
-                    <option value="Entregat" {{ old('certification', $curso->certification) == 'Entregat' ? 'selected' : '' }}>Entregat</option>
+                <label for="task" class="block text-sm font-medium text-gray-700 mb-1">Tasca</label>
+                <select id="task" name="task" class="mt-1 block w-full border-gray-300 focus:border-primary_color focus:ring-primary_color rounded-md shadow-sm" required>
+                    <option value="">Selecciona una tasca</option>
+                    <option value="General" {{ old('task', $outsider->task) == 'General' ? 'selected' : '' }}>General</option>
+                    <option value="Assistencial" {{ old('task', $outsider->task) == 'Assistencial' ? 'selected' : '' }}>Assistencial</option>
                 </select>
-                <x-input-error :messages="$errors->get('certification')" class="mt-2" />
             </div>
 
-            {{-- Botones --}}
+            <x-text-input id="business" name="business" type="text" 
+                placeholder="Empresa" class="mt-1 block w-full" :value="old('business', $outsider->business)" />
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Observacions</label>
+                <x-trix-input id="description" name="description" :value="old('description', $outsider->description)" autocomplete="off" class="border-0 border-b border-b-[#ff9740] placeholder-[#ff9740] py-2 px-0 focus:outline-none" />
+            </div>
+
             <div class="flex justify-end gap-4 mt-6">
-                <a href="{{ route('curso.index') }}" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg transition">
+                <a href="{{ route('outsiders.index') }}" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg transition">
                     Cancel·lar
                 </a>
                 <x-primary-button>

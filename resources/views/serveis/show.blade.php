@@ -1,88 +1,115 @@
 <x-app-layout>
-    <div class="ml-20 px-20 py-10 space-y-6">
+    <div class="px-20 py-10 flex flex-col gap-8">
         <!-- Header -->
-        <div class="flex flex-col gap-2 p-2">
-            <h1 class="font-mclaren text-primary_color text-4xl">
-                {{ $servei->name }}
-            </h1>
-            <div class="flex items-center gap-2">
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $servei->tipus === 'general' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' }}">
-                    {{ $servei->tipus === 'general' ? 'General' : 'Complementari' }}
-                </span>
-                <span class="text-gray-500 text-sm">
-                    Creat el {{ $servei->created_at->format('d/m/Y') }}
-                </span>
+        <div class="flex flex-col gap-2">
+            <div class="flex items-center gap-3">
+                <h1 class="font-mclaren text-primary_color text-4xl">
+                    {{ $servei->name }}
+                </h1>
+                <a href="{{ route('serveis.edit', $servei->id) }}" class="flex items-center">
+                    <svg class="size-5 text-primary_color hover:opacity-80 transition-opacity">
+                        <use href="#edit" />
+                    </svg>
+                </a>
             </div>
+            <span class="text-gray-600 text-sm">
+                Servei {{ $servei->tipus === 'general' ? 'general' : 'complementari' }}
+            </span>
         </div>
 
-        <!-- Descripció -->
-        <div class="space-y-2">
-            <h2 class="text-lg font-medium text-gray-800">Descripció</h2>
-            <div class="bg-white p-4 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] rounded-lg">
-                <p class="text-gray-700">{{ $servei->desc ?: 'Sense descripció' }}</p>
-            </div>
-        </div>
-
-        <!-- Observacions -->
-        @if($servei->observacions)
-        <div class="space-y-2">
-            <h2 class="text-lg font-medium text-gray-800">Observacions</h2>
-            <div class="bg-white p-4 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] rounded-lg">
-                <p class="text-gray-700">{{ $servei->observacions }}</p>
-            </div>
-        </div>
-        @endif
-
-        <!-- Responsable -->
-        @if($servei->user)
-        <div class="space-y-2">
-            <h2 class="text-lg font-medium text-gray-800">Responsable</h2>
-            <div class="bg-white p-4 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] rounded-lg flex gap-5 items-center">
-                <div class="flex flex-col justify-center flex-1">
-                    <div class="font-medium text-gray-800">
-                        {{ $servei->user->name }} {{ $servei->user->surname ?? '' }}
+        <!-- Manager Section -->
+        <div class="flex flex-col gap-3">
+            <label class="text-gray-700 font-medium">Encarregat:</label>
+            @if($servei->user)
+                <div class="py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-fit h-fit">
+                    <img class="rounded-full h-12 aspect-square object-cover" 
+                         src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" 
+                         alt="{{ $servei->user->name }}">
+                    <div class="flex flex-col">
+                        <div>{{ $servei->user->name }} {{ $servei->user->surname ?? '' }}</div>
+                        <div class="text-sm text-primary_color">{{ $servei->user->position ?? 'Encarregat' }}</div>
                     </div>
-                    <div class="text-sm text-primary_color">
-                        {{ $servei->user->email }}
-                    </div>
+                </div>
+            @else
+                <div class="py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] rounded-lg w-fit">
+                    <p class="text-gray-500">No hi ha encarregat assignat.</p>
+                </div>
+            @endif
+        </div>
+
+        <!-- Tabs -->
+        <div id="box-content" class="relative w-full">
+            <div class="flex gap-x-5">
+                <button type="button" 
+                        class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40 active" 
+                        data-tab="personal"
+                        onclick="showTab('personal', this)">
+                    Personal
+                </button>
+                <button type="button" 
+                        class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40" 
+                        data-tab="horaris"
+                        onclick="showTab('horaris', this)">
+                    Horaris
+                </button>
+                <button type="button" 
+                        class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40" 
+                        data-tab="seguiment"
+                        onclick="showTab('seguiment', this)">
+                    Seguiment
+                </button>
+            </div>
+
+            <!-- Tab Content Container -->
+            <div class="bg-white rounded-xl p-6 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] min-h-[400px]">
+                <!-- Personal Tab -->
+                <div id="tab-personal" class="tab-content">
+                    <p class="text-gray-500">Contingut de Personal</p>
+                </div>
+
+                <!-- Horaris Tab -->
+                <div id="tab-horaris" class="tab-content hidden">
+                    <p class="text-gray-500">Contingut de Horaris</p>
+                </div>
+
+                <!-- Seguiment Tab -->
+                <div id="tab-seguiment" class="tab-content hidden">
+                    <p class="text-gray-500">Contingut de Seguiment</p>
                 </div>
             </div>
         </div>
-        @endif
-
-        <!-- Document intern -->
-        @if($servei->internalDoc)
-        <div class="space-y-2">
-            <h2 class="text-lg font-medium text-gray-800">Document intern relacionat</h2>
-            <div class="bg-white p-4 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] rounded-lg">
-                <a href="{{ route('internal-docs.show', $servei->internalDoc->id) }}" 
-                   class="text-primary_color hover:text-primary_color/80 font-medium">
-                    {{ $servei->internalDoc->title }}
-                </a>
-            </div>
-        </div>
-        @endif
-
-        <!-- Action Buttons -->
-        <div class="flex justify-end gap-2">
-            <a href="{{ route('serveis.edit', $servei->id) }}" 
-               class="px-4 py-2 bg-primary_color text-white rounded-lg hover:bg-primary_color/90 transition-colors">
-                Editar
-            </a>
-            <form action="{{ route('serveis.destroy', $servei->id) }}" method="POST" 
-                  onsubmit="return confirm('Estàs segur que vols eliminar aquest servei?');" 
-                  class="inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" 
-                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
-                    Eliminar
-                </button>
-            </form>
-            <a href="{{ route('serveis.index') }}" 
-               class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                Tornar
-            </a>
-        </div>
     </div>
+
+    <script>
+        function showTab(tabName, button) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Show selected tab content
+            const selectedTab = document.getElementById('tab-' + tabName);
+            if (selectedTab) {
+                selectedTab.classList.remove('hidden');
+            }
+
+            // Update button styles
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active', 'bg-white', 'text-primary_color', 'shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]');
+                btn.classList.add('opacity-40', 'bg-primary_color', 'text-white');
+            });
+
+            // Apply active style to clicked button
+            button.classList.add('active', 'bg-white', 'text-primary_color', 'shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]');
+            button.classList.remove('opacity-40', 'bg-primary_color', 'text-white');
+        }
+
+        // Initialize with Personal tab active
+        document.addEventListener('DOMContentLoaded', function() {
+            const activeButton = document.querySelector('.tab-button.active');
+            if (activeButton) {
+                showTab('personal', activeButton);
+            }
+        });
+    </script>
 </x-app-layout>

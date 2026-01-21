@@ -14,7 +14,12 @@ class MantenimentController extends Controller
         // Trae todos los manteniments con su responsable, ordenados por fecha de creación
         $manteniments = Manteniment::with('responsable')->latest()->get();
 
-        return view('manteniment.index', compact('manteniments'));
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Mantenimiento' => route('manteniment.index'),
+        ];
+
+        return view('manteniment.index', compact('manteniments', 'breadcrumbs'));
     }
 
     // Mostrar formulario de creación
@@ -22,7 +27,14 @@ class MantenimentController extends Controller
     {
         // Traemos todos los usuarios como posibles responsables/profesionales
         $users = User::orderBy('name')->get();
-        return view('manteniment.create', compact('users'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Mantenimiento' => route('manteniment.index'),
+            'Crear entrada' => route('manteniment.create'),
+        ];
+
+        return view('manteniment.create', compact('users', 'breadcrumbs'));
     }
 
     // Guardar nueva entrada
@@ -56,14 +68,29 @@ class MantenimentController extends Controller
     {
         // Cargar la relación responsable para evitar N+1 queries
         $manteniment->load('responsable');
-        return view('manteniment.show', compact('manteniment'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Mantenimiento' => route('manteniment.index'),
+            'Entrada #' . $manteniment->id => route('manteniment.show', $manteniment->id),
+        ];
+
+        return view('manteniment.show', compact('manteniment', 'breadcrumbs'));
     }
 
     // Mostrar formulario de edición
     public function edit(Manteniment $manteniment)
     {
         $users = User::orderBy('name')->get();
-        return view('manteniment.edit', compact('manteniment', 'users'));
+
+        $breadcrumbs = [
+            'Inicio' => route('dashboard'),
+            'Mantenimiento' => route('manteniment.index'),
+            'Entrada #' . $manteniment->id => route('manteniment.show', $manteniment->id),
+            'Editar' => route('manteniment.edit', $manteniment->id),
+        ];
+
+        return view('manteniment.edit', compact('manteniment', 'users', 'breadcrumbs'));
     }
 
     // Actualizar entrada existente

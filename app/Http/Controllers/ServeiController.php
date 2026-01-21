@@ -51,7 +51,6 @@ class ServeiController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'tipus' => 'required|in:general,complementari',
             'name' => 'required|string|max:255',
             'desc' => 'required|string',
             'observacions' => 'nullable|string',
@@ -59,13 +58,8 @@ class ServeiController extends Controller
             'internal_doc_id' => 'nullable|exists:internal_docs,id',
         ]);
 
-        // Validar que los servicios generales solo sean 'Cuina' o 'Bugaderia/Neteja'
-        if ($validated['tipus'] === 'general') {
-            $allowedNames = ['Cuina', 'Bugaderia/Neteja', 'Neteja i Bugaderia'];
-            if (!in_array($validated['name'], $allowedNames)) {
-                return back()->withErrors(['name' => 'Los servicios generales solo pueden ser "Cuina" o "Bugaderia/Neteja"'])->withInput();
-            }
-        }
+        // All new services are complementari by default
+        $validated['tipus'] = 'complementari';
 
         Servei::create($validated);
 
