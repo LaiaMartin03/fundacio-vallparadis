@@ -8,10 +8,12 @@
             </a>
         </div>
 
-        <x-buscador 
+        <div class="pb-8">
+            <x-buscador 
             label="Cercar cursos" 
             placeholder="Escriu el nom o descripció del curs..." 
-        />
+            />
+        </div>
 
         @if($cursos->isEmpty())
             <p>Ni hi han cursos registrats.</p>

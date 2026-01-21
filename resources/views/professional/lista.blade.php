@@ -24,7 +24,7 @@
                 @endphp
 
                 @foreach($groupedProfessionals as $profession => $professionalsGroup)
-                    <div class="profession-section flex flex-col gap-5" data-profession="{{ strtolower($profession) }}">
+                    <div class="profession-section flex flex-col gap-5 mb-8" data-profession="{{ strtolower($profession) }}">
                         <!-- Botón para colapsar esta profesión -->
                         <button class="section-btn flex gap-4 items-center group" data-profession="{{ $profession }}">
                             <svg class="w-6 h-6 text-primary_color transition-transform duration-300 section-arrow" data-profession="{{ $profession }}" viewBox="0 0 20 20" fill="currentColor">
