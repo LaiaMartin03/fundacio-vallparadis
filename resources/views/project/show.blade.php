@@ -4,17 +4,32 @@
             
             {{-- Izquierda --}}
             <div class="flex flex-col gap-2">
-                <div class="flex items-center ">
-                    <h1 class="font-mclaren text-primary_color text-4xl">{{ $project->name }}</h1> 
-                    
-                    <a href="{{ route('project.edit', $project->id) }}">
-                        <svg fill="currentColor" class="size-5 ml-4 mt-2 text-primary_color fill-current">
-                            <use href="#edit"></use>
+                <div class="flex items-center gap-3 mb-2">
+                    <h1 class="font-mclaren text-primary_color text-3xl">{{ $project->name }}</h1>
+                    <a href="{{ route('project.edit', $project->id) }}" class="flex items-center">
+                        <svg class="size-5 text-primary_color hover:opacity-80 transition-opacity">
+                            <use href="#edit" />
                         </svg>
                     </a>
                 </div>
-                <h2 class="font-mclaren text-primary_color text-2xl"> {{ $project->type === 'project' ? 'Projecte' : 'Comissió' }}</h2>
-                <h3 class="font-mclaren text-md mt-4 wrap overflow-wrap break-words break-all">{{ $project->description }} </h3>
+                
+                <div class="flex items-center gap-4">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $project->active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                        <span class="w-2 h-2 rounded-full {{ $project->active ? 'bg-green-500' : 'bg-red-500' }} mr-2"></span>
+                        {{ $project->active ? 'Actiu' : 'Inactiu' }}
+                    </span>
+                    
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        {{ $project->type === 'project' ? 'Projecte' : 'Comissió' }}
+                    </span>
+                </div>
+                
+                <div class="mt-3">
+                    <h3 class="font-mclaren text-lg text-primary_color text-gray-800 mb-2">Descripció</h3>
+                    <p class="text-gray-600 wrap overflow-wrap break-words">
+                        {{ $project->description }}
+                    </p>
+                </div>
             
                 {{-- Professionals --}}
                 <div class="mt-20">
@@ -28,7 +43,7 @@
                     </div>
 
                     <div class="grid grid-cols-4 gap-4 ml-3">
-                        @foreach($professionals as $professional)
+                        @forelse($professionals as $professional)
                             <div class="bg-white p-4 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-64 h-28 items-center">
                                 <img class="rounded-full w-20 h-20 object-cover" src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aG9tYnJlJTIwZXNwYSVDMyVCMW9sfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000" alt="">
                                 <div class="flex flex-col justify-center">
@@ -47,33 +62,17 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="col-span-4">
+                                <p class="text-center">No n'hi han professionals registrats al projecte <a href="{{ route('project.addProfessional', $project->id) }}" class="text-primary_color">registrals aquí</a></p>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
 
             {{-- Derecha --}}
             <div class="flex gap-8 flex-col shrink-0 ">
-                {{-- Boton Activar/Desactivar --}}
-                <div class="text-center ml-auto">
-                    @if (!$project->active)
-                        <form action="{{ route('project.activate', $project->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <button type="submit" class="px-4 py-2 rounded-full text-white bg-green-500">
-                                Actiu
-                            </button>
-                        </form>
-                    @else
-                        <form action="{{ route('project.destroy', $project->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="px-4 py-2 rounded-full text-white bg-red-500">
-                                Inactiu
-                            </button>
-                        </form>
-                    @endif
-                </div>
                 
                 {{-- Professional responsable --}}
                 <div>
