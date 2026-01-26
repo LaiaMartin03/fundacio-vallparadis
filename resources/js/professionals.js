@@ -15,6 +15,14 @@ document.addEventListener('click', (e) => {
         target.textContent = form.classList.contains('hidden') ? 'Avaluar' : 'Cancel·lar';
     }
     
+    // Followups
+    if (target.id === 'seguiment-button') {
+        e.preventDefault();
+        const form = document.getElementById('seguiments');
+        form.classList.toggle('hidden');
+        target.textContent = form.classList.contains('hidden') ? 'Afegir seguiment' : 'Amagar';
+    }
+    
     // Evaluaciones individuales
     if (target.hasAttribute('data-form-id')) {
         e.preventDefault();

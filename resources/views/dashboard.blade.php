@@ -79,30 +79,25 @@
         <div class="rounded-lg bg-white p-5 w-1/3">
             @php
             $user = auth()->user();
-            $cursos = collect();
+            $projects = collect();
 
             if ($user) {
-                if (isset($user->cursos)) {
-                $cursos = $user->cursos;
-                } elseif (isset($user->courses)) {
-                $cursos = $user->courses;
-                }
+                $projectIds = \App\Models\Projectdistribution::where('user_id', $user->id)->pluck('project_id');
+                $projects = \App\Models\Project::whereIn('id', $projectIds)->get();
             }
-
-            $cursos = collect($cursos);
             @endphp
 
             <div class="flex flex-col gap-4">
-            <span class="text-2xl text-gray_color">Els teus cursos</span>
+            <span class="text-2xl text-gray_color">Els teus projectes</span>
 
-            @if($cursos->isEmpty())
-                <div class="text-gray-500">No t'has apuntat a cap curs!</div>
+            @if($projects->isEmpty())
+                <div class="text-gray-500">No estàs assignat a cap projecte!</div>
             @else
                 <ul class="space-y-3">
-                @foreach($cursos as $curso)
-                    <li class="p-3 bg-gray-50 rounded-md">
-                    {{ $curso->name ?? $curso->titol ?? $curso->title ?? 'Curs sense nom' }}
-                    </li>
+                @foreach($projects as $project)
+                    <a href="{{ route('project.show', $project->id) }}" class="block p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition hover:text-primary_color hover:transition duration-200">
+                    {{ $project->name }}
+                    </a>
                 @endforeach
                 </ul>
             @endif

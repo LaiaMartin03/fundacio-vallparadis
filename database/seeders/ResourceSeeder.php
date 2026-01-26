@@ -17,7 +17,7 @@ class ResourceSeeder extends Seeder
         if ($jana && $carlos) {
             // Create 2 uniforms for Jana
             Resource::create([
-                'shirt_size' => 'M',
+                'shirt_size' => '40',
                 'pants_size' => '38',
                 'lab_coat' => true,
                 'shoe_size' => '40',
@@ -27,10 +27,10 @@ class ResourceSeeder extends Seeder
             ]);
 
             Resource::create([
-                'shirt_size' => 'L',
+                'shirt_size' => '38',
                 'pants_size' => '40',
                 'lab_coat' => false,
-                'shoe_size' => '41',
+                'shoe_size' => '40',
                 'user_id' => $jana->id,
                 'given_by_user_id' => $carlos->id,
                 'delivered_at' => now()->subDays(15),
