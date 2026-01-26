@@ -50,12 +50,15 @@
             </div>
             <hr class="border-primary_color">
             <div class="grid grid-cols-2 grid-rows-2 gap-8">
+                @if(auth()->user()->role === 'Equip Directiu')
                 <a href="{{ route('hr.index') }}" class="bg-white p-5 rounded-lg relative h-44 overflow-hidden group ">
                     <span class="text-3xl font-medium text-gray-300 group-hover:text-charcoal_color transition duration-300 ease-in-out">Temes pendents RRHH</span>
                     <svg class="size-44 group-hover:opacity-50 absolute -bottom-8 text-primary_color opacity-25 -right-5 transition duration-300 ease-in-out">
                         <use href="#folder" />
                     </svg>
                 </a>
+                @endif
+                @if(in_array(auth()->user()->role, ['Equip Directiu', 'Administració', 'Responsable/Equip Tecnic']))
                 <a href="{{ route('professional.index') }}" class="bg-white p-5 rounded-lg relative h-44 overflow-hidden group ">
                     <span class="text-3xl font-medium text-gray-300 group-hover:text-charcoal_color transition duration-300 ease-in-out">Professionals</span>
                     <svg class="size-44 group-hover:opacity-50 absolute -bottom-8 text-primary_color opacity-25 -right-5 transition duration-300 ease-in-out">
@@ -74,6 +77,7 @@
                         <use href="#contacts" />
                     </svg>
                 </a>
+                @endif
             </div>
         </div>
         <div class="rounded-lg bg-white p-5 w-1/3">

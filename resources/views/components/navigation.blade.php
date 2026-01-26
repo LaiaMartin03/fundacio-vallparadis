@@ -10,6 +10,7 @@
                     <use href="#home"></use>
                 </svg>
             </x-nav-link>
+            @if(in_array(auth()->user()->role, ['Equip Directiu', 'Administració', 'Responsable/Equip Tecnic']))
             <x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Professionals">
                 <svg class="size-5">
                     <use href="#user"></use>
@@ -30,13 +31,15 @@
                     <use href="#contacts"></use>
                 </svg>
             </x-nav-link>
-
+            @endif
+            @if(in_array(auth()->user()->role, ['Equip Directiu', 'Administració']))
             <x-nav-link :href="route('manteniment.index')" :active="request()->routeIs('manteniment.index')" title="Mantenimiento">
                 <svg class="size-5">
                     <use href="#puzzle"></use>
                 </svg>
             </x-nav-link>
-
+            @endif
+            @if(in_array(auth()->user()->role, ['Equip Directiu', 'Administració', 'Responsable/Equip Tecnic']))
             <x-nav-link :href="route('serveis.index')" :active="request()->routeIs('serveis.index')" title="Serveis">
                 <svg class="size-5">
                     <use href="#puzzle"></use>
@@ -54,6 +57,7 @@
                     <use href="#document"></use>
                 </svg>
             </x-nav-link>
+            @endif
         </div>  
         
         <!--<x-nav-link :href="route('professional.index')" :active="request()->routeIs('professional.index')" title="Settings" class="mt-auto">

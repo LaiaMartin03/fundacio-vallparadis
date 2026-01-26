@@ -50,3 +50,19 @@ document.addEventListener('DOMContentLoaded', function () {
         loadPartial(activeBtn.dataset.url, activeBtn);
     }
 });
+
+// Funciones para modales
+function openModal(modalId) {
+    document.getElementById(modalId).classList.remove('hidden');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+// Cerrar modal al hacer clic fuera
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('bg-gray-600')) {
+        event.target.classList.add('hidden');
+    }
+});

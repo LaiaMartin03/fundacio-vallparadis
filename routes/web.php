@@ -161,6 +161,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware(['role:Equip Directiu']);
 
     /*
+    |========== ACCIDENTABILITAT ==========
+    */
+    Route::get('professional/{professional}/accidentabilitat/partial', [ProfessionalController::class, 'accidentabilitatPartial'])
+        ->name('professional.accidentabilitat.partial')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    Route::post('professional/{professional}/accidentabilitat', [ProfessionalController::class, 'storeAccidentabilitat'])
+        ->name('professional.accidentabilitat.store')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
+    /*
     |========== RECURSOS ==========
     */
     Route::resource('resources', ResourceController::class)

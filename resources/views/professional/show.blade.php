@@ -72,7 +72,7 @@
         </div>
 
         <div id="box-content" class="relative w-full">
-            <div class="flex gap-x-5">
+            <div class="flex gap-x-5 flex-wrap">
                 <button type="button" class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40 active" data-tab="questionnaires"data-url="{{ route('professional.evaluation_form.partial', $professional) }}">
                     Qüestionaris
                 </button>
@@ -85,11 +85,15 @@
                     Formació
                 </a>
 
-                <button type="button" class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40"data-tab="questionnaires"data-url="{{ route('professional.followups.partial', $professional) }}"> Seguiment
+                <button type="button" class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40"data-tab="seguiment"data-url="{{ route('professional.followups.partial', $professional) }}"> Seguiment
                 </button>
                 
-                <button type="button"class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40" data-tab="uniformes"data-url="{{ route('professional.uniformes.partial', $professional) }}">
+                <button type="button" class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40" data-tab="uniformes"data-url="{{ route('professional.uniformes.partial', $professional) }}">
                     Uniformes
+                </button>
+
+                <button type="button" class="tab-button px-3 py-1 text-white rounded-t-lg bg-primary_color opacity-40" data-tab="accidentabilitat" data-url="{{ route('professional.accidentabilitat.partial', $professional) }}">
+                    Accidentabilitat
                 </button>
             </div>
 

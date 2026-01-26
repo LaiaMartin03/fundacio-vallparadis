@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Professional;
 use App\Exports\ProfessionalsExport;
 use App\Imports\ProfessionalsImport;
-use App\Models\CenterFollowup;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Accident;
 
 class ProfessionalController extends Controller
 {
@@ -278,6 +276,43 @@ class ProfessionalController extends Controller
 
         $downloadName = $professional->cv_original_filename ?: 'cv_' . $professional->name . '.pdf';
         return Storage::disk('public')->download($professional->cv_file_path, $downloadName);
+    }
+
+    public function accidentabilitatPartial(Professional $professional)
+    {
+        $accidents = Accident::where('professional_id', $professional->id)
+            ->with('registrant')
+            ->latest()
+            ->get();
+        $userRole = auth()->user()->role;
+        return view('professional.partials._accidentabilitat', compact('accidents', 'professional', 'userRole'));
+    }
+
+    public function storeAccidentabilitat(Request $request, Professional $professional)
+    {
+        $request->validate([
+            'data' => 'required|date',
+            'context' => 'nullable|string',
+            'descripcio' => 'nullable|string',
+            'durada' => 'nullable|integer|min:1',
+            'type' => 'required|in:sense_baixa,amb_baixa,seguiment_baixes',
+        ]);
+
+        if ($request->type === 'amb_baixa' && !$request->durada) {
+            return back()->withErrors(['durada' => 'La durada és obligatòria per accidents amb baixa.']);
+        }
+
+        Accident::create([
+            'date' => $request->data,
+            'type' => $request->type,
+            'context' => $request->context,
+            'description' => $request->descripcio,
+            'durada' => $request->durada,
+            'professional_id' => $professional->id,
+            'registrant_user_id' => auth()->id(),
+        ]);
+
+        return back()->with('success', 'Accidentabilitat afegida correctament.');
     }
 
 }
