@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone', 20);
             $table->string('service');
             $table->string('task');
+            $table->text('description')->nullable();
             $table->string('business')->nullable();
             $table->timestamps();
         });

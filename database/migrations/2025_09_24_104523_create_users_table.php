@@ -25,6 +25,12 @@ return new class extends Migration
             $table->string('phone', 20)->nullable();
             $table->date('birthday')->nullable();
             $table->string('curriculum')->nullable();
+            // CV/document fields (merged from separate add_ migrations)
+            $table->string('cv_file_path')->nullable();
+            $table->string('cv_original_filename')->nullable();
+            // Profile photo fields (merged from separate add_ migrations)
+            $table->string('profile_photo_path')->nullable();
+            $table->string('profile_photo_original_filename')->nullable();
             //roles
             $table->enum('role', ['Responsable/Equip Tecnic', 'Equip Directiu', 'Administració','Treballador'])->default('Treballador');
             $table->boolean('active')->nullable();
