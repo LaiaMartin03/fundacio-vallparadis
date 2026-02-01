@@ -10,6 +10,7 @@ import './toggle.js';
 import './modal';
 import './outsiders';
 import './calendar.js';
+import './accidentabilitat.js';
 
 // window.Turbo = Turbo
 window.Alpine = Alpine;

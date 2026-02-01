@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('cv_file_path')->nullable()->after('curriculum');
-            $table->string('cv_original_filename')->nullable()->after('cv_file_path');
-        });
+        if (!Schema::hasColumn('users', 'cv_file_path') || !Schema::hasColumn('users', 'cv_original_filename')) {
+            Schema::table('users', function (Blueprint $table) {
+                if (!Schema::hasColumn('users', 'cv_file_path')) {
+                    $table->string('cv_file_path')->nullable()->after('curriculum');
+                }
+                if (!Schema::hasColumn('users', 'cv_original_filename')) {
+                    $table->string('cv_original_filename')->nullable()->after('cv_file_path');
+                }
+            });
+        }
     }
 
     /**
@@ -22,8 +28,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['cv_file_path', 'cv_original_filename']);
-        });
+        // Drop columns only if they exist to avoid errors when rolling back
+        if (Schema::hasColumn('users', 'cv_file_path') || Schema::hasColumn('users', 'cv_original_filename')) {
+            Schema::table('users', function (Blueprint $table) {
+                if (Schema::hasColumn('users', 'cv_file_path')) {
+                    $table->dropColumn('cv_file_path');
+                }
+                if (Schema::hasColumn('users', 'cv_original_filename')) {
+                    $table->dropColumn('cv_original_filename');
+                }
+            });
+        }
     }
 };
