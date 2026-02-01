@@ -29,6 +29,10 @@
             <x-text-input id="surname" name="surname" type="text" placeholder="Cognom" class="mt-1 block w-full" :value="old('surname')" />
             <x-input-error :messages="$errors->get('surname')" class="mt-2" />
 
+            <!-- Profession -->
+            <x-text-input id="profession" name="profession" type="text" placeholder="Professió" class="mt-1 block w-full" :value="old('profession')" />
+            <x-input-error :messages="$errors->get('profession')" class="mt-2" />
+
             <!-- Birthday -->
             <x-text-input id="birthday" name="birthday" type="date" placeholder="Data de naixement" class="mt-1 block w-full" :value="old('birthday')" />
             <x-input-error :messages="$errors->get('birthday')" class="mt-2" />
@@ -61,6 +65,26 @@
             <x-text-input id="code" name="code" type="text" placeholder="Codi de taquilla" class="mt-1 block w-full" :value="old('code')" />
             <x-input-error :messages="$errors->get('code')" class="mt-2" />
 
+            <!-- Professional Type -->
+            <div class="flex items-center gap-6 mt-1">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="type" value="external" class="accent-blue-600 focus:ring-primary_color"
+                        {{ old('type', 'external') == 'external' ? 'checked' : '' }}>
+                    <span>Extern</span>
+                </label>
+
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="type" value="internal" class="accent-blue-600 focus:ring-primary_color"
+                        {{ old('type') == 'internal' ? 'checked' : '' }}>
+                    <span>Intern</span>
+                </label>
+            </div>
+            <x-input-error :messages="$errors->get('type')" class="mt-2" />
+
+            <!-- Observations -->
+            <x-text-input id="observations" name="observations" type="text" placeholder="Observacions" class="mt-1 block w-full" :value="old('observations')" />
+            <x-input-error :messages="$errors->get('observations')" class="mt-2" />
+
             <!-- Profile Photo -->
             <div class="mt-4">
                 <label for="profile_photo" class="block text-sm font-medium text-gray-700 mb-2">
@@ -84,26 +108,6 @@
                 <p class="text-sm text-gray-500 mt-1">Màxim 10MB. Formats: PDF, DOC, DOCX, TXT</p>
                 <x-input-error :messages="$errors->get('cv_file')" class="mt-2" />
             </div>
-
-            <!-- Professional Type -->
-            <div class="flex items-center gap-6 mt-1">
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="type" value="external" class="accent-blue-600 focus:ring-primary_color"
-                        {{ old('type') == 'external' ? 'checked' : '' }}>
-                    <span>Extern</span>
-                </label>
-
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="type" value="internal" class="accent-blue-600 focus:ring-primary_color"
-                        {{ old('type') == 'internal' ? 'checked' : '' }}>
-                    <span>Intern</span>
-                </label>
-            </div>
-            <x-input-error :messages="$errors->get('type')" class="mt-2" />
-
-            <!-- Observations -->
-            <x-text-input id="observations" name="observations" type="text" placeholder="Observacions" class="mt-1 block w-full" :value="old('observations')" />
-            <x-input-error :messages="$errors->get('observations')" class="mt-2" />
 
             <!-- Active -->
             <div class="flex items-center gap-6 mt-1">

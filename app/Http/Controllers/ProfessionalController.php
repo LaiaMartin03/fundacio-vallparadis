@@ -95,43 +95,50 @@ class ProfessionalController extends Controller
      * Store a newly created resource in storage.
      */
 
-    public function store(Request $request)
+public function store(Request $request)
     {
         $request->validate([
-            'email'=>'required|min:3|max:255',
-            'name'=>'required|min:3|max:20',
-            'password'=>'required|min:8|max:255',
-            'locker'=>'required',
-            'code'=>'required',
-            'surname'=>'required',
-            'address'=>'required',
-            'phone'=>'required',
-            'birthday'=>'required|date',
-            'curriculum'=>'nullable',
+            'email' => 'required|email|min:3|max:255|unique:users,email',
+            'name' => 'required|min:3|max:50',
+            'surname' => 'required|min:3|max:50',
+            'password' => 'required|min:8|max:255|confirmed',
+            'password_confirmation' => 'required',
+            'profession' => 'required|min:3|max:255',
+            'address' => 'required',
+            'phone' => 'required',
+            'birthday' => 'required|date',
+            'locker' => 'required',
+            'code' => 'required',
+            'active' => 'required|in:0,1',
+            'observations' => 'nullable|string',
             'cv_file' => 'nullable|file|max:10240|mimes:pdf,doc,docx,txt',
             'profile_photo' => 'nullable|image|max:5120|mimes:jpg,jpeg,png'
         ]);
 
         $data = [
-            'email'=>request('email'),
-            'name'=>request('name'),
-            'password'=>request('password'),
-            'locker'=>request('locker'),
-            'code'=>request('code'),
-            'surname'=>request('surname'),
-            'address'=>request('address'),
-            'phone'=>request('phone'),
-            'birthday'=>request('birthday'),
-            'curriculum'=>request('curriculum'),
-            'active'=>request('active')
+            'email' => $request->input('email'),
+            'name' => $request->input('name'),
+            'surname' => $request->input('surname'),
+            'password' => $request->input('password'),
+            'profession' => $request->input('profession', 'Sense especificar'),
+            'address' => $request->input('address'),
+            'phone' => $request->input('phone'),
+            'birthday' => $request->input('birthday'),
+            'locker' => $request->input('locker'),
+            'code' => $request->input('code'),
+            'active' => $request->input('active', 1),
+            'curriculum' => $request->input('observations'), // Mapear observations a curriculum
+            'role' => 'Treballador' // Valor por defecto
         ];
 
+        // Manejo de archivo CV
         if ($request->hasFile('cv_file')) {
             $file = $request->file('cv_file');
             $data['cv_original_filename'] = $file->getClientOriginalName();
             $data['cv_file_path'] = $file->store('professional-cvs', 'public');
         }
 
+        // Manejo de foto de perfil
         if ($request->hasFile('profile_photo')) {
             $file = $request->file('profile_photo');
             $data['profile_photo_original_filename'] = $file->getClientOriginalName();
@@ -139,7 +146,7 @@ class ProfessionalController extends Controller
         }
 
         Professional::create($data);
-        return redirect()->route('professional.create')->with('success', 'Professional creat correctament.');
+        return redirect()->route('professional.index')->with('success', 'Professional creat correctament.');
     }
 
     /**
