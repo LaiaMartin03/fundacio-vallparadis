@@ -130,6 +130,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('professional.uniformes.partial')
         ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
 
+    Route::get('professional/{professional}/cv/download', [ProfessionalController::class, 'downloadCv'])
+        ->name('professional.cv.download')
+        ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);
+
     Route::post('professionals/search', [ProfessionalController::class, 'search'])
         ->name('professionals.search')
         ->middleware(['role:Equip Directiu,Administració,Responsable/Equip Tecnic']);

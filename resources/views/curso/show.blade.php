@@ -50,15 +50,7 @@
                             @endphp
                             @if($user)
                                 <div data-id="{{ $user->id }}" class="relative py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-fit h-fit dragItem" draggable="false">
-                                    @if($user->profile_photo_path)
-                                        <img class="rounded-full h-12 aspect-square object-cover" src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="{{ $user->name }}">
-                                    @else
-                                        <div class="rounded-full h-12 aspect-square bg-gray-200 flex items-center justify-center">
-                                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                            </svg>
-                                        </div>
-                                    @endif
+                                    <x-profile-photo :user="$user" size="sm" />
                                     <div class="flex flex-col relative">
                                         <div>{{ $user->name }} {{ $user->surname ?? '' }}</div>
                                         <div class="text-sm text-primary_color">{{ $user->role ?? '-' }}</div>
@@ -90,15 +82,7 @@
                         @else
                             @foreach($usuariosNoInscritos as $usuario)
                                 <div data-id="{{ $usuario->id }}" class="relative py-4 px-6 bg-white shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)] flex gap-5 rounded-lg w-fit h-fit dragItem" draggable="true">
-                                    @if($usuario->profile_photo_path)
-                                        <img class="rounded-full h-12 aspect-square object-cover" src="{{ asset('storage/' . $usuario->profile_photo_path) }}" alt="{{ $usuario->name }}">
-                                    @else
-                                        <div class="rounded-full h-12 aspect-square bg-gray-200 flex items-center justify-center">
-                                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                            </svg>
-                                        </div>
-                                    @endif
+                                    <x-profile-photo :user="$usuario" size="sm" />
                                     <div class="flex flex-col">
                                         <div>{{ $usuario->name }} {{ $usuario->surname ?? '' }}</div>
                                         <div class="text-sm text-primary_color">{{ $usuario->role ?? '-' }}</div>

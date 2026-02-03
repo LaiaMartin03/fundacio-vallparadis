@@ -95,6 +95,15 @@
                     accept="image/jpeg,image/jpg,image/png">
                 <p class="text-sm text-gray-500 mt-1">Màxim 5MB. Formats: JPG, JPEG, PNG</p>
                 <x-input-error :messages="$errors->get('profile_photo')" class="mt-2" />
+                
+                <div class="mt-4">
+                    <p class="text-sm text-gray-500 mb-2">Preview:</p>
+                    <div class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center border-4 border-gray-300">
+                        <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                </div>
             </div>
 
             <!-- CV File -->

@@ -2,17 +2,7 @@
     <div class="px-20 pb-10 flex flex-col gap-12">
         <div class="flex justify-between items-start p-2">
             <div class="flex gap-5">
-                @if($professional->profile_photo_path)
-                    <img class="rounded-full w-[200px] aspect-square object-cover border-4 border-primary_color" 
-                         src="{{ asset('storage/' . $professional->profile_photo_path) }}" 
-                         alt="{{ $professional->name }}">
-                @else
-                    <div class="rounded-full w-[200px] aspect-square bg-gray-200 flex items-center justify-center border-4 border-primary_color">
-                        <svg class="w-24 h-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                    </div>
-                @endif
+                <x-profile-photo :user="$professional" size="lg" />
                 
                 <div class="flex flex-col gap-2">
                     <div class="flex items-center gap-3 mb-2">
@@ -62,7 +52,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
-                                {{ $professional->cv_original_filename ?: 'Descargar CV' }}
+                                Descargar CV
                             </a>
                         </p>
                         @endif

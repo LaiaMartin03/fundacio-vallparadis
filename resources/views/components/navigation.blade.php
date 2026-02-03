@@ -74,15 +74,14 @@
     @endif
 
     <div id="calendar" class="flex items-center justify-self-center gap-3" x-data="window.calendar()">
-        <!--<x-dropdown align="right" width="64" contentClasses="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow p-3">
+        <x-dropdown align="right" width="64" contentClasses="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow p-3">
             <x-slot name="trigger">
-                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                <button class="justify-between inline-flex w-48 items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                     <svg class="size-5">
                         <use href="#calendar"></use>
                     </svg>
-                    <div class="ml-2 flex flex-col">
+                    <div class="ml-2 flex items-center gap-2">
                         <span class="text-base font-semibold leading-tight" x-text="selectedDateDayMonth"></span>
-                        <span class="text-xs text-gray-400 leading-tight" x-text="selectedDateYear"></span>
                     </div>
                     <div class="ms-1">
                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -110,7 +109,7 @@
                     <div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
                 </div>
                 <div @click.stop class="grid grid-cols-7 gap-1 text-sm text-center">
-                    <template x-for="(day, index) in calendarDays" :key="`${day.date.getTime()}-${index}`>
+                    <template x-for="(day, index) in calendarDays" :key="`${day.date.getTime()}-${index}`">
                         <button 
                             @click.stop="selectDate(day.date, $event)"
                             :class="{
@@ -126,7 +125,7 @@
                     </template>
                 </div>
             </x-slot>
-        </x-dropdown>-->
+        </x-dropdown>
     </div>
 
     <div class="flex flex-col items-center ml-auto">

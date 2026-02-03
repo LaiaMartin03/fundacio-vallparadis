@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Professional;
 use App\Exports\ProfessionalsExport;
 use App\Imports\ProfessionalsImport;
@@ -191,7 +192,7 @@ public function store(Request $request)
         $request->validate([
             'email'=>'required|min:3|max:255',
             'name'=>'required|min:3|max:20',
-            'password'=>'required|min:8|max:255',
+            'password'=>'nullable|min:8|max:255',
             'locker'=>'required',
             'code'=>'required',
             'cv_file' => 'nullable|file|max:10240|mimes:pdf,doc,docx,txt',
@@ -201,12 +202,18 @@ public function store(Request $request)
         $data = [
             'email'=>request('email'),
             'name'=>request('name'),
-            'password'=>request('password'),
             'locker'=>request('locker'),
             'code'=>request('code'),
             'info_id'=>null,
             'active'=>request('active')
         ];
+
+        // Only update password if provided, otherwise keep existing one
+        if (request('password')) {
+            $data['password'] = request('password');
+        } else {
+            $data['password'] = $professional->password;
+        }
 
         if ($request->hasFile('cv_file')) {
             // Delete old file if exists
