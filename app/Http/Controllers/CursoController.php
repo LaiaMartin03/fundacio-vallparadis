@@ -65,10 +65,10 @@ class CursoController extends Controller
             'info'=>request('info'),
             'start_date'=>request('start_date'),
             'finish_date'=>request('finish_date'),
-            'certificate'=>request('certificate'),
+            'certification'=>request('certification'),
             'active'=>1
         ]);
-        return redirect()->route('curso.create')->with('success', 'Curso Creado correctamente.');
+        return redirect()->route('curso.index')->with('success', 'Curso creat correctament.');
     }
 
     /**

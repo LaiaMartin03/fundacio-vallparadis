@@ -1,9 +1,9 @@
 <x-app-layout>
     @vite('resources/js/programs.js')
 
-    <div class="px-20 pb-10 flex flex-col gap-12">
+    <div class="px-20 pb-10 flex flex-col gap-5">
         <div class="flex justify-between items-center p-2">
-            <div>
+            <div class="flex gap-3 flex-col">
                 <div class="flex items-center gap-3 mb-2">
                     <h1 class="font-mclaren text-primary_color text-3xl">{{ $curso->name }}</h1>
                     <a href="{{ route('curso.edit', $curso->id) }}" class="flex items-center">
@@ -25,8 +25,12 @@
         </div>
 
         <div class="flex w-full justify-between">
-            <div class="flex flex-col gap-16">
-                <div class="flex gap-4">
+            <div class="flex flex-col gap-4">
+                @if($curso->info)
+                        <p class="text-gray-700">{{ $curso->info }}</p>
+                @endif
+                
+                <div class="flex gap-4 mb-16">
                     <p class="bg-white rounded-lg text-primary_color px-3 py-1 shadow-[5px_5px_15px_2px_rgba(0,0,0,0.12)]">
                         {{ $curso->type }}
                     </p>
