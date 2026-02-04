@@ -1,11 +1,7 @@
 // search-professional.js - VERSIÓN DEFINITIVA
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('✅ search-professional.js cargado');
-    
-    // ============================================
-    // 1. ELEMENTOS DEL DOM
-    // ============================================
+
     const searchInput = document.getElementById('search-input');
     const clearBtn = document.getElementById('clear-search');
     const searchResults = document.getElementById('search-results');
@@ -13,18 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const noResults = document.getElementById('no-results');
     const container = document.getElementById('professionals-container');
     
-    // Si no hay elementos necesarios, salir
     if (!searchInput || !container) {
-        console.log('ℹ️ Elementos necesarios no encontrados');
         return;
     }
     
-    // Guardar HTML original del contenedor
     const originalHTML = container.innerHTML;
-    
-    // ============================================
-    // 2. FUNCIONES DE COLAPSO
-    // ============================================
+
     
     function toggleSection(profession) {
         const section = document.getElementById('section-' + profession);
@@ -36,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Delegación de eventos para botones de colapso
     document.addEventListener('click', function(e) {
         if (e.target.closest('.section-btn')) {
             const btn = e.target.closest('.section-btn');
@@ -48,9 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // ============================================
-    // 3. FUNCIONES DE BÚSQUEDA
-    // ============================================
     
     let searchTimeout;
     let currentSearch = '';
@@ -75,17 +61,14 @@ document.addEventListener('DOMContentLoaded', function() {
         isSearching = true;
         
         try {
-            // Mostrar "cargando"
             if (searchResults) {
                 searchResults.classList.remove('hidden');
                 resultsCount.textContent = 'Carregant...';
             }
             if (noResults) noResults.classList.add('hidden');
             
-            // Obtener CSRF token
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
             
-            // Hacer petición
             const response = await fetch('/professionals/search', {
                 method: 'POST',
                 headers: {
@@ -114,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
             displaySearchResults(data);
             
         } catch (error) {
-            console.error('❌ Error en búsqueda:', error);
             displayError();
         } finally {
             isSearching = false;
@@ -138,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }, 100);
         
-        console.log('✅ Vista original restaurada');
     }
     
     function displaySearchResults(data) {
@@ -201,13 +182,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Actualizar contenido
         container.innerHTML = html;
         
-        console.log('✅ Resultados mostrados:', data.total, 'profesionales');
     }
     
     function displayError() {
         container.innerHTML = `
             <div class="text-center text-gray-500 py-12">
-                <div class="text-4xl mb-4">⚠️</div>
+                <div class="text-4xl mb-4"></div>
                 <p class="text-xl font-medium mb-2">Error en la cerca</p>
                 <p class="text-gray-600">Si us plau, intenta-ho de nou</p>
             </div>
@@ -216,12 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchResults) searchResults.classList.add('hidden');
         if (noResults) noResults.classList.add('hidden');
     }
-    
-    // ============================================
-    // 4. EVENT LISTENERS
-    // ============================================
-    
-    // Búsqueda en tiempo real con debounce
+
     if (searchInput) {
         searchInput.addEventListener('input', function() {
             const term = this.value.trim();
@@ -257,10 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // ============================================
-    // 5. INICIALIZACIÓN
-    // ============================================
+
     
     // Inicializar flechas
     setTimeout(() => {
@@ -269,5 +241,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, 100);
     
-    console.log('✅ Sistema de búsqueda inicializado correctamente');
 });
